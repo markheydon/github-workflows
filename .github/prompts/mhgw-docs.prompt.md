@@ -14,6 +14,8 @@ The documentation should be concise and to the point, but also friendly and welc
 
 **Steps:**
 
+NOTE: Any `.github/workflows/` files that start with `trigger-*` are to be ignored as these are internal only workflow files that are used to trigger any of the standardised workflow files in this repo. They should not be included in any documentation.
+
 1. List all files in `.github/workflows/` and `scripts/`.
 2. Pass the filenames and (optionally) their contents to the Tech Writer Agent.
 3. Overwrite the root `README.md` with the newly generated documentation. Ensure the README starts immediately with the H1 header (no leading blank lines).
