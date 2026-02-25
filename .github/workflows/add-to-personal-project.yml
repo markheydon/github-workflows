@@ -8,6 +8,9 @@ name: Auto-add Issues & PRs to my Personal Project
 
 on:
   workflow_call:
+    secrets:
+      GITHUB_TOKEN:
+        required: true
 
 permissions:
   contents: read            # allow reading repo contents (safe default)
@@ -22,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PROJECT_URL: https://github.com/users/markheydon/projects/6
-      GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout (for actions that might require repo content)
@@ -173,3 +176,4 @@ jobs:
           item-id: ${{ steps.add-to-project.outputs.itemId }}
           field-keys: Area
           field-values: ${{ steps.determine-area.outputs.result }}
+
