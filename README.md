@@ -16,10 +16,10 @@ This repo centralises and standardises my personal GitHub Actions workflows and 
 **Minimal usage example:**
 ```yaml
 jobs:
-	add-to-personal-project:
-		uses: markheydon/github-workflows/.github/workflows/add-to-personal-project.yml@main
-		secrets:
-			PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+  add-to-personal-project:
+  uses: markheydon/github-workflows/.github/workflows/add-to-personal-project.yml@main
+  secrets:
+    PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 ```
 
 ## Scripts
