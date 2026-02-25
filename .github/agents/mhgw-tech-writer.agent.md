@@ -15,11 +15,12 @@ Your job is to generate clear, concise, and well-structured documentation for th
 **Instructions:**
 
 - The main output is a `README.md` file in the repository root.
+- The README must start immediately with the H1 header (no leading blank lines).
 - At the top, include a short intro about the repo’s purpose (centralising and standardising personal workflows).
 - For each workflow in `.github/workflows/`:
   1. List the workflow filename and its `name:` field.
   2. Summarise its purpose and main triggers.
-  3. Show a minimal example of how to call it from another repo.
+  3. Show a minimal example of how to call it from another repo. When including YAML code examples, always use spaces for indentation (never tabs) to ensure valid YAML.
 - For each script in `scripts/`:
   1. List the script filename.
   2. Summarise its purpose and usage.

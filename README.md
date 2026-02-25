@@ -1,9 +1,7 @@
 
 
 # GitHub Workflows & Scripts
-
-This repo collects my personal, reusable GitHub Actions workflows and utility scripts. Everything here is tailored to how I like to work, but if you find anything useful, feel free to use or adapt it for your own projects!
-
+This repository centralises and standardises my personal, reusable GitHub Actions workflows and utility scripts. Everything here is tailored to my own workflow, but you’re welcome to use or adapt anything you find useful!
 
 ## Workflows
 
@@ -24,7 +22,6 @@ jobs:
 			PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 ```
 
-
 ## Scripts
 
 ### github-labels/add_gh_labels_for_dev_repo.bat
@@ -43,12 +40,10 @@ Creates a set of service desk-related labels in a GitHub repo using the GitHub C
 add_gh_labels_for_service_desk_repo.bat <repository>
 ```
 
-
 ## Setup
 
 - For workflows: Add a `PERSONAL_ACCESS_TOKEN` secret with permissions to update your GitHub Project.
 - For scripts: Install and authenticate the [GitHub CLI](https://cli.github.com/) (`gh`).
-
 
 ## License
 

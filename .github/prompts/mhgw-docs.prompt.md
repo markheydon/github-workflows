@@ -16,7 +16,7 @@ The documentation should be concise and to the point, but also friendly and welc
 
 1. List all files in `.github/workflows/` and `scripts/`.
 2. Pass the filenames and (optionally) their contents to the Tech Writer Agent.
-3. Overwrite the root `README.md` with the newly generated documentation.
+3. Overwrite the root `README.md` with the newly generated documentation. Ensure the README starts immediately with the H1 header (no leading blank lines).
 4. Ensure the documentation is concise, accurate, and up to date.
 5. (Optional) Add a "Last updated: YYYY-MM-DD" line at the end of the README.
 
@@ -27,5 +27,7 @@ The documentation should be concise and to the point, but also friendly and welc
 - Or automate this process if possible
 
 ---
+
+When including YAML code examples, always use spaces for indentation (never tabs) to ensure valid YAML.
 
 This will help keep your documentation always in sync with your automation!

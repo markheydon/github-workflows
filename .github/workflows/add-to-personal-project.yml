@@ -1,4 +1,4 @@
-# File: .github/workflows/add-to-personal-mhcg-workboard-project.yml
+# File: .github/workflows/add-to-personal-project.yml
 # Version: v1.0.3
 # Purpose: Adds Issues (when labeled) AND Pull Requests (when labeled)
 # to the personal MHCG Workboard project at https://github.com/users/markheydon/projects/6.
@@ -139,7 +139,7 @@ jobs:
       - name: Add item to GitHub Project
         id: add-to-project
         if: ${{ steps.check-labels.outputs.result == 'true' }}
-        uses: actions/add-to-project@main
+        uses: actions/add-to-project@v1.0.2
         with:
           project-url: ${{ env.PROJECT_URL }}
           github-token: ${{ env.GITHUB_TOKEN }}
