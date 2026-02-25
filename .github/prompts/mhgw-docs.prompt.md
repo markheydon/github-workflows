@@ -8,6 +8,10 @@ You are updating documentation to accurately reflect the **current state of the 
 
 Whenever workflows or scripts are added, removed, or changed in this repository, use the Tech Writer Agent to regenerate the `README.md` so it always reflects the current state of the repo.
 
+As this is a personal repo with my own personal workflows and scripts, the documentation should make it clear that stuff in this repo is very specific to how I work. But should also be clear that I don't mind anybody using them if they find them useful.
+
+The documentation should be concise and to the point, but also friendly and welcoming to others who might want to use or adapt the workflows and scripts for their own use.
+
 **Steps:**
 
 1. List all files in `.github/workflows/` and `scripts/`.
