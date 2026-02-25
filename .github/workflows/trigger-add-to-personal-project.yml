@@ -8,6 +8,6 @@ on:
 
 jobs:
   add-to-personal-project:
-    uses: .github/workflows/add-to-personal-project.yml
+    uses: .github/workflows/add-to-personal-project.yml@main
     secrets: inherit
     
