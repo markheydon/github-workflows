@@ -8,6 +8,6 @@ on:
 
 jobs:
   add-to-personal-project:
-    uses: .github/workflows/add-to-personal-project.yml@main
-    secrets: inherit
-    
+    uses: markheydon/github-workflows/.github/workflows/add-to-personal-project.yml@main
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
