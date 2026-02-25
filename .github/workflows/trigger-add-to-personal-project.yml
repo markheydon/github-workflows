@@ -1,0 +1,13 @@
+name: Trigger Add to Personal Project
+
+on:
+  issues:
+    types: [labeled]
+  pull_request_target:
+    types: [labeled]
+
+jobs:
+  add-to-personal-project:
+    uses: .github/workflows/add-to-personal-project.yml@main
+    secrets: inherit
+    
