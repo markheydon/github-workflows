@@ -1,15 +1,14 @@
 # File: .github/workflows/add-to-personal-project.yml
-# Version: v1.0.3
-# Purpose: Adds Issues (when labeled) AND Pull Requests (when labeled)
-# to the personal MHCG Workboard project at https://github.com/users/markheydon/projects/6.
-# Also automatically adds Dependabot PRs and sets them as Development User Stories with Status 'Up Next'.
-#
+# Version: v1.1.0
+# Purpose: Adds Issues (when labelled) AND Pull Requests (when labelled)
+# to the personal project. Also automatically adds Dependabot PRs and sets
+# them as Development User Stories with Status 'Up Next'.
 name: Auto-add Issues & PRs to my Personal Project
 
 on:
   workflow_call:
     secrets:
-      GITHUB_TOKEN:
+      PERSONAL_ACCESS_TOKEN:
         required: true
 
 permissions:
@@ -25,7 +24,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PROJECT_URL: https://github.com/users/markheydon/projects/6
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout (for actions that might require repo content)
@@ -145,14 +143,14 @@ jobs:
         uses: actions/add-to-project@v1.0.2
         with:
           project-url: ${{ env.PROJECT_URL }}
-          github-token: ${{ env.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       - name: Set Status to 'Up Next' for Dependabot PRs
         if: ${{ steps.add-to-project.outputs.itemId && (github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]') }}
         uses: titoportas/update-project-fields@v0.1.0
         with:
           project-url: ${{ env.PROJECT_URL }}
-          github-token: ${{ env.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           item-id: ${{ steps.add-to-project.outputs.itemId }}
           field-keys: Status
           field-values: Up Next
@@ -162,7 +160,7 @@ jobs:
         uses: titoportas/update-project-fields@v0.1.0
         with:
           project-url: ${{ env.PROJECT_URL }}
-          github-token: ${{ env.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           item-id: ${{ steps.add-to-project.outputs.itemId }}
           field-keys: Work Item Type
           field-values: ${{ steps.determine-work-item-type.outputs.result }}
@@ -172,8 +170,7 @@ jobs:
         uses: titoportas/update-project-fields@v0.1.0
         with:
           project-url: ${{ env.PROJECT_URL }}
-          github-token: ${{ env.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           item-id: ${{ steps.add-to-project.outputs.itemId }}
           field-keys: Area
           field-values: ${{ steps.determine-area.outputs.result }}
-
