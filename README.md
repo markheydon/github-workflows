@@ -3,42 +3,49 @@ This repo centralises and standardises my personal GitHub Actions workflows and 
 
 ## Workflows
 
-### add-to-personal-project.yml
-**Name:** Auto-add Issues & PRs to my Personal Project
-
-**Purpose:**
-- Adds Issues and Pull Requests (when labeled) to my personal MHCG Workboard project ([see project](https://github.com/users/markheydon/projects/6)).
-- Automatically adds Dependabot PRs as Development User Stories with Status 'Up Next'.
-
-**Trigger:**
-- `workflow_call` (for reuse from other repositories)
-
-**Minimal usage example:**
-```yaml
-jobs:
-  add-to-personal-project:
-  uses: markheydon/github-workflows/.github/workflows/add-to-personal-project.yml@main
-  secrets:
-    PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-```
+- **add-to-personal-project.yml**
+  - **Name:** Auto-add Issues & PRs to my Personal Project
+  - **Purpose:**
+    - Adds Issues and Pull Requests (when labelled) to my personal project board ([see project](https://github.com/users/markheydon/projects/6)).
+    - Automatically adds Dependabot PRs as Development User Stories with Status 'Up Next'.
+  - **Trigger:**
+    - `workflow_call` (for reuse from other repositories)
+  - **Minimal usage example:**
+    ```yaml
+    jobs:
+      add-to-personal-project:
+        uses: markheydon/github-workflows/.github/workflows/add-to-personal-project.yml@main
+        secrets:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+    ```
 
 ## Scripts
 
-### github-labels/add_gh_labels_for_dev_repo.bat
-Creates a set of development-related labels in a GitHub repository using the GitHub CLI (`gh`).
+- **github-labels/add_gh_labels_for_dev_repo.bat**
+  - Creates a set of development-related labels in a GitHub repository using the GitHub CLI (`gh`).
+  - **Usage:**
+    ```sh
+    add_gh_labels_for_dev_repo.bat <repository>
+    ```
 
-**Usage:**
-```sh
-add_gh_labels_for_dev_repo.bat <repository>
-```
+- **github-labels/add_gh_labels_for_service_desk_repo.bat**
+  - Creates a set of service desk-related labels in a GitHub repository using the GitHub CLI (`gh`).
+  - **Usage:**
+    ```sh
+    add_gh_labels_for_service_desk_repo.bat <repository>
+    ```
 
-### github-labels/add_gh_labels_for_service_desk_repo.bat
-Creates a set of service desk-related labels in a GitHub repository using the GitHub CLI (`gh`).
+## Setup
 
-**Usage:**
-```sh
-add_gh_labels_for_service_desk_repo.bat <repository>
-```
+- For workflows: You must provide a `PERSONAL_ACCESS_TOKEN` secret with appropriate permissions to update your project board.
+- For scripts: Requires [GitHub CLI](https://cli.github.com/) (`gh`) installed and authenticated.
+
+## License
+
+MIT License
+
+---
+Last updated: 2026-02-26
 
 ## Setup
 
