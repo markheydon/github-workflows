@@ -41,7 +41,33 @@ When an item is added to the board, the **Work Item Type** custom field is set:
 
 ## Status Field
 
-Dependabot PRs are set to **"Up Next"** automatically. All other items are added without a default status (managed manually on the board).
+The board uses the following Status column values:
+
+| Status | Purpose |
+|--------|---------|
+| **Backlog** | Ready and available to work on — not yet committed to a timeframe. |
+| **Up Next** | Committed to this week. Set by `/pm-iteration-plan` during PM Mode. |
+| **In Progress** | Actively being worked on. |
+| **In Review** | Work complete, awaiting feedback or review. |
+| **Blocked** | Cannot proceed — set automatically when `blocked` label is applied (if item was in Backlog). |
+| **Ice Box** | Deprioritised or out of scope — set automatically when `out-of-scope` label is applied (if item was in Backlog). |
+| **Done** | Complete. |
+
+### Default Statuses on Add
+
+- **Dependabot PRs:** set to **Up Next** automatically.
+- **All other items:** no default status — managed via PM Mode prompts or the automation rules below.
+
+### Label-Driven Status Automation
+
+| Event | Condition | Action |
+|-------|-----------|--------|
+| `blocked` label **added** | Status = Backlog | → Set to **Blocked** |
+| `out-of-scope` label **added** | Status = Backlog | → Set to **Ice Box** |
+| `blocked` label **removed** | Status = Blocked | → Set to **Backlog** |
+| `out-of-scope` label **removed** | Status = Ice Box | → Set to **Backlog** |
+
+Items in **Up Next**, **In Progress**, **In Review**, or **Done** are never touched by this automation.
 
 ---
 
@@ -67,9 +93,9 @@ Calling repos use a thin trigger file. Minimal example:
 ```yaml
 on:
   issues:
-    types: [labeled]
+    types: [labeled, unlabeled]
   pull_request_target:
-    types: [labeled]
+    types: [labeled, unlabeled]
 
 jobs:
   add-to-personal-project:

@@ -12,24 +12,28 @@ agent: PM Backlog Manager
 
 ## What you'll get
 
-- List of open stories and bugs grouped by repository
-- Top 3 unblocked items ready to work on right now
+- Current board state: count of items per Status column
+- Stalled items: anything in Up Next for 3+ days without moving
+- Top 3 unblocked items to focus on today (from Up Next or high-priority Backlog)
 - Any epics that are close to completion (all child stories closed)
 
 ## What comes next
 
 After your daily summary:
 - **Just want to start work?** Pick one of the top 3 items and get going.
-- **Need to prioritise or reorganise?** Run `/pm-backlog-review` to see the full prioritised backlog.
-- **Planning a new iteration?** Run `/pm-iteration-plan` to commit work to a milestone.
+- **Board is a mess / stalled items?** Run `/pm-iteration-plan` to clear the decks and re-curate your Up Next.
+- **Need a full backlog review?** Run `/pm-backlog-review`.
 
 ---
 
 **Task:**
-1. List all open issues labelled `story` or `bug` across the active repos.
-2. Group them by repo.
-3. Flag any that are unblocked and ready to work on (no `blocked`, `waiting-for-details`, or `feedback-required` labels).
-4. Suggest a top 3 priority for today, with a brief reason for each.
+1. Read the current state of the project board at https://github.com/users/markheydon/projects/6:
+   - Count items per Status column.
+   - Identify any items in **Up Next** that have been there for 3 or more days without moving (stalled).
+   - Calculate active load (Up Next + In Progress combined).
+2. Summarise board state: total items per column, any stalled items (flag these clearly).
+3. Flag the top 3 unblocked items to focus on today — prefer items already in **Up Next** that are not stalled; fall back to high-priority Backlog items if Up Next is empty or all stalled.
+4. If stalled items exist, suggest actions: move to **Ice Box** (deprioritise), **Blocked** (add `blocked` label), or keep and re-commit.
 5. Flag any epics that have all their child stories closed (potential epic to close).
 
 Keep the summary concise — this is a quick daily check-in, not a full review.

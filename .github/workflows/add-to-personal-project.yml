@@ -1,9 +1,13 @@
 # File: .github/workflows/add-to-personal-project.yml
 # Version: v2.0.0
-# Purpose: Adds Issues (when labelled) AND Pull Requests (when labelled)
-# to the personal project. Also automatically adds Dependabot PRs and sets
-# them as Stories with Status 'Up Next'.
-# Labels that trigger board addition: story, bug. Epics are excluded.
+# Purpose: Adds Issues (when labelled story/bug) AND Pull Requests to the personal project.
+#          Also automatically adds Dependabot PRs and sets them as Stories with Status 'Up Next'.
+#          Additionally syncs Status field based on blocked/out-of-scope label add/remove events:
+#            blocked added   + Status=Backlog  → Status=Blocked
+#            out-of-scope added + Status=Backlog → Status=Ice Box
+#            blocked removed + Status=Blocked  → Status=Backlog
+#            out-of-scope removed + Status=Ice Box → Status=Backlog
+#          Status is never changed for items in Up Next, In Progress, In Review, or Done.
 name: Auto-add Issues & PRs to my Personal Project
 
 on:
@@ -96,3 +100,109 @@ jobs:
           item-id: ${{ steps.add-to-project.outputs.itemId }}
           field-keys: Work Item Type
           field-values: ${{ steps.determine-work-item-type.outputs.result }}
+
+      - name: Label-driven Status sync
+        if: |
+          (github.event.action == 'labeled' || github.event.action == 'unlabeled') &&
+          (github.event.label.name == 'blocked' || github.event.label.name == 'out-of-scope')
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          script: |
+            const labelName = (context.payload.label?.name || '').toLowerCase();
+            const action = context.payload.action;
+
+            const statusRules = {
+              'labeled':   { 'blocked': { from: 'Backlog',  to: 'Blocked'  }, 'out-of-scope': { from: 'Backlog', to: 'Ice Box' } },
+              'unlabeled': { 'blocked': { from: 'Blocked',  to: 'Backlog'  }, 'out-of-scope': { from: 'Ice Box', to: 'Backlog' } }
+            };
+
+            const rule = statusRules[action]?.[labelName];
+            if (!rule) return;
+
+            const issue = context.payload.issue || context.payload.pull_request;
+            if (!issue) return;
+            const contentId = issue.node_id;
+
+            // Find the project item and its current Status field
+            const itemQuery = await github.graphql(`
+              query($contentId: ID!) {
+                node(id: $contentId) {
+                  ... on Issue {
+                    projectItems(first: 10) {
+                      nodes {
+                        id
+                        project { number }
+                        fieldValueByName(name: "Status") {
+                          ... on ProjectV2ItemFieldSingleSelectValue {
+                            name
+                            field { ... on ProjectV2SingleSelectField { id options { id name } } }
+                          }
+                        }
+                      }
+                    }
+                  }
+                  ... on PullRequest {
+                    projectItems(first: 10) {
+                      nodes {
+                        id
+                        project { number }
+                        fieldValueByName(name: "Status") {
+                          ... on ProjectV2ItemFieldSingleSelectValue {
+                            name
+                            field { ... on ProjectV2SingleSelectField { id options { id name } } }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `, { contentId });
+
+            const items = itemQuery.node?.projectItems?.nodes || [];
+            const projectItem = items.find(i => i.project.number === 6);
+            if (!projectItem) {
+              console.log('Item not on project board — skipping Status sync');
+              return;
+            }
+
+            const currentStatus = projectItem.fieldValueByName?.name;
+            if (currentStatus !== rule.from) {
+              console.log(`Status is "${currentStatus}", expected "${rule.from}" — skipping`);
+              return;
+            }
+
+            const statusField = projectItem.fieldValueByName?.field;
+            const targetOption = statusField?.options?.find(o => o.name === rule.to);
+            if (!targetOption) {
+              core.warning(`Status option "${rule.to}" not found in project fields — skipping`);
+              return;
+            }
+
+            // Get project node ID
+            const projectQuery = await github.graphql(`
+              query($login: String!, $number: Int!) {
+                user(login: $login) { projectV2(number: $number) { id } }
+              }
+            `, { login: 'markheydon', number: 6 });
+            const projectId = projectQuery.user.projectV2.id;
+
+            // Mutate the Status field
+            await github.graphql(`
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $projectId
+                  itemId: $itemId
+                  fieldId: $fieldId
+                  value: { singleSelectOptionId: $optionId }
+                }) { projectV2Item { id } }
+              }
+            `, {
+              projectId,
+              itemId: projectItem.id,
+              fieldId: statusField.id,
+              optionId: targetOption.id
+            });
+
+            console.log(`Status updated: "${currentStatus}" → "${rule.to}"`);

@@ -2,9 +2,9 @@ name: Trigger Add to Personal Project
 
 on:
   issues:
-    types: [labeled]
+    types: [labeled, unlabeled]
   pull_request_target:
-    types: [labeled]
+    types: [labeled, unlabeled]
 
 jobs:
   add-to-personal-project:

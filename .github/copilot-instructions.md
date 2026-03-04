@@ -49,9 +49,9 @@ This repo provides a complete set of AI tools for project management. The **entr
 
 | When | Prompt | Purpose |
 |------|--------|---------|
-| **Every morning** | `/pm-daily` | Summarise unblocked work ready to pick up |
-| **Weekly** | `/pm-backlog-review` | See full prioritised backlog, flag issues missing labels |
-| **Before iteration** | `/pm-iteration-plan` | Group stories by epic, assign to milestone |
+| **Optional daily** | `/pm-daily` | Board state snapshot: stalled items, top 3 to focus on today |
+| **Weekly (PM Mode)** | `/pm-backlog-review` | Scan all repos, flag stale ones, surface ready work across the ecosystem |
+| **Weekly (PM Mode)** | `/pm-iteration-plan` | Read board state, resolve stalled items, curate Up Next, mutate board |
 | **Anytime** | `/pm-create-story` | Create a well-formed story issue |
 | **As needed** | `/pm-issue-triage` | Classify and label unlabelled issues |
 | **After strategy change** | `/repo-update-from-strategy` | Sync all files with updated label strategy |
@@ -61,19 +61,22 @@ Each prompt has:
 - **"What you'll get"** — the output
 - **"What comes next"** — suggested next steps
 
-### Typical Weekly Workflow (if running prompts directly)
+### Operating Model: PM Mode vs Work Mode
 
-1. **Monday:** `/pm-daily` → See what's unblocked today
-2. **If needed:** `/pm-backlog-review` → See full prioritised backlog
-3. **Before starting iteration:** `/pm-iteration-plan` → Commit work to milestone
-4. **Anytime:** `/pm-create-story` or `/pm-issue-triage` → Add or label issues
+**PM Mode (weekly/fortnightly):**
+1. `/pm-backlog-review` → Scan all repos, surface neglected work, flag stale repos
+2. `/pm-iteration-plan` → Check board state, resolve stalled items, curate this week's load, update board
+
+**Work Mode (daily):**
+1. Open your project board at https://github.com/users/markheydon/projects/6 — the board has been curated in PM Mode
+2. Optionally run `/pm-daily` for a nudge on what's most urgent today
 
 **Don't know the exact sequence?** Type `/pm-assistant` — it will guide you.
 
 ---
 - Maintain consistent label names: `epic`, `story`, `bug` (lowercase).
-- The reusable workflow `add-to-personal-project.yml` is called from other repos via `workflow_call`.
-- Trigger files (prefixed `trigger-`) are thin callers - document or suggest changes to the reusable workflow, not the trigger files.
+- The reusable workflow `add-to-personal-project.yml` is called from other repos via `workflow_call`. It handles both `labeled` and `unlabeled` events — calling repo trigger files must include both.
+- Trigger files (prefixed `trigger-`) are thin callers — document or suggest changes to the reusable workflow, not the trigger files.
 - When suggesting new workflows or scripts, follow the existing pattern (reusable workflow + thin trigger).
 - Use `actions/github-script@v8`, `actions/add-to-project@v1.0.2`, and `titoportas/update-project-fields@v0.1.0` for project automation.
 

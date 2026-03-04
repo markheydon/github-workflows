@@ -29,13 +29,28 @@ After your backlog review:
 
 ---
 
-## Step 1 — Fetch open issues
+## Step 0 — Read current board state
 
-Run the following for each repo I'm actively working on (or ask me which repos to include):
+Before fetching issues, read the project board at https://github.com/users/markheydon/projects/6:
+- Count items per Status column.
+- Identify stalled items (in **Up Next** for 3+ days without moving).
+- Note items in **Blocked** and **Ice Box** — are they still appropriately parked?
+- Calculate active load (Up Next + In Progress combined).
+
+Present a brief board snapshot before proceeding.
+
+---
+
+## Step 1 — Fetch open issues across ALL repos
+
+Run the following for **all `markheydon` repos** with open issues (do not limit to a single repo — the point is cross-repo visibility):
 
 ```sh
-gh issue list --repo <owner/repo> --state open --json number,title,labels,milestone,assignees --limit 100
+gh repo list markheydon --json name,isArchived --limit 100
+gh issue list --repo <owner/repo> --state open --json number,title,labels,milestone,assignees,updatedAt --limit 100
 ```
+
+For each repo, note the date of the most recently updated issue. Flag any repos where no issue has been updated in the last 14 days as **potentially stale** — surface their ready work explicitly so it does not stay forgotten.
 
 ---
 
@@ -53,21 +68,23 @@ Flag any issues that:
 
 ## Step 3 — Backlog summary
 
-Present a prioritised view of actionable items:
+Present a prioritised view of actionable items across all repos:
 
 1. **Urgent** — `priority-high` issues
-2. **In-progress** — items without `not-started` or `out-of-scope`
-3. **Up next** — `story` and `bug` items that are ready to start
+2. **Ready to start** — `story` and `bug` items with no blocking modifier labels
+3. **Stalled on board** — items in Up Next for 3+ days (surface these for a decision)
 4. **Blocked** — items with `blocked`, `feedback-required`, or `waiting-for-details`
-5. **Deferred** — items with `out-of-scope` or `not-started`
+5. **Deferred / Ice Box** — items with `out-of-scope`
 
-Group by epic where applicable.
+For stale repos (no activity in 14 days), call them out separately with their ready items listed.
 
 ---
 
 ## Step 4 — Recommendations
 
 Based on the summary, suggest:
-- Up to 3 issues to focus on next
-- Any issues that should be re-labelled, closed, or moved to a different epic
+- Up to 3 issues to focus on during the next PM Mode session
+- Any stalled board items that should be moved to **Ice Box** or **Blocked**
+- Any issues that should be re-labelled, closed, or moved
 - Whether any epics are close to completion (all child stories closed)
+- Any repos that are clearly being neglected and need attention this week
