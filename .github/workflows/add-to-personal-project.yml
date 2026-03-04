@@ -1,8 +1,9 @@
 # File: .github/workflows/add-to-personal-project.yml
-# Version: v1.1.0
+# Version: v2.0.0
 # Purpose: Adds Issues (when labelled) AND Pull Requests (when labelled)
 # to the personal project. Also automatically adds Dependabot PRs and sets
-# them as Development User Stories with Status 'Up Next'.
+# them as Stories with Status 'Up Next'.
+# Labels that trigger board addition: story, bug. Epics are excluded.
 name: Auto-add Issues & PRs to my Personal Project
 
 on:
@@ -26,25 +27,16 @@ jobs:
       PROJECT_URL: https://github.com/users/markheydon/projects/6
 
     steps:
-      - name: Checkout (for actions that might require repo content)
-        uses: actions/checkout@v6
-
       - name: Check labels (abort early if none of the target labels present)
         id: check-labels
         uses: actions/github-script@v8
         with:
           result-encoding: string
           script: |
-            // Check if actor is Dependabot
             const actor = process.env.GITHUB_ACTOR;
             const isDependabot = actor === 'dependabot[bot]' || actor === 'dependabot-preview[bot]';
-            
-            if (isDependabot) {
-              // Dependabot PRs always proceed
-              return 'true';
-            }
-            
-            // gather labels from issue, pull_request, and the single label that triggered the event
+            if (isDependabot) { return 'true'; }
+
             const payload = context.payload;
             const rawFromIssue = payload.issue?.labels || [];
             const rawFromPR = payload.pull_request?.labels || [];
@@ -52,21 +44,11 @@ jobs:
             const rawLabels = [...rawFromIssue, ...rawFromPR, ...singleLabel];
             const labels = rawLabels.map(l => (l && l.name ? l.name.toLowerCase() : '')).filter(Boolean);
 
-            const wanted = [
-              'service request',
-              'incident',
-              'problem',
-              'change request',
-              'feature',
-              'improvement',
-              'bug',
-              'technical',
-              'spike'
-            ];
+            // Epics must never go to the board
+            if (labels.includes('epic')) { return 'false'; }
 
-            const match = labels.some(l => wanted.includes(l));
-            // return 'true' or 'false' as a string so we can reference steps.check-labels.outputs.result
-            return match ? 'true' : 'false';
+            const wanted = ['story', 'bug'];
+            return labels.some(l => wanted.includes(l)) ? 'true' : 'false';
 
       - name: Determine Work Item Type
         id: determine-work-item-type
@@ -75,67 +57,17 @@ jobs:
         with:
           result-encoding: string
           script: |
-            // Check if actor is Dependabot
             const actor = process.env.GITHUB_ACTOR;
             const isDependabot = actor === 'dependabot[bot]' || actor === 'dependabot-preview[bot]';
-            
-            if (isDependabot) {
-              // Dependabot PRs are treated as User Stories
-              return 'User Story';
-            }
-            
-            // Collect labels from issue, pull_request, and the single label that triggered the event (payload.label)
-            const payload = context.payload;
-            const rawFromIssue = payload.issue?.labels || [];
-            const rawFromPR = payload.pull_request?.labels || [];
-            const singleLabel = payload.label ? [payload.label] : [];
-            const rawLabels = [...rawFromIssue, ...rawFromPR, ...singleLabel];
-            const labels = rawLabels.map(l => (l && l.name ? l.name.toLowerCase() : '')).filter(Boolean);
-            let type = '';
-            if (labels.includes('feature') || labels.includes('improvement') || labels.includes('technical') || labels.includes('spike')) {
-              type = 'User Story';
-            } else if (labels.includes('bug')) {
-              type = 'Bug';
-            } else if (labels.includes('service request')) {
-              type = 'Service Request';
-            } else if (labels.includes('incident')) {
-              type = 'Incident';
-            } else if (labels.includes('problem')) {
-              type = 'Problem';
-            } else if (labels.includes('change request')) {
-              type = 'Change Request';
-            }
-            return type;
+            if (isDependabot) { return 'Story'; }
 
-      - name: Determine Area
-        id: determine-area
-        if: ${{ steps.check-labels.outputs.result == 'true' }}
-        uses: actions/github-script@v8
-        with:
-          result-encoding: string
-          script: |
-            // Check if actor is Dependabot
-            const actor = process.env.GITHUB_ACTOR;
-            const isDependabot = actor === 'dependabot[bot]' || actor === 'dependabot-preview[bot]';
-            
-            if (isDependabot) {
-              // Dependabot PRs are treated as Development area
-              return 'Development';
-            }
-            
             const payload = context.payload;
-            const rawFromIssue = payload.issue?.labels || [];
-            const rawFromPR = payload.pull_request?.labels || [];
-            const singleLabel = payload.label ? [payload.label] : [];
-            const rawLabels = [...rawFromIssue, ...rawFromPR, ...singleLabel];
+            const rawLabels = [...(payload.issue?.labels || []), ...(payload.pull_request?.labels || []), ...(payload.label ? [payload.label] : [])];
             const labels = rawLabels.map(l => (l && l.name ? l.name.toLowerCase() : '')).filter(Boolean);
-            let area = '';
-            if (labels.includes('service request') || labels.includes('incident') || labels.includes('problem') || labels.includes('change request')) {
-              area = 'Service Desk';
-            } else if (labels.includes('feature') || labels.includes('improvement') || labels.includes('bug') || labels.includes('technical') || labels.includes('spike')) {
-              area = 'Development';
-            }
-            return area;
+
+            if (labels.includes('bug')) { return 'Bug'; }
+            if (labels.includes('story')) { return 'Story'; }
+            return '';
 
       - name: Add item to GitHub Project
         id: add-to-project
@@ -164,13 +96,3 @@ jobs:
           item-id: ${{ steps.add-to-project.outputs.itemId }}
           field-keys: Work Item Type
           field-values: ${{ steps.determine-work-item-type.outputs.result }}
-
-      - name: Update Area field on Project item
-        if: ${{ steps.check-labels.outputs.result == 'true' && steps.determine-area.outputs.result != '' }}
-        uses: titoportas/update-project-fields@v0.1.0
-        with:
-          project-url: ${{ env.PROJECT_URL }}
-          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          item-id: ${{ steps.add-to-project.outputs.itemId }}
-          field-keys: Area
-          field-values: ${{ steps.determine-area.outputs.result }}
