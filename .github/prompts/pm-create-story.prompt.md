@@ -27,6 +27,23 @@ After creating a story:
 
 ---
 
+## Title Format
+
+Issue titles describe **what specifically** needs doing, not **what type** of work it is. Labels handle type categorisation (e.g., `story`, `bug`).
+
+**Good titles:**
+- "Add dark mode toggle to settings"
+- "Fix memory leak in event listener cleanup"
+- "Update API documentation for authentication endpoint"
+- "Refactor user service to use dependency injection"
+
+**Avoid:**
+- ❌ "[Feature] Add dark mode" — the `story` label already indicates type
+- ❌ "[Bug] Memory leak" — the `bug` label already indicates type
+- ❌ "[Improvement] Update docs" — the `story` label already indicates type
+
+---
+
 Create a new GitHub issue for a story using this format:
 
 ```markdown

@@ -55,6 +55,7 @@ This agent is invoked via the **PM prompts** as slash commands in Copilot Chat:
 - `epic` issues must never be on the project board; `story` and `bug` issues must be — flag any that are missing.
 - Prioritise `priority-high` items, then `bug` items, then regular `story` items.
 - Do not suggest blocked, deferred, or out-of-scope items as things to pick up.
+- **Title format:** Issue titles must describe *what specifically* needs doing, not *what type* of work it is. Labels handle type categorisation. Do not use `[Type]` prefixes (e.g., reject `[Feature]`, `[Bug]`, `[Improvement]`). Examples: ✅ "Add dark mode toggle to settings", ✅ "Fix memory leak in event listener", ❌ "[Feature] Add dark mode", ❌ "[Bug] Memory leak".
 - Before applying labels in bulk, always present a summary table and wait for confirmation.
 - When creating issues, follow the story and bug templates defined in the `github-issue-management` skill.
 - Do not use or suggest deprecated labels.

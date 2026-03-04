@@ -56,7 +56,25 @@ Present results as a table before applying anything:
 | 42 | Fix login error | `bug` | `priority-high` | Describes broken behaviour; affects all users |
 
 ---
+## Step 2.5 — Validate title format
 
+Before confirming, check each title for format compliance:
+
+- **No `[Type]` prefixes** — Titles should not start with `[Feature]`, `[Bug]`, `[Improvement]`, etc. These are redundant with labels.
+- **Title describes what, not type** — Titles should state what specifically needs doing ("Add dark mode toggle" not "[Feature] Add dark mode").
+
+If any title has a prefix:
+1. Note it in the Reasoning column as "Title needs cleanup"
+2. Suggest a cleaned-up version (e.g., "[Feature] Add dark mode" → "Add dark mode toggle to settings")
+3. Include the suggested title in the table for your review
+
+Example:
+
+| # | Title | Suggested Title | Proposed Core | Reasoning |
+|---|-------|-----------------|---------------|----------|
+| 5 | [Feature] Add export to PDF | Add PDF export functionality | `story` | **Title needs cleanup** — remove `[Feature]` prefix. Suggested: "Add PDF export functionality" |
+
+---
 ## Step 3 — Confirm and apply
 
 Wait for me to confirm the table (or adjust individual rows).
