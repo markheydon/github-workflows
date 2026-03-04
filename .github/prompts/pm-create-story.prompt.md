@@ -1,17 +1,33 @@
 ---
+name: PM Create Story
 description: Create a well-formed story issue using the standard label and format conventions.
-mode: ask
+argument-hint: Briefly describe the feature or requirement you want to capture as a story
+agent: PM Backlog Manager
 ---
 
-You are helping a solo developer (@markheydon) create a GitHub issue for a new story.
+## When to use this prompt
 
-**Label conventions:**
-- Always apply the `story` label.
-- Optionally add modifier labels: `priority-high`, `dependency`, `not-started`.
-- Never apply `epic` to a story.
-- If the story is deferred or out of scope, add `out-of-scope`.
+- **When you have a new feature or task idea** to track.
+- **Before running `pm-backlog-review` or `pm-iteration-plan`** if you want to add a new item.
+- **Time:** 2-3 minutes per story.
 
-**Issue format to follow:**
+## What you'll get
+
+- A new GitHub issue labelled `story`
+- Filled in with title, description (user story format), and acceptance criteria
+- Optionally linked to a parent epic
+- Ready to appear on the project board
+
+## What comes next
+
+After creating a story:
+- **Issue created and labelled.** It will be added to the project board shortly.
+- **Include in next iteration?** Run `/pm-iteration-plan` to assign it to a milestone.
+- **Assign to epic?** Update the issue body with a reference to the parent epic (e.g., "See parent epic #12").
+
+---
+
+Create a new GitHub issue for a story using this format:
 
 ```markdown
 ## Description
