@@ -47,6 +47,7 @@ $ErrorActionPreference = 'Stop'
 $migrations = [ordered]@{
     'dependency'        = @{ New = 'blocked';             State = 'open' }
     'feedback required' = @{ New = 'feedback-required';   State = 'all'  }
+    'waiting for details' = @{ New = 'waiting-for-details'; State = 'all'  }
     'waiting details'   = @{ New = 'waiting-for-details'; State = 'all'  }
     'feature'           = @{ New = 'story';               State = 'all'  }
     'improvement'       = @{ New = 'story';               State = 'all'  }

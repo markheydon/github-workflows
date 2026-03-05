@@ -1,10 +1,10 @@
 @echo off
 
 :: Source of truth: plan/LABEL_STRATEGY.md
-:: Auto-maintained by the pm-update-from-strategy prompt.
+:: Auto-maintained by the repo-update-from-strategy prompt.
 :: Do not edit label names, colours, or descriptions here directly —
-:: update plan/LABEL_STRATEGY.md and run pm-update-from-strategy instead.
-:: See also: .github/instructions/labels-script-update.instructions.md
+:: update plan/LABEL_STRATEGY.md and run repo-update-from-strategy instead.
+:: See also: .github/instructions/label-script-update.instructions.md
 
 :: Check if GitHub CLI is installed
 where gh >nul 2>nul

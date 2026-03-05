@@ -26,7 +26,7 @@ fi
 
 # Validate labels against allowed taxonomy
 CORE_LABELS=("epic" "story" "bug")
-MODIFIER_LABELS=("priority-high" "dependency" "not-started" "out-of-scope" "feedback-required" "waiting-for-details")
+MODIFIER_LABELS=("priority-high" "blocked" "not-started" "out-of-scope" "feedback-required" "waiting-for-details")
 ALL_ALLOWED=("${CORE_LABELS[@]}" "${MODIFIER_LABELS[@]}")
 
 for label in "${LABELS[@]}"; do

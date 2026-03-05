@@ -103,7 +103,7 @@ foreach ($repo in $repos) {
 
 $targets = $targets | Select-Object -First $MaxRepos
 
-Write-Host "\nDiscovery summary:" -ForegroundColor Cyan
+Write-Host "`nDiscovery summary:" -ForegroundColor Cyan
 Write-Host "  Total repos scanned: $($repos.Count)"
 Write-Host "  Skipped archived: $skipArchived"
 Write-Host "  Skipped excluded: $skipExcluded"
@@ -123,7 +123,7 @@ foreach ($target in $targets) {
   $defaultBranch = $target.DefaultBranch
   $repoDir = Join-Path $workRoot $repo
 
-  Write-Host "\n=== Processing $repo ===" -ForegroundColor Cyan
+  Write-Host "`n=== Processing $repo ===" -ForegroundColor Cyan
 
   if (Test-OpenPrExists -Owner $Owner -Repo $repo -BranchName $BranchName) {
     Write-Host ("Skipping {0}: open PR already exists for branch '{1}'" -f $repo, $BranchName) -ForegroundColor Yellow
@@ -180,4 +180,4 @@ foreach ($target in $targets) {
   }
 }
 
-Write-Host "\nImport workflow run complete." -ForegroundColor Green
+Write-Host "`nImport workflow run complete." -ForegroundColor Green

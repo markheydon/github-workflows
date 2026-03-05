@@ -31,6 +31,9 @@ gh label delete "feedback required" --repo "%REPO%" --yes 2>nul && echo Deleted:
 :: waiting details (old malformed name) -> waiting-for-details
 gh label delete "waiting details" --repo "%REPO%" --yes 2>nul && echo Deleted: waiting details || echo Skipped ^(not found^): waiting details
 
+:: waiting for details (spaced variant, as created by old label scripts) -> waiting-for-details
+gh label delete "waiting for details" --repo "%REPO%" --yes 2>nul && echo Deleted: waiting for details || echo Skipped ^(not found^): waiting for details
+
 :: --- Superseded labels (replaced by 'story') ---
 gh label delete "feature" --repo "%REPO%" --yes 2>nul && echo Deleted: feature || echo Skipped ^(not found^): feature
 gh label delete "improvement" --repo "%REPO%" --yes 2>nul && echo Deleted: improvement || echo Skipped ^(not found^): improvement

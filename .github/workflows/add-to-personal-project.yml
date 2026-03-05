@@ -44,7 +44,8 @@ jobs:
             const payload = context.payload;
             const rawFromIssue = payload.issue?.labels || [];
             const rawFromPR = payload.pull_request?.labels || [];
-            const singleLabel = payload.label ? [payload.label] : [];
+            // Only include payload.label (the triggering label) when it was just added, not removed
+            const singleLabel = (payload.label && payload.action === 'labeled') ? [payload.label] : [];
             const rawLabels = [...rawFromIssue, ...rawFromPR, ...singleLabel];
             const labels = rawLabels.map(l => (l && l.name ? l.name.toLowerCase() : '')).filter(Boolean);
 
@@ -66,7 +67,7 @@ jobs:
             if (isDependabot) { return 'Story'; }
 
             const payload = context.payload;
-            const rawLabels = [...(payload.issue?.labels || []), ...(payload.pull_request?.labels || []), ...(payload.label ? [payload.label] : [])];
+            const rawLabels = [...(payload.issue?.labels || []), ...(payload.pull_request?.labels || []), ...((payload.label && payload.action === 'labeled') ? [payload.label] : [])];
             const labels = rawLabels.map(l => (l && l.name ? l.name.toLowerCase() : '')).filter(Boolean);
 
             if (labels.includes('bug')) { return 'Bug'; }
