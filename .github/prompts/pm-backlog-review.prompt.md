@@ -44,7 +44,9 @@ Present a brief board snapshot before proceeding.
 
 ## Step 1 — Fetch open issues and PRs across ALL repos
 
-Run the following for **all `markheydon` repos** with open issues or PRs (do not limit to a single repo — the point is cross-repo visibility):
+**First, read `plan/EXCLUDED_REPOS.md`** and parse the "Active Exclusions" table. Skip any repos listed there when fetching issues or PRs.
+
+Run the following for **all `markheydon` repos** with open issues or PRs (excluding those in `plan/EXCLUDED_REPOS.md` — do not limit to a single repo):
 
 ```sh
 gh repo list markheydon --json name,isArchived --limit 100

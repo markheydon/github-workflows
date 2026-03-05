@@ -66,7 +66,9 @@ After resolving stalled items, calculate remaining capacity:
 
 If available slots = 0, tell the user and do not suggest adding more. Let them decide.
 
-Fetch candidate issues **and PRs** from **all `markheydon` repos** (cross-repo, not single-repo):
+**First, read `plan/EXCLUDED_REPOS.md`** and parse the "Active Exclusions" table. Skip any repos listed there when fetching candidate issues or PRs.
+
+Fetch candidate issues **and PRs** from **all `markheydon` repos** (excluding those in `plan/EXCLUDED_REPOS.md` — cross-repo, not single-repo):
 
 ```sh
 gh issue list --repo <owner/repo> --state open --label "story" --json number,title,labels,milestone,updatedAt --limit 100

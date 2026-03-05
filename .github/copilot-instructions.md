@@ -35,6 +35,8 @@ To validate consistency across this repo, use the `repo-label-strategy-keeper` a
 
 This repo provides a complete set of AI tools for project management. The **entry point is the PM Assistant**, which acts as a conversational guide.
 
+**Repository exclusions:** Some repos may be excluded from PM operations (listed in `plan/EXCLUDED_REPOS.md`). These repos are skipped when scanning for issues, PRs, and board state calculations.
+
 ### Quick Start
 
 1. **Type `/pm-assistant`** in Copilot Chat (or select "PM Assistant" from the Agent mode picker).
