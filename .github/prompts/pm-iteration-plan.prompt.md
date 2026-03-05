@@ -16,7 +16,7 @@ agent: PM Backlog Manager
 
 - A clear view of the current board state (stalled items, capacity)
 - A conversation to resolve any stalled Up Next items before adding new work
-- A curated list of stories and bugs proposed for this week
+- A curated list of stories, bugs, and ready-to-review PRs proposed for this week
 - Board updated: selected items moved to **Up Next**, stalled items resolved as agreed
 - Optional: milestone assignment for selected issues
 
@@ -66,26 +66,35 @@ After resolving stalled items, calculate remaining capacity:
 
 If available slots = 0, tell the user and do not suggest adding more. Let them decide.
 
-Fetch candidate issues from **all `markheydon` repos** (cross-repo, not single-repo):
+Fetch candidate issues **and PRs** from **all `markheydon` repos** (cross-repo, not single-repo):
 
 ```sh
 gh issue list --repo <owner/repo> --state open --label "story" --json number,title,labels,milestone,updatedAt --limit 100
 gh issue list --repo <owner/repo> --state open --label "bug" --json number,title,labels,milestone,updatedAt --limit 100
+gh pr list --repo <owner/repo> --state open --label "story" --json number,title,labels,milestone,updatedAt,author,isDraft --limit 100
+gh pr list --repo <owner/repo> --state open --label "bug" --json number,title,labels,milestone,updatedAt,author,isDraft --limit 100
 ```
 
-Exclude issues labelled `out-of-scope` or `blocked`. Prioritise `priority-high` first, then `bug`, then `story`.
+Exclude items labelled `out-of-scope` or `blocked`. Exclude draft PRs. Skip Dependabot PRs — they are already on the board.
+
+Prioritise in this order:
+1. Non-Dependabot PRs labelled `story` or `bug` that are ready for review/merge (clear these first — unblocking merged work is more valuable than starting new items)
+2. `priority-high` issues or PRs
+3. `bug` issues
+4. `story` issues
 
 ---
 
 ## Step 3 — Propose iteration scope
 
-Based on available capacity, propose items to add to **Up Next**. Present as a simple list:
+Based on available capacity, propose items to add to **Up Next**. Present as a simple list, noting whether each item is an issue or PR:
 
 ```
 Proposed for Up Next (N slots available):
-  #25 Fix app crash on startup [bug] — markheydon/my-app
-  #18 Export to CSV [story, priority-high] — markheydon/my-app
-  #15 Add login page [story] — markheydon/other-repo
+  #7  Merge CSV export PR [PR, story] — markheydon/my-app  ← ready for review
+  #25 Fix app crash on startup [issue, bug] — markheydon/my-app
+  #18 Export to CSV [issue, story, priority-high] — markheydon/my-app
+  #15 Add login page [issue, story] — markheydon/other-repo
 ```
 
 Include repo names since this is cross-repo. Ask for confirmation before making any changes.
@@ -113,5 +122,5 @@ gh api repos/<owner/repo>/milestones -f title="<milestone-name>" -f state="open"
 
 ## Step 5 — Summary
 
-Confirm: how many stories and bugs were added to Up Next, which repos they came from, and a link to the board:
+Confirm: how many stories, bugs, and PRs were added to Up Next, which repos they came from, and a link to the board:
 https://github.com/users/markheydon/projects/6

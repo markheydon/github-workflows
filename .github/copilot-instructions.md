@@ -17,6 +17,7 @@ The strategy and tooling in this repo were specifically designed for my own pers
 - Solo developer managing multiple personal repos.
 - Project board: https://github.com/users/markheydon/projects/6.
 - Label strategy: `epic` (never on board), `story` (on board), `bug` (on board). Epics group stories; stories and bugs are the unit of work.
+- Both issues **and PRs** use the same label taxonomy. PRs labelled `story` or `bug` appear on the board identically to issues. All PM prompts scan for both.
 - Dependabot PRs are automatically treated as `story` type on the board.
 
 ## Label strategy — single source of truth
@@ -49,11 +50,11 @@ This repo provides a complete set of AI tools for project management. The **entr
 
 | When | Prompt | Purpose |
 |------|--------|---------|
-| **Optional daily** | `/pm-daily` | Board state snapshot: stalled items, top 3 to focus on today |
-| **Weekly (PM Mode)** | `/pm-backlog-review` | Scan all repos, flag stale ones, surface ready work across the ecosystem |
-| **Weekly (PM Mode)** | `/pm-iteration-plan` | Read board state, resolve stalled items, curate Up Next, mutate board |
+| **Optional daily** | `/pm-daily` | Board state snapshot: stalled items, stalled PR reviews, top 3 to focus on today |
+| **Weekly (PM Mode)** | `/pm-backlog-review` | Scan all repos for issues and PRs, flag stale ones, surface ready work across the ecosystem |
+| **Weekly (PM Mode)** | `/pm-iteration-plan` | Read board state, resolve stalled items, curate Up Next (issues and PRs), mutate board |
 | **Anytime** | `/pm-create-story` | Create a well-formed story issue |
-| **As needed** | `/pm-issue-triage` | Classify and label unlabelled issues |
+| **As needed** | `/pm-issue-triage` | Classify and label unlabelled issues and PRs |
 | **After strategy change** | `/repo-update-from-strategy` | Sync all files with updated label strategy |
 
 Each prompt has:
@@ -64,8 +65,8 @@ Each prompt has:
 ### Operating Model: PM Mode vs Work Mode
 
 **PM Mode (weekly/fortnightly):**
-1. `/pm-backlog-review` → Scan all repos, surface neglected work, flag stale repos
-2. `/pm-iteration-plan` → Check board state, resolve stalled items, curate this week's load, update board
+1. `/pm-backlog-review` → Scan all repos for issues and PRs, surface neglected work, flag stale repos, flag unlabelled PRs
+2. `/pm-iteration-plan` → Check board state, resolve stalled items, curate this week's load (issues and PRs), update board
 
 **Work Mode (daily):**
 1. Open your project board at https://github.com/users/markheydon/projects/6 — the board has been curated in PM Mode

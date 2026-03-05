@@ -1,23 +1,24 @@
 ---
 name: PM Issue Triage
-description: Triage new or unlabelled issues. Classifies each as story or bug, applies appropriate labels, and ensures board membership is correct.
-argument-hint: Specify a repo (owner/repo) and optionally issue numbers to triage
+description: Triage new or unlabelled issues and pull requests. Classifies each as story or bug, applies appropriate labels, and ensures board membership is correct.
+argument-hint: Specify a repo (owner/repo) and optionally issue/PR numbers to triage
 agent: PM Backlog Manager
 ---
 
 ## When to use this prompt
 
-- **When issues come in without labels** (every few days or as issues arrive).
+- **When issues or PRs come in without labels** (every few days or as issues/PRs arrive).
+- **After `/pm-backlog-review`** flags unlabelled PRs or issues — use those numbers as the argument.
 - **Before `pm-backlog-review`** if you want a clean view of your backlog.
 - **Before `pm-iteration-plan`** to make sure everything is labelled.
-- **Time:** 5 minutes per 10 issues to triage.
+- **Time:** 5 minutes per 10 items to triage.
 
 ## What you'll get
 
-- Summary of issues reviewed (count and breakdown)
-- Proposed labels for each issue (core label + modifiers)
-- Issues relabelled and ready to appear on the project board
-- Any issues flagged as needing clarification before labelling
+- Summary of issues and PRs reviewed (count and breakdown)
+- Proposed labels for each item (core label + modifiers)
+- Issues and PRs relabelled and ready to appear on the project board
+- Any items flagged as needing clarification before labelling
 
 ## What comes next
 
@@ -28,32 +29,45 @@ After triaging:
 
 ---
 
-## Step 1 — Find issues to triage
+## Step 1 — Find issues and PRs to triage
 
-Fetch unlabelled or recently created issues:
+Fetch unlabelled or recently created issues and PRs:
 
 ```sh
 gh issue list --repo <owner/repo> --state open --json number,title,body,labels --limit 50
+gh pr list --repo <owner/repo> --state open --json number,title,body,labels,author,isDraft --limit 50
 ```
 
-Filter to issues with no core label (`epic`, `story`, or `bug`), or ask me to specify issue numbers.
+Filter to items with no core label (`epic`, `story`, or `bug`), or if specific numbers were provided as an argument, fetch only those.
+
+**Skip Dependabot PRs** (`author.login` = `dependabot[bot]` or `dependabot-preview[bot]`) — they are automatically handled by the workflow. Include them only in the count of already-triaged items.
+
+**Skip draft PRs** — note their existence but do not triage them until they are marked ready for review.
 
 ---
 
-## Step 2 — Classify each issue
+## Step 2 — Classify each item
 
-For each issue, apply the triage decision flow:
+For each issue or PR, apply the triage decision flow:
 
 1. Read the title and body
-2. Determine the core label: `epic`, `story`, or `bug`
-3. Identify any applicable modifier labels
-4. Show your classification reasoning briefly
+2. Determine the core label:
+   - Issues: `epic`, `story`, or `bug`
+   - PRs: `story` or `bug` only (PRs cannot be epics)
+3. For PRs, use these signals:
+   - Dependency/version bump — `story` (if not Dependabot)
+   - Bug fix — `bug`
+   - New feature or improvement — `story`
+   - Documentation change — `story` + `documentation` modifier
+4. Identify any applicable modifier labels
+5. Show your classification reasoning briefly
 
-Present results as a table before applying anything:
+Present results as a table before applying anything. Include a **Type** column to distinguish issues from PRs:
 
-| # | Title | Proposed Core | Proposed Modifiers | Reasoning |
-|---|-------|---------------|-------------------|-----------|
-| 42 | Fix login error | `bug` | `priority-high` | Describes broken behaviour; affects all users |
+| # | Type | Title | Proposed Core | Proposed Modifiers | Reasoning |
+|---|------|-------|---------------|--------------------|----------|
+| 42 | Issue | Fix login error | `bug` | `priority-high` | Describes broken behaviour; affects all users |
+| 7 | PR | Add CSV export | `story` | | New feature for data export |
 
 ---
 ## Step 2.5 — Validate title format
@@ -79,10 +93,14 @@ Example:
 
 Wait for me to confirm the table (or adjust individual rows).
 
-Once confirmed, apply labels using:
+Once confirmed, apply labels using the appropriate command for each item type:
 
 ```sh
+# For issues:
 gh issue edit <number> --repo <owner/repo> --add-label "<label>"
+
+# For PRs:
+gh pr edit <number> --repo <owner/repo> --add-label "<label>"
 ```
 
 ---
@@ -90,11 +108,12 @@ gh issue edit <number> --repo <owner/repo> --add-label "<label>"
 ## Step 4 — Board check
 
 After labelling:
-- Issues now labelled `story` or `bug` should appear on the project board once the workflow runs (triggered on label event)
+- Issues and PRs now labelled `story` or `bug` should appear on the project board once the workflow runs (triggered on label event)
 - If any `epic` issues were previously on the board, flag them for removal
+- Note: PRs cannot carry the `epic` label; if one was inadvertently applied, remove it
 
 ---
 
 ## Step 5 — Summary
 
-Report what was triaged: how many issues classified, label breakdown (`epic`/`story`/`bug`), and any issues skipped due to needing more information.
+Report what was triaged: how many issues and PRs classified, label breakdown (`epic`/`story`/`bug`), how many Dependabot PRs and draft PRs were skipped, and any items skipped due to needing more information.

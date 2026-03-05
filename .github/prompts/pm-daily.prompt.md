@@ -12,8 +12,9 @@ agent: PM Backlog Manager
 
 ## What you'll get
 
-- Current board state: count of items per Status column
+- Current board state: count of items per Status column (includes both issues and PRs)
 - Stalled items: anything in Up Next for 3+ days without moving
+- PRs in **In Review** for 3+ days — flagged as potential merge/close candidates
 - Top 3 unblocked items to focus on today (from Up Next or high-priority Backlog)
 - Any epics that are close to completion (all child stories closed)
 
@@ -30,10 +31,13 @@ After your daily summary:
 1. Read the current state of the project board at https://github.com/users/markheydon/projects/6:
    - Count items per Status column.
    - Identify any items in **Up Next** that have been there for 3 or more days without moving (stalled).
+   - Identify any **PRs** (look for items with PR numbers — they have `#` prefixes from the `pull_request` content type) in **In Review** that have been there for 3 or more days — these need a merge or close decision, not just deprioritisation.
    - Calculate active load (Up Next + In Progress combined).
-2. Summarise board state: total items per column, any stalled items (flag these clearly).
-3. Flag the top 3 unblocked items to focus on today — prefer items already in **Up Next** that are not stalled; fall back to high-priority Backlog items if Up Next is empty or all stalled.
-4. If stalled items exist, suggest actions: move to **Ice Box** (deprioritise), **Blocked** (add `blocked` label), or keep and re-commit.
+2. Summarise board state: total items per column, any stalled items (flag these clearly), any PRs awaiting review decision.
+3. Flag the top 3 unblocked items to focus on today — prefer PRs ready to merge/review over new issue work; otherwise prefer items already in **Up Next** that are not stalled; fall back to high-priority Backlog items if Up Next is empty or all stalled.
+4. If stalled items exist:
+   - For **issues**: suggest moving to **Ice Box** (deprioritise), **Blocked** (add `blocked` label), or keep and re-commit.
+   - For **PRs in In Review**: suggest merge, close, or move back to **In Progress** if more work is needed.
 5. Flag any epics that have all their child stories closed (potential epic to close).
 
 Keep the summary concise — this is a quick daily check-in, not a full review.
