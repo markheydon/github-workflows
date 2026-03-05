@@ -59,6 +59,7 @@ jobs:
       # configured on the 'Work Item Type' single-select field in the project board.
       # If you rename those field options in the board UI, update the return values here to match.
       # Current expected field options: 'Story', 'Bug'
+      # See .github/skills/github-issue-management/references/project-setup.md for the complete field mapping.
       - name: Determine Work Item Type
         id: determine-work-item-type
         if: ${{ steps.check-labels.outputs.result == 'true' }}

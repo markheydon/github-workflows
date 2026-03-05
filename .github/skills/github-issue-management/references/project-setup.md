@@ -74,7 +74,7 @@ Items in **Up Next**, **In Progress**, **In Review**, or **Done** are never touc
 The `blocked` label and the **Blocked** board status must always be in sync:
 
 - Every item in the **Blocked** column **must** have the `blocked` label applied.
-- Every item with the `blocked` label **must** be in the **Blocked** column (unless it is in In Progress, In Review, or Done — where status automation does not apply).
+- Every item with the `blocked` label **must** be in the **Blocked** column (unless it is in Up Next, In Progress, In Review, or Done — where status automation does not apply).
 
 The workflow enforces this going forward for items in Backlog. However, items manually placed in the Blocked column before the automation existed will not have the label. During any consistency check or backlog review, flag and correct any items where the label and column status disagree.
 
