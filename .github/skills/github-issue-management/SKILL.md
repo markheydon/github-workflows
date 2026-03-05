@@ -131,6 +131,8 @@ When triaging a batch of unlabelled issues:
 5. Flag any issues that need more information before classification — apply `waiting-for-details`.
 6. Summarise what was triaged and highlight anything requiring human review.
 
+**Watch for disguised epics.** An issue labelled `story` may actually be an epic if it: has multiple sub-issues listed, describes a large feature with its own data model or architecture section, or has an acceptance criteria list that spans several independent deliverables. If so, relabel it `epic`, remove it from the project board, and ensure its sub-issues are individually labelled and have appropriate statuses (e.g. `blocked` if they depend on each other sequentially).
+
 For a visual flow, see [`assets/triage-workflow.md`](assets/triage-workflow.md).
 
 ---

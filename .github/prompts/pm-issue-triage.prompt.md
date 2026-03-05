@@ -74,7 +74,7 @@ Present results as a table before applying anything. Include a **Type** column t
 
 Before confirming, check each title for format compliance:
 
-- **No `[Type]` prefixes** — Titles should not start with `[Feature]`, `[Bug]`, `[Improvement]`, etc. These are redundant with labels.
+- **No `[Type]` prefixes** — Titles must not start with any bracketed type prefix. Known patterns seen in the wild: `[Feature]`, `[Bug]`, `[Improvement]`, `[Structure]`, `[Technical]`, `[Azure]`, `[Epic]`, `[Removal]`, `[Docs]`, `[Use Case]`. These are redundant with labels — remove them.
 - **Title describes what, not type** — Titles should state what specifically needs doing ("Add dark mode toggle" not "[Feature] Add dark mode").
 
 If any title has a prefix:

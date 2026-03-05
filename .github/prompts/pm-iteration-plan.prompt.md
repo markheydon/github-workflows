@@ -70,6 +70,8 @@ If available slots = 0, tell the user and do not suggest adding more. Let them d
 
 Fetch candidate issues **and PRs** from **all `markheydon` repos** (excluding those in `plan/EXCLUDED_REPOS.md` — cross-repo, not single-repo):
 
+**Cross-reference against the board:** After fetching candidates, exclude any item that is already on the project board in **any** status (Backlog, Blocked, Ice Box, Up Next, In Progress, In Review, Done). Only items not yet on the board at all are eligible to be added. Items already in Backlog or Ice Box are surfaced via the board itself - do not add duplicates.
+
 ```sh
 gh issue list --repo <owner/repo> --state open --label "story" --json number,title,labels,milestone,updatedAt --limit 100
 gh issue list --repo <owner/repo> --state open --label "bug" --json number,title,labels,milestone,updatedAt --limit 100
