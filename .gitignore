@@ -1,0 +1,2 @@
+# Ignore the workflow import directory used by migration scripts.
+**/_workflow-import

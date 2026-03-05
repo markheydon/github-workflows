@@ -1,72 +1,78 @@
-# GitHub Workflows & Scripts
-This repo centralises and standardises my personal GitHub Actions workflows and utility scripts. Everything here is tailored to how I work, but feel free to use or adapt anything if it helps you!
+# GitHub Workflows, Scripts & Copilot PM Tooling
 
-## Workflows
+This repository centralises project management automation for solo developers managing multiple GitHub repos. It provides reusable workflows, label scripts, Copilot prompts, agents, and skills—all designed to keep your issues, labels, and project board in sync with minimal manual admin.
 
-- **add-to-personal-project.yml**
-  - **Name:** Auto-add Issues & PRs to my Personal Project
-  - **Purpose:**
-    - Adds Issues and Pull Requests (when labelled) to my personal project board ([see project](https://github.com/users/markheydon/projects/6)).
-    - Automatically adds Dependabot PRs as Development User Stories with Status 'Up Next'.
-  - **Trigger:**
-    - `workflow_call` (for reuse from other repositories)
-  - **Minimal usage example:**
-    ```yaml
-    jobs:
-      add-to-personal-project:
-        uses: markheydon/github-workflows/.github/workflows/add-to-personal-project.yml@main
-        secrets:
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-    ```
+## Purpose & Context
+
+- **Frictionless project management:** Automate triage, board updates, and label consistency so you can focus on building.
+- **Single source of truth:** All labels, workflows, and scripts derive from [plan/LABEL_STRATEGY.md](plan/LABEL_STRATEGY.md).
+- **Easy reuse:** Designed for adaptation in other repos—just follow the documented patterns.
+
+## Reusable GitHub Actions Workflows
+
+Workflows are in `.github/workflows/` and can be called from other repos via `workflow_call`.  
+**Ignore any file starting with `trigger-`—these are internal thin callers.**
+
+- **add-to-personal-project.yml**  
+  Adds issues and PRs to your project board when labelled `story` or `bug`. Dependabot PRs are auto-added as `story` type.
 
 ## Scripts
 
-- **github-labels/add_gh_labels_for_dev_repo.bat**
-  - Creates a set of development-related labels in a GitHub repository using the GitHub CLI (`gh`).
-  - **Usage:**
-    ```sh
-    add_gh_labels_for_dev_repo.bat <repository>
-    ```
+Scripts automate label management and issue migration.  
+Located in `scripts/`:
 
-- **github-labels/add_gh_labels_for_service_desk_repo.bat**
-  - Creates a set of service desk-related labels in a GitHub repository using the GitHub CLI (`gh`).
-  - **Usage:**
-    ```sh
-    add_gh_labels_for_service_desk_repo.bat <repository>
-    ```
+- **Convert-IssueLabels.ps1** — PowerShell script for migrating issue labels between repos.
+- **delete_old_labels.bat** — Batch script to remove deprecated labels.
+- **update_github_labels.bat** — Batch script to upsert all labels in a repo, grouped by type.  
+  _Usage:_ `update_github_labels.bat <owner/repo>` (requires GitHub CLI)
 
-## Setup
+## Copilot Tooling Overview
 
-- For workflows: You must provide a `PERSONAL_ACCESS_TOKEN` secret with appropriate permissions to update your project board.
-- For scripts: Requires [GitHub CLI](https://cli.github.com/) (`gh`) installed and authenticated.
+### Prompts (`.github/prompts/`)
+- **pm-assistant.prompt.md** — Entry point for PM workflow.
+- **pm-backlog-review.prompt.md** — Review and prioritise backlog.
+- **pm-create-story.prompt.md** — Create a well-formed story issue.
+- **pm-daily.prompt.md** — Summarise unblocked work.
+- **pm-issue-triage.prompt.md** — Triage and label unlabelled issues.
+- **pm-iteration-plan.prompt.md** — Plan and group work for milestones.
+- **repo-update-docs.prompt.md** — Regenerate this README and plan future docs.
+- **repo-update-from-strategy.prompt.md** — Propagate label strategy changes.
+
+### Agents (`.github/agents/`)
+- **pm-assistant.agent.md** — Conversational PM guide.
+- **pm-backlog-management.agent.md** — Backlog management logic.
+- **repo-docs-writer.agent.md** — Documentation generator (Diátaxis).
+- **repo-label-strategy-keeper.agent.md** — Validates label consistency.
+
+### Skills (`.github/skills/`)
+- **documentation-writer/SKILL.md** — Diátaxis documentation guidance.
+- **github-issue-management/SKILL.md** — Label taxonomy, triage workflow, and automation.
+  - **references/github-labels.md** — Label definitions (mirrors strategy).
+  - **references/project-setup.md** — Board rules and field mapping.
+  - **CUSTOMISATION_GUIDE.md** — Adapting the skill for other repos.
+  - **assets/** — Example assets.
+  - **scripts/triage-example.sh** — Example triage script.
+  - **assets/triage-workflow.md** — Example workflow.
+
+### Instructions (`.github/instructions/`)
+- **label-script-update.instructions.md** — How to keep the label script in sync with the strategy.
+
+## Setup & Prerequisites
+
+- **GitHub CLI (`gh`)** — Required for label scripts.
+- **Secrets:** Set a `PERSONAL_ACCESS_TOKEN` with repo and project access for workflows.
+- **Project board:** Uses [GitHub Projects v2](https://github.com/users/markheydon/projects/6).
+
+## Label Strategy (Summary)
+
+- **Core labels:** `epic` (never on board), `story` (on board), `bug` (on board)
+- **Modifier labels:** `priority-high`, `blocked`, `not-started`, `out-of-scope`, `feedback-required`, `waiting-for-details`
+- **GitHub default labels:** `documentation`, `duplicate`, `enhancement`, `good first issue`, `help wanted`, `invalid`, `question`, `wontfix` (optional modifiers)
+- **Board inclusion:** Only `story` and `bug` are tracked; `epic` is for grouping only.
+- See [plan/LABEL_STRATEGY.md](plan/LABEL_STRATEGY.md) for full details, colours, and deprecated labels.
 
 ## License
 
-MIT License
+MIT License — see [LICENSE](LICENSE).
 
----
-Last updated: 2026-02-26
-
-## Setup
-
-- For workflows: You must provide a `PERSONAL_ACCESS_TOKEN` secret with appropriate permissions to update your GitHub Project.
-- For scripts: Requires the [GitHub CLI](https://cli.github.com/) (`gh`) to be installed and authenticated.
-
-## License
-
-MIT License
-
----
-Last updated: 2026-02-25
-
-## Setup
-
-- For workflows: Add a `PERSONAL_ACCESS_TOKEN` secret with permissions to update your GitHub Project.
-- For scripts: Install and authenticate the [GitHub CLI](https://cli.github.com/) (`gh`).
-
-## License
-
-MIT License
-
----
-_Last updated: 2026-02-25_
+_Last updated: 2026-03-04_
