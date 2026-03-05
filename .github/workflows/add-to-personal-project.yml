@@ -17,13 +17,13 @@ on:
         required: true
 
 permissions:
-  contents: read            # allow reading repo contents (safe default)
-  issues: read              # read issue metadata (labels) if you ever rely on API
-  pull-requests: read       # read PR metadata (labels) if you ever rely on API
+  contents: none
+  issues: none
+  pull-requests: none
   actions: none
   checks: none
   deployments: none
-
+  
 jobs:
   add_to_personal_project:
     runs-on: ubuntu-latest
