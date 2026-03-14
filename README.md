@@ -18,9 +18,12 @@ Workflows are in `.github/workflows/` and can be called from other repos via `wo
 
 ## Scripts
 
-Scripts automate label management and issue migration.  
+Scripts automate label management, issue migration, and Copilot tooling setup.  
 Located in `scripts/`:
 
+- **Install-CopilotAssets.ps1** — Platform-agnostic PowerShell script that bootstraps a project with Copilot agents, skills, and instructions from the [Awesome Copilot](https://github.com/github/awesome-copilot) repository.  
+  _Usage:_ `.\Install-CopilotAssets.ps1 -TargetFolder <path> -ConfigFile <json-file> [-CloneRoot <path>]` (requires GitHub CLI)  
+  See `copilot-assets.example.json` for the config file format.
 - **Convert-IssueLabels.ps1** — PowerShell script for migrating issue labels between repos.
 - **delete_old_labels.bat** — Batch script to remove deprecated labels.
 - **update_github_labels.bat** — Batch script to upsert all labels in a repo, grouped by type.  

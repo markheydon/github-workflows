@@ -1,0 +1,12 @@
+{
+  "_comment": "Example configuration for Install-CopilotAssets.ps1. All paths are relative to the root of the Awesome Copilot repository (https://github.com/github/awesome-copilot). Remove this _comment key before use.",
+  "agents": [
+    "agents/example-agent.agent.md"
+  ],
+  "skills": [
+    "skills/example-skill"
+  ],
+  "instructions": [
+    "instructions/example.instructions.md"
+  ]
+}
