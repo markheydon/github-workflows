@@ -230,9 +230,9 @@ if ($sources.Count -eq 0) {
     exit 0
 }
 
-$totalAgents = ($sources | Measure-Object -Property { $_.agents.Count } -Sum).Sum
-$totalSkills = ($sources | Measure-Object -Property { $_.skills.Count } -Sum).Sum
-$totalInstructions = ($sources | Measure-Object -Property { $_.instructions.Count } -Sum).Sum
+$totalAgents = ($sources | ForEach-Object { $_.agents.Count } | Measure-Object -Sum).Sum
+$totalSkills = ($sources | ForEach-Object { $_.skills.Count } | Measure-Object -Sum).Sum
+$totalInstructions = ($sources | ForEach-Object { $_.instructions.Count } | Measure-Object -Sum).Sum
 
 Write-Information "  Sources:      $($sources.Count)" -InformationAction Continue
 Write-Information "  Agents:       $totalAgents" -InformationAction Continue
