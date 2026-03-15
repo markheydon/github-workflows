@@ -282,6 +282,14 @@ function Get-RepoCheckout {
 
     if (Test-Path (Join-Path $repoDir '.git')) {
         Write-Information "`nUpdating repository '$Repo'..." -InformationAction Continue
+        if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+            Write-Error @"
+Git is required to update the repository '$Repo', but 'git' was not found on PATH.
+
+Please install Git from https://git-scm.com/downloads and ensure 'git' is available on your PATH, then re-run this script.
+"@
+            exit 1
+        }
         Push-Location $repoDir
         try {
             $null = git pull
