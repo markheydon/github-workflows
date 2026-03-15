@@ -4,14 +4,13 @@
     into a target project's .github folder.
 
 .DESCRIPTION
-    Clones the GitHub Awesome Copilot repository (https://github.com/github/awesome-copilot)
-    into a local directory, or updates it with a git pull if it already exists. Then reads
-    a JSON configuration file listing which agents, skills, and instructions to copy, and
-    installs them into the target project's .github folder.
+    Clones one or more source repositories into a local directory, or updates each with
+    a git pull if it already exists. Then reads a JSON configuration file listing which
+    agents, skills, and instructions to copy from each source repository, and installs
+    them into the target project's .github folder.
 
     Agents and instructions are treated as single files; skills are folders and are copied
-    recursively. All paths in the configuration file are relative to the root of the Awesome
-    Copilot repository. The same relative paths are preserved under the target .github folder.
+    recursively. The same relative paths are preserved under the target .github folder.
 
     Requires GitHub CLI (gh) for the clone operation. If gh is not installed, the script
     will exit with a human-readable error and instructions for how to install it.
@@ -25,12 +24,22 @@
     which will be created if it does not already exist.
 
 .PARAMETER ConfigFile
-    Path to a JSON file listing the agents, skills, and instructions to copy.
+    Path to a JSON file listing one or more source repositories and their assets.
+    Each source uses a repo slug in owner/repo format and can contain agents,
+    skills, and instructions arrays.
+
+    Agent and instruction entries are short names (for example "example-agent"),
+    while skills are folder names (for example "example-skill").
+    The script resolves these to standard paths automatically.
     See scripts/copilot-assets.example.json for the expected format.
 
 .PARAMETER CloneRoot
     Directory in which to clone (or look for an existing clone of) the Awesome Copilot
     repository. Defaults to the current working directory.
+
+.PARAMETER Force
+    Overwrite existing files and folders in the target .github folder.
+    By default, existing assets are skipped.
 
 .EXAMPLE
     .\Install-CopilotAssets.ps1 -TargetFolder ../my-project -ConfigFile ./my-config.json
@@ -40,6 +49,12 @@
         -TargetFolder C:\Projects\my-app `
         -ConfigFile ./starter-kit.json `
         -CloneRoot C:\Tools\copilot-repos
+
+.EXAMPLE
+    .\Install-CopilotAssets.ps1 `
+        -TargetFolder C:\Projects\my-app `
+        -ConfigFile ./starter-kit.json `
+        -Force
 #>
 
 [CmdletBinding()]
@@ -50,7 +65,9 @@ param(
     [Parameter(Mandatory)]
     [string]$ConfigFile,
 
-    [string]$CloneRoot = $PWD
+    [string]$CloneRoot = $PWD,
+
+    [switch]$Force
 )
 
 Set-StrictMode -Version Latest
@@ -92,95 +109,250 @@ $ConfigFile = $resolvedConfig.Path
 
 # --- Resolve CloneRoot, creating it if necessary ---
 if (-not (Test-Path $CloneRoot)) {
-    Write-Host "Creating clone root directory: $CloneRoot" -ForegroundColor Cyan
+    Write-Information "Creating clone root directory: $CloneRoot" -InformationAction Continue
     New-Item -ItemType Directory -Path $CloneRoot -Force | Out-Null
 }
 $CloneRoot = (Resolve-Path $CloneRoot).Path
 
 # --- Read and validate the config file ---
-Write-Host "Reading config from: $ConfigFile" -ForegroundColor Cyan
+Write-Information "Reading config from: $ConfigFile" -InformationAction Continue
 $configRaw = Get-Content $ConfigFile -Raw
-$config = $configRaw | ConvertFrom-Json
+try {
+        $config = $configRaw | ConvertFrom-Json -ErrorAction Stop
+}
+catch {
+        Write-Error @"
+Config file '$ConfigFile' is not valid JSON.
 
-if ($config.PSObject.Properties['_comment']) {
-    Write-Warning "The config file contains a '_comment' key. This is for documentation only — remove it before use to keep your configuration clean."
+Details: $($_.Exception.Message)
+
+Hint: each entry in the 'sources' array must be an object wrapped in { }.
+Example:
+    "sources": [
+        {
+            "name": "Awesome Copilot",
+            "repo": "github/awesome-copilot",
+            "agents": ["CSharpExpert"],
+            "skills": ["csharp-async", "csharp-docs"]
+        }
+    ]
+"@
+        exit 1
 }
 
-$agents = @(if ($config.PSObject.Properties['agents']) { $config.agents } else { @() })
-$skills = @(if ($config.PSObject.Properties['skills']) { $config.skills } else { @() })
-$instructions = @(if ($config.PSObject.Properties['instructions']) { $config.instructions } else { @() })
+if ($config.PSObject.Properties['_comment']) {
+    Write-Warning "The config file contains a '_comment' key. This is for documentation only - remove it before use to keep your configuration clean."
+}
 
-if ($agents.Count -eq 0 -and $skills.Count -eq 0 -and $instructions.Count -eq 0) {
-    Write-Warning "Config file contains no agents, skills, or instructions. Nothing to do."
+$configName = if ($config.PSObject.Properties['name']) { [string]$config.name } else { '<not provided>' }
+$configDescription = if ($config.PSObject.Properties['description']) { [string]$config.description } else { '<not provided>' }
+$configVersion = if ($config.PSObject.Properties['version']) { [string]$config.version } else { '<not provided>' }
+
+Write-Information "Configuration metadata:" -InformationAction Continue
+Write-Information "  Name:        $configName" -InformationAction Continue
+Write-Information "  Description: $configDescription" -InformationAction Continue
+Write-Information "  Version:     $configVersion" -InformationAction Continue
+Write-Information "  Overwrite:   $($Force.IsPresent)" -InformationAction Continue
+
+# --- Read multi-source config and keep legacy compatibility ---
+function Convert-ToRepoSlug {
+    param(
+        [Parameter(Mandatory)][string]$Repository
+    )
+
+    $candidate = $Repository.Trim()
+
+    if ($candidate -match '^https?://github\.com/([^/]+)/([^/]+?)(?:\.git)?/?$') {
+        return "$($Matches[1])/$($Matches[2])"
+    }
+
+    if ($candidate -match '^github\.com/([^/]+)/([^/]+?)(?:\.git)?/?$') {
+        return "$($Matches[1])/$($Matches[2])"
+    }
+
+    return $candidate
+}
+
+$defaultSourceRepo = 'github/awesome-copilot'
+if ($config.PSObject.Properties['repository'] -and $config.repository) {
+    $defaultSourceRepo = Convert-ToRepoSlug -Repository ([string]$config.repository)
+}
+
+$legacyAgents = @(if ($config.PSObject.Properties['agents']) { $config.agents } else { @() })
+$legacySkills = @(if ($config.PSObject.Properties['skills']) { $config.skills } else { @() })
+$legacyInstructions = @(if ($config.PSObject.Properties['instructions']) { $config.instructions } else { @() })
+$hasLegacyAssets = $legacyAgents.Count -gt 0 -or $legacySkills.Count -gt 0 -or $legacyInstructions.Count -gt 0
+
+$configuredSources = @(if ($config.PSObject.Properties['sources']) { $config.sources } else { @() })
+$sourceConfigs = @($configuredSources)
+
+if ($hasLegacyAssets) {
+    Write-Information "Legacy top-level asset keys found; treating them as source repo '$defaultSourceRepo'." -InformationAction Continue
+    $sourceConfigs += [PSCustomObject]@{
+        repo = $defaultSourceRepo
+        name = $defaultSourceRepo
+        agents = $legacyAgents
+        skills = $legacySkills
+        instructions = $legacyInstructions
+    }
+}
+
+$sources = @()
+foreach ($sourceConfig in $sourceConfigs) {
+    if (-not $sourceConfig.PSObject -or -not $sourceConfig.PSObject.Properties) {
+        Write-Warning "A source entry is not an object and will be skipped. Check your 'sources' array format."
+        continue
+    }
+
+    $repo = if ($sourceConfig.PSObject.Properties['repo'] -and $sourceConfig.repo) { [string]$sourceConfig.repo } else { $defaultSourceRepo }
+    $repo = Convert-ToRepoSlug -Repository $repo
+    $name = if ($sourceConfig.PSObject.Properties['name'] -and $sourceConfig.name) { [string]$sourceConfig.name } else { $repo }
+    $agents = @(if ($sourceConfig.PSObject.Properties['agents']) { $sourceConfig.agents } else { @() })
+    $skills = @(if ($sourceConfig.PSObject.Properties['skills']) { $sourceConfig.skills } else { @() })
+    $instructions = @(if ($sourceConfig.PSObject.Properties['instructions']) { $sourceConfig.instructions } else { @() })
+
+    if ($agents.Count -eq 0 -and $skills.Count -eq 0 -and $instructions.Count -eq 0) {
+        Write-Warning "Source '$repo' has no agents, skills, or instructions and will be skipped."
+        continue
+    }
+
+    $sources += [PSCustomObject]@{
+        repo = $repo
+        name = $name
+        agents = $agents
+        skills = $skills
+        instructions = $instructions
+    }
+}
+
+if ($sources.Count -eq 0) {
+    Write-Warning "Config file contains no source assets to copy. Nothing to do."
     exit 0
 }
 
-Write-Host "  Agents:       $($agents.Count)" -ForegroundColor DarkGray
-Write-Host "  Skills:       $($skills.Count)" -ForegroundColor DarkGray
-Write-Host "  Instructions: $($instructions.Count)" -ForegroundColor DarkGray
+$totalAgents = ($sources | Measure-Object -Property { $_.agents.Count } -Sum).Sum
+$totalSkills = ($sources | Measure-Object -Property { $_.skills.Count } -Sum).Sum
+$totalInstructions = ($sources | Measure-Object -Property { $_.instructions.Count } -Sum).Sum
 
-# --- Clone or update the Awesome Copilot repository ---
-$awesomeCopilotDir = Join-Path $CloneRoot "awesome-copilot"
+Write-Information "  Sources:      $($sources.Count)" -InformationAction Continue
+Write-Information "  Agents:       $totalAgents" -InformationAction Continue
+Write-Information "  Skills:       $totalSkills" -InformationAction Continue
+Write-Information "  Instructions: $totalInstructions" -InformationAction Continue
 
-if (Test-Path (Join-Path $awesomeCopilotDir ".git")) {
-    Write-Host "`nUpdating Awesome Copilot repository..." -ForegroundColor Cyan
-    Push-Location $awesomeCopilotDir
-    try {
-        git pull
-        if ($LASTEXITCODE -ne 0) {
-            Write-Error "git pull failed for the Awesome Copilot repository at '$awesomeCopilotDir'."
-            exit 1
+# --- Resolve shorthand config entries to Awesome Copilot relative paths ---
+function Resolve-AssetRelativePath {
+    param(
+        [Parameter(Mandatory)][ValidateSet('agents', 'skills', 'instructions')][string]$AssetType,
+        [Parameter(Mandatory)][string]$AssetName
+    )
+
+    if ($AssetName -match '[\\/]') {
+        return $AssetName
+    }
+
+    switch ($AssetType) {
+        'agents' {
+            return "agents/$AssetName.agent.md"
+        }
+        'skills' {
+            return "skills/$AssetName"
+        }
+        'instructions' {
+            return "instructions/$AssetName.instructions.md"
         }
     }
-    finally {
-        Pop-Location
-    }
 }
-else {
-    Write-Host "`nCloning Awesome Copilot repository into '$awesomeCopilotDir'..." -ForegroundColor Cyan
-    if (Test-Path $awesomeCopilotDir) {
-        # Directory exists but is not a git repo — remove it so the clone can proceed.
-        Remove-Item $awesomeCopilotDir -Recurse -Force
+
+# --- Clone or update a source repository ---
+function Get-RepoFolderName {
+    param(
+        [Parameter(Mandatory)][string]$Repo
+    )
+
+    # Keep clone folder names deterministic and filesystem-safe.
+    return ($Repo -replace '[^A-Za-z0-9._-]', '-')
+}
+
+function Get-RepoCheckout {
+    param(
+        [Parameter(Mandatory)][string]$Repo
+    )
+
+    $repoDir = Join-Path $CloneRoot (Get-RepoFolderName -Repo $Repo)
+
+    if (Test-Path (Join-Path $repoDir '.git')) {
+        Write-Information "`nUpdating repository '$Repo'..." -InformationAction Continue
+        Push-Location $repoDir
+        try {
+            $null = git pull
+            if ($LASTEXITCODE -ne 0) {
+                Write-Error "git pull failed for repository '$Repo' at '$repoDir'."
+                exit 1
+            }
+        }
+        finally {
+            Pop-Location
+        }
     }
-    gh repo clone "github/awesome-copilot" $awesomeCopilotDir
-    if ($LASTEXITCODE -ne 0) {
-        Write-Error @"
-Failed to clone 'github/awesome-copilot'.
+    else {
+        Write-Information "`nCloning repository '$Repo' into '$repoDir'..." -InformationAction Continue
+        if (Test-Path $repoDir) {
+            # Directory exists but is not a git repo - remove it so the clone can proceed.
+            Remove-Item $repoDir -Recurse -Force
+        }
+
+        gh repo clone $Repo $repoDir
+        if ($LASTEXITCODE -ne 0) {
+            Write-Error @"
+Failed to clone '$Repo'.
 
 Possible causes:
   - Not authenticated: run 'gh auth status' to check, then 'gh auth login' if needed.
   - No internet connection: verify network access and try again.
   - GitHub is unreachable: try opening https://github.com in a browser.
 "@
-        exit 1
+            exit 1
+        }
     }
+
+    return $repoDir
 }
 
 # --- Ensure the target .github folder exists ---
 $dotGithubDir = Join-Path $TargetFolder ".github"
 if (-not (Test-Path $dotGithubDir)) {
-    Write-Host "`nCreating .github folder in target: $dotGithubDir" -ForegroundColor Cyan
+    Write-Information "`nCreating .github folder in target: $dotGithubDir" -InformationAction Continue
     New-Item -ItemType Directory -Path $dotGithubDir -Force | Out-Null
 }
 
 # --- Helper: copy a single asset (file or folder) ---
 function Copy-Asset {
     param(
+        [Parameter(Mandatory)][string]$SourceRoot,
         [Parameter(Mandatory)][string]$RelativePath,
         [Parameter(Mandatory)][bool]$Recurse
     )
 
-    $source = Join-Path $awesomeCopilotDir $RelativePath
+    $source = Join-Path $SourceRoot $RelativePath
     $dest   = Join-Path $dotGithubDir $RelativePath
 
     if (-not (Test-Path $source)) {
         Write-Warning "Source not found, skipping: $source"
-        return $false
+        return 'missing'
     }
 
     $destParent = Split-Path $dest -Parent
     if (-not (Test-Path $destParent)) {
         New-Item -ItemType Directory -Path $destParent -Force | Out-Null
+    }
+
+    if (Test-Path $dest) {
+        if (-not $Force.IsPresent) {
+            Write-Information "  Skipped (exists): $RelativePath" -InformationAction Continue
+            return 'existing'
+        }
+
+        Remove-Item -Path $dest -Recurse -Force
     }
 
     if ($Recurse) {
@@ -190,54 +362,69 @@ function Copy-Asset {
         Copy-Item -Path $source -Destination $dest -Force
     }
 
-    Write-Host "  Copied: $RelativePath" -ForegroundColor Green
-    return $true
+    Write-Information "  Copied: $RelativePath" -InformationAction Continue
+    return 'copied'
 }
 
 $copiedCount = 0
 $skippedCount = 0
+$missingCount = 0
 
-# --- Copy agents (single files) ---
-if ($agents.Count -gt 0) {
-    Write-Host "`nCopying agents..." -ForegroundColor Cyan
-    foreach ($agent in $agents) {
-        if (Copy-Asset -RelativePath $agent -Recurse $false) {
-            $copiedCount++
-        }
-        else {
-            $skippedCount++
+foreach ($source in $sources) {
+    Write-Information "`nProcessing source: $($source.name) ($($source.repo))" -InformationAction Continue
+    $sourceRoot = Get-RepoCheckout -Repo $source.repo
+
+    # --- Copy agents (single files) ---
+    if ($source.agents.Count -gt 0) {
+        Write-Information "Copying agents from '$($source.repo)'..." -InformationAction Continue
+        foreach ($agent in $source.agents) {
+            $resolvedPath = Resolve-AssetRelativePath -AssetType 'agents' -AssetName ([string]$agent)
+            $result = Copy-Asset -SourceRoot $sourceRoot -RelativePath $resolvedPath -Recurse $false
+
+            switch ($result) {
+                'copied' { $copiedCount++ }
+                'existing' { $skippedCount++ }
+                'missing' { $missingCount++ }
+            }
         }
     }
-}
 
-# --- Copy skills (recursive folders) ---
-if ($skills.Count -gt 0) {
-    Write-Host "`nCopying skills..." -ForegroundColor Cyan
-    foreach ($skill in $skills) {
-        if (Copy-Asset -RelativePath $skill -Recurse $true) {
-            $copiedCount++
-        }
-        else {
-            $skippedCount++
+    # --- Copy skills (recursive folders) ---
+    if ($source.skills.Count -gt 0) {
+        Write-Information "Copying skills from '$($source.repo)'..." -InformationAction Continue
+        foreach ($skill in $source.skills) {
+            $resolvedPath = Resolve-AssetRelativePath -AssetType 'skills' -AssetName ([string]$skill)
+            $result = Copy-Asset -SourceRoot $sourceRoot -RelativePath $resolvedPath -Recurse $true
+
+            switch ($result) {
+                'copied' { $copiedCount++ }
+                'existing' { $skippedCount++ }
+                'missing' { $missingCount++ }
+            }
         }
     }
-}
 
-# --- Copy instructions (single files) ---
-if ($instructions.Count -gt 0) {
-    Write-Host "`nCopying instructions..." -ForegroundColor Cyan
-    foreach ($instruction in $instructions) {
-        if (Copy-Asset -RelativePath $instruction -Recurse $false) {
-            $copiedCount++
-        }
-        else {
-            $skippedCount++
+    # --- Copy instructions (single files) ---
+    if ($source.instructions.Count -gt 0) {
+        Write-Information "Copying instructions from '$($source.repo)'..." -InformationAction Continue
+        foreach ($instruction in $source.instructions) {
+            $resolvedPath = Resolve-AssetRelativePath -AssetType 'instructions' -AssetName ([string]$instruction)
+            $result = Copy-Asset -SourceRoot $sourceRoot -RelativePath $resolvedPath -Recurse $false
+
+            switch ($result) {
+                'copied' { $copiedCount++ }
+                'existing' { $skippedCount++ }
+                'missing' { $missingCount++ }
+            }
         }
     }
 }
 
 # --- Summary ---
-Write-Host "`nDone. $copiedCount item(s) copied to '$dotGithubDir'." -ForegroundColor Green
+Write-Information "`nDone. $copiedCount item(s) copied to '$dotGithubDir'." -InformationAction Continue
 if ($skippedCount -gt 0) {
-    Write-Warning "$skippedCount item(s) could not be found and were skipped. Check the warnings above."
+    Write-Information "$skippedCount item(s) already existed and were skipped. Use -Force to overwrite." -InformationAction Continue
+}
+if ($missingCount -gt 0) {
+    Write-Warning "$missingCount item(s) could not be found in source repositories and were skipped. Check the warnings above."
 }

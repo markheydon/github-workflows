@@ -1,12 +1,34 @@
 {
-  "_comment": "Example configuration for Install-CopilotAssets.ps1. All paths are relative to the root of the Awesome Copilot repository (https://github.com/github/awesome-copilot). Remove this _comment key before use.",
-  "agents": [
-    "agents/example-agent.agent.md"
-  ],
-  "skills": [
-    "skills/example-skill"
-  ],
-  "instructions": [
-    "instructions/example.instructions.md"
+  "_comment": "Example multi-repo configuration for Install-CopilotAssets.ps1. name, description, and version are optional metadata fields displayed at runtime. Remove this _comment key before use.",
+  "name": "csharp-dotnet-development",
+  "description": "Essential prompts, instructions, and chat modes for C# and .NET development including testing, documentation, and best practices.",
+  "version": "1.1.0",
+  "sources": [
+    {
+      "name": "Awesome Copilot",
+      "repo": "github/awesome-copilot",
+      "agents": [
+        "example-agent"
+      ],
+      "skills": [
+        "example-skill"
+      ],
+      "instructions": [
+        "example"
+      ]
+    },
+    {
+      "name": "GitHub Workflows",
+      "repo": "markheydon/github-workflows",
+      "agents": [
+        "pm-assistant"
+      ],
+      "skills": [
+        "github-issue-management"
+      ],
+      "instructions": [
+        "label-script-update"
+      ]
+    }
   ]
 }

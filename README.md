@@ -21,9 +21,20 @@ Workflows are in `.github/workflows/` and can be called from other repos via `wo
 Scripts automate label management, issue migration, and Copilot tooling setup.  
 Located in `scripts/`:
 
-- **Install-CopilotAssets.ps1** — Platform-agnostic PowerShell script that bootstraps a project with Copilot agents, skills, and instructions from the [Awesome Copilot](https://github.com/github/awesome-copilot) repository.  
-  _Usage:_ `.\Install-CopilotAssets.ps1 -TargetFolder <path> -ConfigFile <json-file> [-CloneRoot <path>]` (requires GitHub CLI)  
-  See `copilot-assets.example.json` for the config file format.
+- **Install-CopilotAssets.ps1** — Platform-agnostic PowerShell script that bootstraps a project with Copilot agents, skills, and instructions from one or more source repositories (for example [Awesome Copilot](https://github.com/github/awesome-copilot) plus your own repo).  
+  _Usage:_ `.\Install-CopilotAssets.ps1 -TargetFolder <path> -ConfigFile <json-file> [-CloneRoot <path>] [-Force]` (requires GitHub CLI)  
+  Default behaviour skips existing assets in the target `.github` folder. Use `-Force` to overwrite existing files and folders.  
+  Config files can include optional metadata keys (`name`, `description`, `version`), which are printed at runtime for traceability.  
+  Define asset sources under a `sources` array, each with an optional `repo` slug and optional `name`:
+  - `{ "repo": "github/awesome-copilot", "agents": [...], "skills": [...], "instructions": [...] }`
+  - `{ "repo": "markheydon/github-workflows", "agents": [...], "skills": [...], "instructions": [...] }`
+  If `repo` is omitted for a source, the script uses the top-level `repository` value when provided; otherwise it defaults to `github/awesome-copilot`.
+  Asset entries use shorthand names and are resolved automatically per source repo:
+  - `agents`: `example-agent` -> `agents/example-agent.agent.md`
+  - `skills`: `example-skill` -> `skills/example-skill`
+  - `instructions`: `example` -> `instructions/example.instructions.md`
+  Backward compatibility: top-level `agents`, `skills`, and `instructions` are still supported and are treated as the default source repo (`repository` when set, otherwise `github/awesome-copilot`).
+  See `scripts/copilot-assets.example.json` for the expected format.
 - **Convert-IssueLabels.ps1** — PowerShell script for migrating issue labels between repos.
 - **delete_old_labels.bat** — Batch script to remove deprecated labels.
 - **update_github_labels.bat** — Batch script to upsert all labels in a repo, grouped by type.  
@@ -78,4 +89,4 @@ Located in `scripts/`:
 
 MIT License — see [LICENSE](LICENSE).
 
-_Last updated: 2026-03-04_
+_Last updated: 2026-03-15_
