@@ -1,0 +1,31 @@
+{
+  "name": "blazor-fluentui-development",
+  "description": "For Blazor using Fluent UI development including testing with XUnit, documentation and best practices.",
+  "version": "1.0",
+  "repository": "https://github.com/github/awesome-copilot",
+  "sources": [
+    {
+      "name": "Awesome Copilot",
+      "repo": "github/awesome-copilot",
+      "agents": [
+        "CSharpExpert"
+      ],
+      "skills": [
+        "csharp-async",
+        "csharp-docs",
+	"csharp-xunit",
+	"fluentui-blazor"
+      ]
+    },
+    {
+      "name": "Mark's GitHub Workflows",
+      "repo": "markheydon/github-workflows",
+      "skills": [
+        "dotnet-best-practices"
+      ],
+      "instructions": [
+        "blazor"
+      ]
+    }
+  ]
+}
