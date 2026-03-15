@@ -52,14 +52,14 @@ Your goal is to help produce maintainable, production-ready .NET code while resp
 ## Testing Guidance (Framework-Neutral)
 
 - Follow the testing framework already used by the solution.
-- Add or update tests for changed behavior, especially public-facing behavior.
+- Add or update tests for changed behaviour, especially public-facing behaviour.
 - Prefer deterministic tests that run independently.
 - Use clear Arrange-Act-Assert structure.
 - Mock only external dependencies when necessary.
 
 ## Documentation
 
-- Document non-obvious behavior and important design decisions.
+- Document non-obvious behaviour and important design decisions.
 - For public APIs, add or maintain XML docs where the repository expects them.
 - Keep comments focused on intent and rationale, not restating code.
 
