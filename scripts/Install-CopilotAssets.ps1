@@ -305,8 +305,16 @@ Please install Git from https://git-scm.com/downloads and ensure 'git' is availa
     else {
         Write-Information "`nCloning repository '$Repo' into '$repoDir'..." -InformationAction Continue
         if (Test-Path $repoDir) {
-            # Directory exists but is not a git repo - remove it so the clone can proceed.
-            Remove-Item $repoDir -Recurse -Force
+            Write-Error @"
+Cannot clone '$Repo' into '$repoDir' because the directory already exists and is not a git repository.
+
+To avoid accidental data loss, this script will not delete existing non-repository folders.
+
+Either:
+  - Move or remove the existing '$repoDir' directory manually, then re-run this script; or
+  - Choose a different clone root so that '$repoDir' can be created safely.
+"@
+            exit 1
         }
 
         gh repo clone $Repo $repoDir
