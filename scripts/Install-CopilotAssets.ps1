@@ -340,6 +340,7 @@ if (-not (Test-Path $dotGithubDir)) {
     Write-Information "`nCreating .github folder in target: $dotGithubDir" -InformationAction Continue
     New-Item -ItemType Directory -Path $dotGithubDir -Force | Out-Null
 }
+$dotGithubDirFull = [System.IO.Path]::GetFullPath($dotGithubDir)
 
 # --- Helper: copy a single asset (file or folder) ---
 function Copy-Asset {
@@ -349,8 +350,29 @@ function Copy-Asset {
         [Parameter(Mandatory)][bool]$Recurse
     )
 
+    # Validate that the relative path cannot escape the expected directories
+    if ([System.IO.Path]::IsPathRooted($RelativePath)) {
+        Write-Warning "Skipping asset with rooted path (not allowed): $RelativePath"
+        return 'invalid'
+    }
+
+    $segments = $RelativePath -split '[\\/]+'
+    if ($segments -contains '..') {
+        Write-Warning "Skipping asset with traversal segments (not allowed): $RelativePath"
+        return 'invalid'
+    }
+
     $source = Join-Path $SourceRoot $RelativePath
-    $dest   = Join-Path $dotGithubDir $RelativePath
+    $dest   = Join-Path $dotGithubDirFull $RelativePath
+    $dest   = [System.IO.Path]::GetFullPath($dest)
+
+    # Ensure the destination path stays under the .github directory
+    $basePath = [System.IO.Path]::GetFullPath($dotGithubDirFull)
+    $separator = [System.IO.Path]::DirectorySeparatorChar
+    if (-not ($dest.StartsWith($basePath + $separator) -or $dest -eq $basePath)) {
+        Write-Warning "Destination path escapes .github directory, skipping: $RelativePath"
+        return 'invalid'
+    }
 
     if (-not (Test-Path $source)) {
         Write-Warning "Source not found, skipping: $source"
