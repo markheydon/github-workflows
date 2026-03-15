@@ -4,19 +4,19 @@
 
 .DESCRIPTION
     For each deprecated label, finds all issues carrying it, adds the replacement label,
-    and removes the old one. Does NOT delete the old labels themselves — run
+    and removes the old one. Does NOT delete the old labels themselves - run
     delete_old_labels.bat separately once you are satisfied the conversion is clean.
 
     Note: the 'dependency' label is only converted on OPEN issues. Closed issues with
-    'dependency' are left as-is — the label had a subtly different meaning and 'blocked'
+    'dependency' are left as-is - the label had a subtly different meaning and 'blocked'
     does not apply retroactively to completed work.
 
     Recommended order:
-        1. scripts/update_github_labels.bat <repo>          — ensure new labels exist
-        2. scripts/Convert-IssueLabels.ps1 <repo> -WhatIf  — preview changes
-        3. scripts/Convert-IssueLabels.ps1 <repo>          — apply changes
+        1. scripts/update_github_labels.bat <repo>          - ensure new labels exist
+        2. scripts/Convert-IssueLabels.ps1 <repo> -WhatIf  - preview changes
+        3. scripts/Convert-IssueLabels.ps1 <repo>          - apply changes
         4. Review results, fix any errors
-        5. scripts/delete_old_labels.bat <repo>             — delete old labels
+        5. scripts/delete_old_labels.bat <repo>             - delete old labels
 
 .PARAMETER Repo
     The target repository in owner/repo format (e.g. markheydon/my-repo).
@@ -68,7 +68,7 @@ $totalErrors    = 0
 # --- Quick check: does the repo have any issues at all? ---
 $anyIssues = @(gh issue list --repo $Repo --state all --json number --limit 1 2>$null | ConvertFrom-Json)
 if ($anyIssues.Count -eq 0) {
-    Write-Host "No issues found in $Repo — nothing to convert." -ForegroundColor DarkGray
+    Write-Output "No issues found in $Repo - nothing to convert."
     exit 0
 }
 
@@ -76,9 +76,9 @@ foreach ($oldLabel in $migrations.Keys) {
     $newLabel = $migrations[$oldLabel].New
     $state    = $migrations[$oldLabel].State
 
-    Write-Host ""
+    Write-Output ""
     $stateNote = if ($state -eq 'open') { ' (open issues only)' } else { '' }
-    Write-Host "── '$oldLabel' → '$newLabel'$stateNote" -ForegroundColor Cyan
+    Write-Output "-- '$oldLabel' -> '$newLabel'$stateNote"
 
     $json = gh issue list `
         --repo $Repo `
@@ -88,57 +88,57 @@ foreach ($oldLabel in $migrations.Keys) {
         --limit 500 2>$null
 
     if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($json)) {
-        Write-Host "   No issues found (label may not exist in this repo)." -ForegroundColor DarkGray
+        Write-Output "   No issues found (label may not exist in this repo)."
         continue
     }
 
     $issues = @($json | ConvertFrom-Json)
 
     if ($issues.Count -eq 0) {
-        Write-Host "   No issues carrying this label." -ForegroundColor DarkGray
+        Write-Output "   No issues carrying this label."
         continue
     }
 
-    Write-Host "   Found $($issues.Count) issue(s)."
+    Write-Output "   Found $($issues.Count) issue(s)."
 
     foreach ($issue in $issues) {
         $num   = $issue.number
         $title = $issue.title
 
-        if ($PSCmdlet.ShouldProcess("#$num — $title", "Add '$newLabel', remove '$oldLabel'")) {
+        if ($PSCmdlet.ShouldProcess("#$num - $title", "Add '$newLabel', remove '$oldLabel'")) {
             try {
                 gh issue edit $num `
                     --repo $Repo `
                     --add-label $newLabel `
                     --remove-label $oldLabel | Out-Null
 
-                Write-Host "   ✓ #$num — $title" -ForegroundColor Green
+                Write-Output "   [OK] #$num - $title"
                 $totalConverted++
             }
             catch {
-                Write-Host "   ✗ #$num — $title  [$_]" -ForegroundColor Red
+                Write-Output "   [ERROR] #$num - $title  [$_]"
                 $totalErrors++
             }
         }
         else {
-            Write-Host "   ~ #$num — $title" -ForegroundColor Yellow
+            Write-Output "   [SKIP] #$num - $title"
             $totalSkipped++
         }
     }
 }
 
-Write-Host ""
-Write-Host "── Summary ──────────────────────────────" -ForegroundColor Cyan
+Write-Output ""
+Write-Output "-- Summary ------------------------------"
 if ($WhatIfPreference) {
-    Write-Host "   Would convert : $totalSkipped issue(s) (dry run — no changes made)" -ForegroundColor Yellow
+    Write-Output "   Would convert : $totalSkipped issue(s) (dry run - no changes made)"
 }
 else {
-    Write-Host "   Converted : $totalConverted issue(s)" -ForegroundColor Green
+    Write-Output "   Converted : $totalConverted issue(s)"
     if ($totalErrors -gt 0) {
-        Write-Host "   Errors    : $totalErrors issue(s) — review above and re-run if needed" -ForegroundColor Red
+        Write-Output "   Errors    : $totalErrors issue(s) - review above and re-run if needed"
     }
 }
-Write-Host ""
+Write-Output ""
 if ($totalErrors -eq 0 -and -not $WhatIfPreference) {
-    Write-Host "All done. When satisfied, run delete_old_labels.bat to remove the old labels." -ForegroundColor Cyan
+    Write-Output "All done. When satisfied, run delete_old_labels.bat to remove the old labels."
 }

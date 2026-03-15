@@ -99,4 +99,4 @@ $results |
   Format-Table -AutoSize
 
 $results | Export-Csv -NoTypeInformation -Path ".\project-workflow-audit.csv"
-Write-Host "Audit written to .\project-workflow-audit.csv"
+Write-Output "Audit written to .\project-workflow-audit.csv"
