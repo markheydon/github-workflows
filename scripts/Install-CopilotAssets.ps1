@@ -34,8 +34,8 @@
     See scripts/copilot-assets.example.json for the expected format.
 
 .PARAMETER CloneRoot
-    Directory in which to clone (or look for an existing clone of) the Awesome Copilot
-    repository. Defaults to the current working directory.
+    Directory in which to clone (or look for existing clones of) all configured source
+    repositories. Defaults to the current working directory.
 
 .PARAMETER Force
     Overwrite existing files and folders in the target .github folder.
