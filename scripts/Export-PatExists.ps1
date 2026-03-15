@@ -88,5 +88,6 @@ foreach ($r in $repos) {
 $results | Sort-Object Status, Repository | Format-Table -AutoSize
 $results | Export-Csv ".\personal-access-token-audit.csv" -NoTypeInformation
 
-Write-Host "Wrote personal-access-token-audit.csv"
-Write-Host "Missing secret count:" (($results | Where-Object { $_.Status -eq "Missing secret" }).Count)
+Write-Output "Wrote personal-access-token-audit.csv"
+$missingSecretCount = ($results | Where-Object { $_.Status -eq "Missing secret" }).Count
+Write-Output "Missing secret count: $missingSecretCount"

@@ -9,7 +9,7 @@ param(
 
 # Add any repos you want to skip (e.g. the central source repo, archived forks, or special-purpose repos)
 $excludeRepos = @(
-  "github-workflows"         # central source repo — always exclude
+  "github-workflows"         # central source repo - always exclude
 )
 
 # Customise this list to match any legacy workflow file names you want removed during migration
@@ -53,7 +53,7 @@ foreach ($repo in $candidates) {
 
   $meta = $repoJson | ConvertFrom-Json
   if ($meta.isArchived) {
-    Write-Host "Skipping archived repo: $repo" -ForegroundColor Yellow
+    Write-Output "Skipping archived repo: $repo"
     continue
   }
 
@@ -66,7 +66,7 @@ foreach ($repo in $candidates) {
 $activeTargets = $activeTargets | Select-Object -First $MaxRepos
 
 if (-not $activeTargets) {
-  Write-Host "No eligible active repos to process after filtering."
+  Write-Output "No eligible active repos to process after filtering."
   exit 0
 }
 
@@ -78,10 +78,10 @@ foreach ($target in $activeTargets) {
   $defaultBranch = $target.DefaultBranch
   $repoDir = Join-Path $workRoot $repo
 
-  Write-Host "`n=== Processing $repo ===" -ForegroundColor Cyan
+  Write-Output "`n=== Processing $repo ==="
 
   if ($DryRun) {
-    Write-Host "[DRY RUN] Would create PR against $defaultBranch for $repo"
+    Write-Output "[DRY RUN] Would create PR against $defaultBranch for $repo"
     continue
   }
 
@@ -109,7 +109,7 @@ foreach ($target in $activeTargets) {
     git add .github/workflows/add-to-personal-project.yml
 
     if (-not (git status --porcelain)) {
-      Write-Host "No changes required for $repo"
+      Write-Output "No changes required for $repo"
       Pop-Location
       continue
     }

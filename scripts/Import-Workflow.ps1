@@ -31,7 +31,7 @@ jobs:
 
 $workflowContent = $workflowTemplate -f $WorkflowSource
 
-function Test-RepoFileExists {
+function Test-RepoFileExistence {
   param(
     [Parameter(Mandatory)][string]$Owner,
     [Parameter(Mandatory)][string]$Repo,
@@ -42,7 +42,7 @@ function Test-RepoFileExists {
   return ($LASTEXITCODE -eq 0)
 }
 
-function Test-OpenPrExists {
+function Test-OpenPrExistence {
   param(
     [Parameter(Mandatory)][string]$Owner,
     [Parameter(Mandatory)][string]$Repo,
@@ -69,7 +69,7 @@ $activeRepos = $repos | Where-Object {
 }
 
 if (-not $activeRepos) {
-  Write-Host "No active repos found for owner '$Owner'." -ForegroundColor Yellow
+  Write-Output "No active repos found for owner '$Owner'."
   exit 0
 }
 
@@ -89,8 +89,8 @@ foreach ($repo in $repos) {
     continue
   }
 
-  if (Test-RepoFileExists -Owner $Owner -Repo $repo.name -Path $WorkflowPath) {
-    Write-Host ("Skipping {0}: {1} already exists" -f $repo.name, $WorkflowPath) -ForegroundColor DarkGray
+  if (Test-RepoFileExistence -Owner $Owner -Repo $repo.name -Path $WorkflowPath) {
+    Write-Output ("Skipping {0}: {1} already exists" -f $repo.name, $WorkflowPath)
     $skipExists++
     continue
   }
@@ -103,15 +103,15 @@ foreach ($repo in $repos) {
 
 $targets = $targets | Select-Object -First $MaxRepos
 
-Write-Host "`nDiscovery summary:" -ForegroundColor Cyan
-Write-Host "  Total repos scanned: $($repos.Count)"
-Write-Host "  Skipped archived: $skipArchived"
-Write-Host "  Skipped excluded: $skipExcluded"
-Write-Host "  Skipped existing workflow: $skipExists"
-Write-Host "  Targets to process: $($targets.Count)"
+Write-Output "`nDiscovery summary:"
+Write-Output "  Total repos scanned: $($repos.Count)"
+Write-Output "  Skipped archived: $skipArchived"
+Write-Output "  Skipped excluded: $skipExcluded"
+Write-Output "  Skipped existing workflow: $skipExists"
+Write-Output "  Targets to process: $($targets.Count)"
 
 if (-not $targets) {
-  Write-Host "No repos need importing." -ForegroundColor Green
+  Write-Output "No repos need importing."
   exit 0
 }
 
@@ -123,15 +123,15 @@ foreach ($target in $targets) {
   $defaultBranch = $target.DefaultBranch
   $repoDir = Join-Path $workRoot $repo
 
-  Write-Host "`n=== Processing $repo ===" -ForegroundColor Cyan
+  Write-Output "`n=== Processing $repo ==="
 
-  if (Test-OpenPrExists -Owner $Owner -Repo $repo -BranchName $BranchName) {
-    Write-Host ("Skipping {0}: open PR already exists for branch '{1}'" -f $repo, $BranchName) -ForegroundColor Yellow
+  if (Test-OpenPrExistence -Owner $Owner -Repo $repo -BranchName $BranchName) {
+    Write-Output ("Skipping {0}: open PR already exists for branch '{1}'" -f $repo, $BranchName)
     continue
   }
 
   if ($DryRun) {
-    Write-Host "[DRY RUN] Would create '$WorkflowPath' and open PR against '$defaultBranch'" -ForegroundColor Yellow
+    Write-Output "[DRY RUN] Would create '$WorkflowPath' and open PR against '$defaultBranch'"
     continue
   }
 
@@ -155,7 +155,7 @@ foreach ($target in $targets) {
     git add $WorkflowPath
 
     if (-not (git status --porcelain)) {
-      Write-Host "No changes required for $repo" -ForegroundColor DarkGray
+      Write-Output "No changes required for $repo"
       continue
     }
 
@@ -170,7 +170,7 @@ foreach ($target in $targets) {
       --title "chore: migrate project workflow to central reusable workflow" `
       --body "Adds/updates .github/workflows/add-to-personal-project.yml to call markheydon/github-workflows/.github/workflows/add-to-personal-project.yml@main, and removes legacy project workflow files." | Out-Null
 
-    Write-Host "PR created for $repo" -ForegroundColor Green
+    Write-Output "PR created for $repo"
   }
   catch {
     Write-Warning ("Failed for {0}: {1}" -f $repo, $_)
@@ -180,4 +180,4 @@ foreach ($target in $targets) {
   }
 }
 
-Write-Host "`nImport workflow run complete." -ForegroundColor Green
+Write-Output "`nImport workflow run complete."
