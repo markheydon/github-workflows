@@ -1,6 +1,6 @@
 {
-  "name": "csharp-dotnet-development",
-  "description": "For C# and .NET development including documentation and best practices.",
+  "name": "blazor-mudblazor-development",
+  "description": "For Blazor using MudBlazor development including testing with XUnit, documentation and best practices.",
   "version": "1.0",
   "repository": "https://github.com/github/awesome-copilot",
   "sources": [
@@ -20,7 +20,11 @@
       "name": "Mark's GitHub Workflows",
       "repo": "markheydon/github-workflows",
       "skills": [
-        "dotnet-best-practices"
+        "dotnet-best-practices",
+        "mudblazor"
+      ],
+      "instructions": [
+        "blazor"
       ]
     }
   ]
