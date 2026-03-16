@@ -63,8 +63,7 @@ MudBlazor dialogs are opened via `IDialogService`. In bUnit tests, add `MudDialo
 public async Task CreateButton_OpensCreateDialog()
 {
     // Register dialog service (already covered by AddMudServices)
-    var cut = RenderComponent<Items>(parameters => parameters
-        .Add(p => p.SomeParam, value));
+    var cut = RenderComponent<Items>();
 
     cut.Find("[data-testid='create-button']").Click();
 

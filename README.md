@@ -8,8 +8,8 @@ This repository centralises project management automation for solo developers ma
 - **Single source of truth:** All labels, workflows, and scripts derive from [plan/LABEL_STRATEGY.md](plan/LABEL_STRATEGY.md).
 - **Easy reuse:** Designed for adaptation in other repos—just follow the documented patterns.
 
-> **Copilot asset folders:**
-> The `agents/`, `instructions/`, and `skills/` folders in this repo are NOT placed under `.github/` as in most projects. They are intended for use as source assets when bootstrapping other repos with Copilot tooling. When using Copilot on this repo, be aware that these folders are for export, not direct use by GitHub Actions.
+> **Copilot asset layout:**
+> This repo has two sets of Copilot assets. Active PM workflow assets (agents, skills, prompts, and instructions used by Copilot on this repo) live under `.github/`. Exportable assets intended for bootstrapping other repos via `Install-CopilotAssets.ps1` live in the root-level `skills/` and `instructions/` folders.
 
 ## Reusable GitHub Actions Workflows
 
@@ -28,7 +28,7 @@ Scripts automate label management, issue migration, and Copilot asset setup. Loc
 - Install-CopilotAssets.ps1 — Bootstraps a project with Copilot agents, skills, and instructions from one or more source repositories. Uses a JSON config file (see copilot-assets.example.json) to specify asset sources and types. Assets are copied into the target repo's `.github` folder, preserving structure. Requires GitHub CLI (`gh`).
   - Usage: `./Install-CopilotAssets.ps1 -TargetFolder <path> -ConfigFile <json-file> [-CloneRoot <path>] [-Force]`
   - Config format: see `scripts/copilot-assets.example.json`.
-  - Typical asset folders: `agents/`, `skills/`, `instructions/` (not `.github/agents/` etc.)
+  - Source repo asset folders: `agents/`, `skills/`, `instructions/` (root-level, as used by Awesome Copilot and the exportable assets in this repo — not the active `.github/` assets)
 - Convert-IssueLabels.ps1 — Migrate issue labels between repos.
 - Export-PatExists.ps1 — Export PAT existence for audit.
 - Export-WorkflowAudit.ps1 — Export workflow audit data.
@@ -52,13 +52,13 @@ Scripts automate label management, issue migration, and Copilot asset setup. Loc
 - repo-update-docs.prompt.md — Regenerate this README and plan future docs
 - repo-update-from-strategy.prompt.md — Propagate label strategy changes
 
-### Agents (`agents/`)
+### Agents (`.github/agents/`)
 - pm-assistant.agent.md
 - pm-backlog-management.agent.md
 - repo-docs-writer.agent.md
 - repo-label-strategy-keeper.agent.md
 
-### Skills (`skills/`)
+### Skills (`.github/skills/`)
 - documentation-writer/SKILL.md
 - github-issue-management/SKILL.md
   - references/github-labels.md
@@ -68,8 +68,19 @@ Scripts automate label management, issue migration, and Copilot asset setup. Loc
   - references/scripts/triage-example.sh
   - references/assets/triage-workflow.md
 
-### Instructions (`instructions/`)
+### Instructions (`.github/instructions/`)
 - label-script-update.instructions.md
+
+### Exportable Assets (root-level)
+
+These assets are consumed by `Install-CopilotAssets.ps1` when bootstrapping other repos:
+
+**`skills/`**
+- dotnet-best-practices/SKILL.md
+- mudblazor/SKILL.md (and references/)
+
+**`instructions/`**
+- blazor.instructions.md
 
 ## Setup & Prerequisites
 

@@ -111,18 +111,19 @@ ctx.Services.AddMudServices();
 
 ---
 
-## Pitfall 8: MudAutocomplete — SearchFunc must be async
+## Pitfall 8: MudAutocomplete — SearchFunc must return Task
 
 **Symptom:** `MudAutocomplete` filter does not work or throws.
 
-**Fix:** `SearchFunc` must be `Func<string, CancellationToken, Task<IEnumerable<T>>>`:
+**Fix:** `SearchFunc` must match the signature `Func<string, CancellationToken, Task<IEnumerable<T>>>`. Do not mark the method `async` unless it contains an `await`; return `Task.FromResult(...)` for synchronous implementations:
 
 ```csharp
-private async Task<IEnumerable<string>> SearchItems(string value, CancellationToken ct)
+private Task<IEnumerable<string>> SearchItems(string value, CancellationToken ct)
 {
     if (string.IsNullOrWhiteSpace(value))
-        return _items.Select(r => r.Name);
-    return _items.Where(r => r.Name.Contains(value, StringComparison.OrdinalIgnoreCase))
-                 .Select(r => r.Name);
+        return Task.FromResult(_items.Select(r => r.Name));
+    return Task.FromResult(
+        _items.Where(r => r.Name.Contains(value, StringComparison.OrdinalIgnoreCase))
+              .Select(r => r.Name));
 }
 ```
