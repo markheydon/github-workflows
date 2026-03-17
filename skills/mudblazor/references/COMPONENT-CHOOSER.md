@@ -93,7 +93,7 @@ Use this section for components available in the official MudBlazor overview tha
 | Structured non-tabular lists | `MudList<T>` + `MudListItem<T>` | Use when table columns are unnecessary. |
 | Lightweight paging controls | `MudPagination` | Pair with server-side or in-memory paging. |
 | Anchored contextual surface | `MudPopover` | Ensure dismiss and focus behaviour are clear. |
-| Lightweight static table | `MudSimpleTable` | Use for simple read-only tabular summaries. |
+| Lightweight static read-only table | `MudSimpleTable` | Prefer for static or minimally dynamic read-only tabular summaries; use `MudTable<T>` when you need sorting, paging, selection, or templated cells. |
 | Chronological event feed | `MudTimeline` | Useful for audit and history visualisation. |
 | Hierarchical data explorer | `MudTreeView<T>` | Use for nested structures and explorer-style navigation. |
 | Drag-and-drop target and reorder region | `MudDropZone<T>` | Useful for visual ordering workflows. |
