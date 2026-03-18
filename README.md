@@ -24,7 +24,6 @@ Workflows are in `.github/workflows/` and can be called from other repos via `wo
 
 ## Scripts
 
-
 Scripts automate label management, issue migration, and Copilot asset setup. Located in `scripts/`:
 
 **Script files:**
@@ -84,7 +83,7 @@ These assets are consumed by `Install-CopilotAssets.ps1` when bootstrapping othe
 - mudblazor/SKILL.md (and references/)
 
 **`instructions/`**
-- blazor.instructions.md
+- blazor-csharp.instructions.md
 
 ## Setup & Prerequisites
 

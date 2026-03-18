@@ -9,7 +9,7 @@ Use this file as baseline guidance for Blazor projects that include Razor UI and
 
 ## Intent
 
-- Keep behavior predictable, maintainable, and aligned with repository conventions.
+- Keep behaviour predictable, maintainable, and aligned with repository conventions.
 - Prefer minimal, focused changes for the requested outcome.
 - Avoid guidance that conflicts with specialized skills; defer to them when active.
 
@@ -32,14 +32,14 @@ Use this file as baseline guidance for Blazor projects that include Razor UI and
 - Validate inputs at boundaries and throw precise exceptions.
 - Prefer async end-to-end for I/O work.
 - Avoid blocking async calls such as `.Result`, `.Wait()`, and `.GetAwaiter().GetResult()`.
-- Propagate `CancellationToken` when long-running or cancelable work is involved.
+- Propagate `CancellationToken` when long-running or cancellable work is involved.
 
 ## Comments and Documentation
 
 - Prefer self-documenting code and comments that explain intent or trade-offs.
 - Avoid boilerplate comments that restate obvious code.
 - For public APIs, include XML docs (`<summary>`, and when relevant `<param>`, `<returns>`, `<exception>`, `<example>`).
-- For internal/private methods, add comments only when behavior is non-obvious.
+- For internal/private methods, add comments only when behaviour is non-obvious.
 
 ## Blazor Component Patterns
 
@@ -59,14 +59,14 @@ Use this file as baseline guidance for Blazor projects that include Razor UI and
 ## Testing Guidance
 
 - Use the testing framework already used in the repository.
-- Add or update tests for changed behavior, especially public-facing behavior.
+- Add or update tests for changed behaviour, especially public-facing behaviour.
 - Keep tests deterministic and independent.
 - Follow existing naming conventions in the repository instead of imposing a global pattern.
 - Mock only external dependencies when isolation is necessary.
 
 ## Security and Observability
 
-- Treat external input as untrusted and validate/sanitize as needed.
+- Treat external input as untrusted and validate/sanitise as needed.
 - Avoid logging secrets or sensitive data.
 - Preserve existing logging and telemetry patterns in the repository.
 
