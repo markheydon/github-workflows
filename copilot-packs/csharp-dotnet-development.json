@@ -14,6 +14,9 @@
         "csharp-async",
         "csharp-docs",
         "csharp-xunit"
+      ],
+      "instructions": [
+        "csharp"
       ]
     },
     {

@@ -24,7 +24,7 @@
         "mudblazor"
       ],
       "instructions": [
-        "blazor"
+        "blazor-csharp"
       ]
     }
   ]

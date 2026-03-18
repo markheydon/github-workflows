@@ -24,7 +24,7 @@
         "dotnet-best-practices"
       ],
       "instructions": [
-        "blazor"
+        "blazor-csharp"
       ]
     }
   ]
