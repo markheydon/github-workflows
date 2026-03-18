@@ -1,6 +1,6 @@
 # GitHub Workflows, Scripts & Copilot PM Tooling
 
-This repository centralises project management automation for solo developers managing multiple GitHub repos. It provides reusable workflows, label scripts, Copilot prompts, agents, and skills—all designed to keep your issues, labels, and project board in sync with minimal manual admin.
+This repository centralises project management automation for solo developers managing multiple GitHub repos. It provides reusable workflows, label scripts, Copilot prompts, agents, skills, and **Copilot asset packs**—all designed to keep your issues, labels, and project board in sync with minimal manual admin.
 
 ## Purpose & Context
 
@@ -9,7 +9,9 @@ This repository centralises project management automation for solo developers ma
 - **Easy reuse:** Designed for adaptation in other repos—just follow the documented patterns.
 
 > **Copilot asset layout:**
-> This repo has two sets of Copilot assets. Active PM workflow assets (agents, skills, prompts, and instructions used by Copilot on this repo) live under `.github/`. Exportable assets intended for bootstrapping other repos via `Install-CopilotAssets.ps1` live in the root-level `skills/` and `instructions/` folders.
+> - Active PM workflow assets (agents, skills, prompts, and instructions used by Copilot on this repo) live under `.github/`.
+> - Exportable assets intended for bootstrapping other repos via `Install-CopilotAssets.ps1` live in the root-level `skills/` and `instructions/` folders.
+> - **Copilot asset packs** in the `copilot-packs/` folder are JSON configuration files for different project types. These are used as input to `Install-CopilotAssets.ps1` to automate setup of Copilot agents, skills, and instructions in new projects. Each pack specifies which assets to copy from which source repos.
 
 ## Reusable GitHub Actions Workflows
 
@@ -27,7 +29,8 @@ Scripts automate label management, issue migration, and Copilot asset setup. Loc
 **Script files:**
 - Install-CopilotAssets.ps1 — Bootstraps a project with Copilot agents, skills, and instructions from one or more source repositories. Uses a JSON config file (see copilot-assets.example.json) to specify asset sources and types. Assets are copied into the target repo's `.github` folder, preserving structure. Requires GitHub CLI (`gh`).
   - Usage: `./Install-CopilotAssets.ps1 -TargetFolder <path> -ConfigFile <json-file> [-CloneRoot <path>] [-Force]`
-  - Config format: see `scripts/copilot-assets.example.json`.
+  - Config format: see `scripts/copilot-assets.example.json` or any file in `copilot-packs/`.
+  - **Copilot asset packs:** See the `copilot-packs/` folder for ready-made JSON configs for Blazor (Fluent UI, MudBlazor) and C#/.NET development. These packs specify which agents, skills, and instructions to install for each project type.
   - Source repo asset folders: `agents/`, `skills/`, `instructions/` (root-level, as used by Awesome Copilot and the exportable assets in this repo — not the active `.github/` assets)
 - Convert-IssueLabels.ps1 — Migrate issue labels between repos.
 - Export-PatExists.ps1 — Export PAT existence for audit.
@@ -80,7 +83,7 @@ These assets are consumed by `Install-CopilotAssets.ps1` when bootstrapping othe
 - mudblazor/SKILL.md (and references/)
 
 **`instructions/`**
-- blazor.instructions.md
+- blazor-csharp.instructions.md
 
 ## Setup & Prerequisites
 
