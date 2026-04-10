@@ -56,6 +56,13 @@ Use this file as baseline guidance for Blazor projects that include Razor UI and
 - Keep custom `.razor.css` minimal and use it only when component options are insufficient.
 - Ensure required providers are present in the main layout when using dialogs/popovers/snackbars.
 
+## Fluent UI Blazor Usage (When Fluent UI Blazor Is Present)
+
+- Prefer Fluent UI Blazor components and their parameters before custom CSS.
+- Prefer composition with Fluent UI layout primitives such as `FluentStack`, `FluentGrid`, `FluentGridItem`, and `FluentSpacer`.
+- Keep custom `.razor.css` minimal and use it only when component options are insufficient.
+- Ensure required providers are present in the main layout: `FluentDesignTheme`, `FluentDialogProvider`, `FluentToastProvider`, `FluentTooltipProvider`, and `FluentMessageBarProvider`.
+
 ## Testing Guidance
 
 - Use the testing framework already used in the repository.
@@ -76,6 +83,6 @@ When guidance conflicts, apply this order:
 
 1. User request
 2. Repository conventions
-3. Active task-specific skill (for example: MudBlazor, async, docs, or test-framework skills)
+3. Active task-specific skill (for example: MudBlazor, Fluent UI Blazor, async, docs, or test-framework skills)
 4. This instruction file
 5. General Blazor/.NET defaults
