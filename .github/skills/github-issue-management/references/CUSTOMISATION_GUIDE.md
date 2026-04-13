@@ -41,8 +41,8 @@ Update the project board URL and field mappings.
 **What to update:**
 - Project board URL
 - Work Item Type field values (or remove if your board has different fields)
-- Required secret name (if different from `PERSONAL_ACCESS_TOKEN`)
-- Automation workflow reference (if you've forked or copied the workflow)
+- Board management approach (Copilot PM prompts vs automated workflow)
+- Automation workflow reference (if you are using the workflow rather than Copilot PM prompts)
 
 #### 3. `SKILL.md` frontmatter
 

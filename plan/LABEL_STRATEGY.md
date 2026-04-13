@@ -25,7 +25,7 @@ Epics are **excluded** — they exist only to group stories in the repository vi
 
 ### Dependabot Rule
 
-Dependabot PRs are automatically treated as `story` type on the project board (Work Item Type = "Story", Status = "Up Next"). No manual labelling is needed.
+Dependabot PRs are treated as `story` type on the project board (Work Item Type = "Story"). They are surfaced during `/pm-backlog-review` and added to the board by `/pm-iteration-plan` when relevant. No manual labelling is needed.
 
 ---
 
@@ -82,7 +82,7 @@ When an issue or PR is added to the project board, the Work Item Type field is s
 | `bug` | Bug |
 | Dependabot PR (any) | Story |
 
-> The `blocked` and `out-of-scope` modifier labels also drive automatic **Status** field transitions on the board. See [`BOARD_AUTOMATION.md`](BOARD_AUTOMATION.md) for the full rules and Status column definitions.
+> The `blocked` and `out-of-scope` modifier labels drive **Status** field transitions on the board. These transitions are applied by Copilot PM prompts during PM Mode sessions. See [`BOARD_AUTOMATION.md`](BOARD_AUTOMATION.md) for the full rules and Status column definitions.
 
 ---
 

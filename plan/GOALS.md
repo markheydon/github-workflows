@@ -21,7 +21,7 @@ At the same time, I recognise that good project management is essential for deli
 - **Prevent repo stagnation** by forcing cross-repo visibility in every PM Mode session — prompts must scan *all* repos and flag which ones haven't had attention recently.
 - **Keep the board lean and intentional** — only bugs and stories go on the board (never epics), and only those I've actively committed to working on. No passive auto-add noise.
 - **Board state must drive PM decisions** — prompts should read the board first, detect stalled or overloaded items, and help clear the decks before adding more work.
-- **Automate Status transitions** — labels drive board status changes automatically: `blocked` moves items to the Blocked column; `out-of-scope` moves them to Ice Box. Removing those labels returns items to Backlog. Items that are In Progress, In Review, or Done are never touched by this automation.
+- **Copilot-driven board management** — labels express intent; Copilot PM prompts enforce the rules during PM Mode sessions. `blocked` items are moved to the Blocked column; `out-of-scope` items to Ice Box. Board additions are made deliberately during `/pm-iteration-plan`, not passively on every label event.
 - **Support both personal and commercial projects** with a flexible, extensible system.
 - **Enable easy reuse and adaptation** of my workflow patterns, skills, and prompts for other repos or developers.
 - **Document the strategy and architecture** so future work (by me or by AI agents) is always aligned with the original intent.

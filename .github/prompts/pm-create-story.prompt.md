@@ -21,7 +21,7 @@ agent: PM Backlog Manager
 ## What comes next
 
 After creating a story:
-- **Issue created and labelled.** It will be added to the project board shortly.
+- **Issue created and labelled.** Add it to the project board during the next `/pm-iteration-plan` session.
 - **Include in next iteration?** Run `/pm-iteration-plan` to assign it to a milestone.
 - **Assign to epic?** Update the issue body with a reference to the parent epic (e.g., "See parent epic #12").
 

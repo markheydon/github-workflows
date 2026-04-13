@@ -13,15 +13,6 @@ This repository centralises project management automation for solo developers ma
 > - Exportable assets intended for bootstrapping other repos via `Install-CopilotAssets.ps1` live in the root-level `skills/` and `instructions/` folders.
 > - **Copilot asset packs** in the `copilot-packs/` folder are JSON configuration files for different project types. These are used as input to `Install-CopilotAssets.ps1` to automate setup of Copilot agents, skills, and instructions in new projects. Each pack specifies which assets to copy from which source repos.
 
-## Reusable GitHub Actions Workflows
-
-Workflows are in `.github/workflows/` and can be called from other repos via `workflow_call`.
-**Ignore any file starting with `trigger-`—these are internal thin callers.**
-
-**Workflow files:**
-- add-to-personal-project.yml — Adds issues and PRs to your project board when labelled `story` or `bug`. Dependabot PRs are auto-added as `story` type.
-- powershell-validate.yml — Validates PowerShell scripts for syntax and style.
-
 ## Scripts
 
 Scripts automate label management, issue migration, and Copilot asset setup. Located in `scripts/`:
@@ -85,10 +76,15 @@ These assets are consumed by `Install-CopilotAssets.ps1` when bootstrapping othe
 **`instructions/`**
 - blazor-csharp.instructions.md
 
+### Workflows (`.github/workflows/`)
+- powershell-validate.yml — Validates PowerShell scripts on push.
+
+> **Retired:** The `add-to-personal-project.yml` reusable workflow (previously used to add labelled issues to the project board via Actions) has been removed. Board management is now handled by Copilot PM prompts during PM Mode sessions. See [plan/BOARD_AUTOMATION.md](plan/BOARD_AUTOMATION.md).
+
 ## Setup & Prerequisites
 
 - **GitHub CLI (`gh`)** — Required for label scripts and Copilot asset install.
-- **Secrets:** Set a `PERSONAL_ACCESS_TOKEN` with repo and project access for workflows.
+- **Project board API access:** The PM prompts use `gh` CLI with your authenticated session to mutate the board — no separate PAT secret needed.
 - **Project board:** Uses [GitHub Projects v2](https://github.com/users/markheydon/projects/6).
 
 ## Label Strategy (Summary)

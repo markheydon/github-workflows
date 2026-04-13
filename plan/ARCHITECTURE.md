@@ -21,9 +21,6 @@ plan/LABEL_STRATEGY.md
          │         ├── references/github-labels.md     ← label definitions
          │         └── references/project-setup.md     ← board rules
          │
-         ├──▶ .github/workflows/add-to-personal-project.yml
-         │         └── label trigger conditions (story, bug; exclude epic)
-         │
          ├──▶ scripts/update_github_labels.bat
          │         └── labels created in each repo
          │
@@ -44,7 +41,6 @@ plan/LABEL_STRATEGY.md
 | [`.github/skills/github-issue-management/SKILL.md`](../.github/skills/github-issue-management/SKILL.md) | Portable triage skill (agentskills.io). Generic logic, repo-specific config in `references/`. |
 | [`.github/agents/repo-label-strategy-keeper.agent.md`](../.github/agents/repo-label-strategy-keeper.agent.md) | Validates consistency between strategy and all files. |
 | [`.github/prompts/repo-update-from-strategy.prompt.md`](../.github/prompts/repo-update-from-strategy.prompt.md) | Interactive prompt — run after strategy changes to propagate updates. |
-| [`.github/workflows/add-to-personal-project.yml`](../.github/workflows/add-to-personal-project.yml) | Reusable workflow. Called from other repos via `workflow_call`. |
 | [`scripts/update_github_labels.bat`](../scripts/update_github_labels.bat) | Creates labels in a repo. Maintained from strategy doc. |
 
 ---

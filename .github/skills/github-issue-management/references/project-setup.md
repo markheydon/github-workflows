@@ -18,12 +18,16 @@
 
 ## Board Inclusion Rules
 
-Issues and PRs are added to the board **automatically** when labelled `story` or `bug`, via the reusable workflow `add-to-personal-project.yml` in `markheydon/github-workflows`.
+Items are added to the board **during PM Mode sessions** by the Copilot PM prompts — there is no automated workflow adding items on label events.
 
-- `story` → added to board
-- `bug` → added to board
+- `story` → eligible for board
+- `bug` → eligible for board
 - `epic` → **never** added to board
-- Dependabot PRs → added automatically as `story` type (no labelling required)
+- Dependabot PRs → treated as `story` type when added; surfaced by `/pm-backlog-review`
+
+The prompts that add items to the board are:
+- `/pm-backlog-review` — identifies `story`/`bug` items missing from the board and flags them
+- `/pm-iteration-plan` — adds confirmed items to the board via the GitHub Projects v2 API
 
 ---
 
@@ -49,16 +53,13 @@ The board uses the following Status column values:
 | **Up Next** | Committed to this week. Set by `/pm-iteration-plan` during PM Mode. |
 | **In Progress** | Actively being worked on. |
 | **In Review** | Work complete, awaiting feedback or review. |
-| **Blocked** | Cannot proceed — set automatically when `blocked` label is applied (if item was in Backlog). |
-| **Ice Box** | Deprioritised or out of scope — set automatically when `out-of-scope` label is applied (if item was in Backlog). |
+| **Blocked** | Cannot proceed — moved here by Copilot PM prompts when the `blocked` label is applied and the item was in Backlog. |
+| **Ice Box** | Deprioritised or out of scope — moved here by Copilot PM prompts when the `out-of-scope` label is applied and the item was in Backlog. |
 | **Done** | Complete. |
 
-### Default Statuses on Add
+### Label-Driven Status Rules
 
-- **Dependabot PRs:** set to **Up Next** automatically.
-- **All other items:** no default status — managed via PM Mode prompts or the automation rules below.
-
-### Label-Driven Status Automation
+These rules define the intended relationship between labels and board Status. They are enforced by Copilot during PM Mode sessions, not by an automated workflow.
 
 | Event | Condition | Action |
 |-------|-----------|--------|
@@ -67,48 +68,13 @@ The board uses the following Status column values:
 | `blocked` label **removed** | Status = Blocked | → Set to **Backlog** |
 | `out-of-scope` label **removed** | Status = Ice Box | → Set to **Backlog** |
 
-Items in **Up Next**, **In Progress**, **In Review**, or **Done** are never touched by this automation.
+Items in **Up Next**, **In Progress**, **In Review**, or **Done** are never moved by these rules.
 
 ### Blocked Label and Status Consistency Rule
 
 The `blocked` label and the **Blocked** board status must always be in sync:
 
 - Every item in the **Blocked** column **must** have the `blocked` label applied.
-- Every item with the `blocked` label **must** be in the **Blocked** column (unless it is in Up Next, In Progress, In Review, or Done — where status automation does not apply).
+- Every item with the `blocked` label **must** be in the **Blocked** column (unless it is in Up Next, In Progress, In Review, or Done — where these rules do not apply).
 
-The workflow enforces this going forward for items in Backlog. However, items manually placed in the Blocked column before the automation existed will not have the label. During any consistency check or backlog review, flag and correct any items where the label and column status disagree.
-
----
-
-## Required Secret
-
-The workflow requires a `PERSONAL_ACCESS_TOKEN` secret set on the calling repository. This token must have permissions to:
-
-- Read issues and PRs
-- Update GitHub Projects (v2)
-
----
-
-## Automation Workflow
-
-The reusable workflow is at:
-
-```
-markheydon/github-workflows/.github/workflows/add-to-personal-project.yml@main
-```
-
-Calling repos use a thin trigger file. Minimal example:
-
-```yaml
-on:
-  issues:
-    types: [labeled, unlabeled]
-  pull_request_target:
-    types: [labeled, unlabeled]
-
-jobs:
-  add-to-personal-project:
-    uses: markheydon/github-workflows/.github/workflows/add-to-personal-project.yml@main
-    secrets:
-      PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-```
+During any consistency check or backlog review, flag and correct any items where the label and column status disagree.
