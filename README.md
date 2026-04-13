@@ -76,6 +76,11 @@ These assets are consumed by `Install-CopilotAssets.ps1` when bootstrapping othe
 **`instructions/`**
 - blazor-csharp.instructions.md
 
+### Workflows (`.github/workflows/`)
+- powershell-validate.yml — Validates PowerShell scripts on push.
+
+> **Retired:** The `add-to-personal-project.yml` reusable workflow (previously used to add labelled issues to the project board via Actions) has been removed. Board management is now handled by Copilot PM prompts during PM Mode sessions. See [plan/BOARD_AUTOMATION.md](plan/BOARD_AUTOMATION.md).
+
 ## Setup & Prerequisites
 
 - **GitHub CLI (`gh`)** — Required for label scripts and Copilot asset install.

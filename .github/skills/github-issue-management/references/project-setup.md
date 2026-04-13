@@ -53,8 +53,8 @@ The board uses the following Status column values:
 | **Up Next** | Committed to this week. Set by `/pm-iteration-plan` during PM Mode. |
 | **In Progress** | Actively being worked on. |
 | **In Review** | Work complete, awaiting feedback or review. |
-| **Blocked** | Cannot proceed — set when `blocked` label is applied (if item was in Backlog). |
-| **Ice Box** | Deprioritised or out of scope — set when `out-of-scope` label is applied (if item was in Backlog). |
+| **Blocked** | Cannot proceed — moved here by Copilot PM prompts when the `blocked` label is applied and the item was in Backlog. |
+| **Ice Box** | Deprioritised or out of scope — moved here by Copilot PM prompts when the `out-of-scope` label is applied and the item was in Backlog. |
 | **Done** | Complete. |
 
 ### Label-Driven Status Rules

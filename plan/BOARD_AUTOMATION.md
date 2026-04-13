@@ -14,8 +14,8 @@ This document describes how the project board **Status** field is managed and de
 | **Up Next** | Committed to this week. Set by `/pm-iteration-plan` during PM Mode. |
 | **In Progress** | Actively being worked on. |
 | **In Review** | Work complete, awaiting feedback or review. |
-| **Blocked** | Cannot proceed — set when the `blocked` label is applied (when item is in Backlog). |
-| **Ice Box** | Deprioritised or out of scope — set when the `out-of-scope` label is applied (when item is in Backlog). |
+| **Blocked** | Cannot proceed — moved here by Copilot PM prompts when the `blocked` label is applied and the item was in Backlog. |
+| **Ice Box** | Deprioritised or out of scope — moved here by Copilot PM prompts when the `out-of-scope` label is applied and the item was in Backlog. |
 | **Done** | Complete. |
 
 ---

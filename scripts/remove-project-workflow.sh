@@ -30,7 +30,7 @@ for repo in $REPOS; do
     || echo "  ✗ FAILED to delete $FILE"
 
   # Delete the secret (ok if it doesn't exist)
-  gh secret delete PERSONAL_ACCESS_TOKEN --repo "$FULL" 2>/dev/null \
+  gh secret delete PERSONAL_ACCESS_TOKEN --repo "$FULL" --app actions 2>/dev/null \
     && echo "  ✓ Deleted PERSONAL_ACCESS_TOKEN secret" \
     || echo "  - Secret not present (skipped)"
 done

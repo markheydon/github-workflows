@@ -82,7 +82,7 @@ When an issue or PR is added to the project board, the Work Item Type field is s
 | `bug` | Bug |
 | Dependabot PR (any) | Story |
 
-> The `blocked` and `out-of-scope` modifier labels also drive automatic **Status** field transitions on the board. See [`BOARD_AUTOMATION.md`](BOARD_AUTOMATION.md) for the full rules and Status column definitions.
+> The `blocked` and `out-of-scope` modifier labels drive **Status** field transitions on the board. These transitions are applied by Copilot PM prompts during PM Mode sessions. See [`BOARD_AUTOMATION.md`](BOARD_AUTOMATION.md) for the full rules and Status column definitions.
 
 ---
 
