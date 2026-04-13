@@ -18,7 +18,7 @@ The strategy and tooling in this repo were specifically designed for my own pers
 - Project board: https://github.com/users/markheydon/projects/6.
 - Label strategy: `epic` (never on board), `story` (on board), `bug` (on board). Epics group stories; stories and bugs are the unit of work.
 - Both issues **and PRs** use the same label taxonomy. PRs labelled `story` or `bug` appear on the board identically to issues. All PM prompts scan for both.
-- Dependabot PRs are automatically treated as `story` type on the board.
+- Dependabot PRs are treated as `story` type on the board when added; they are surfaced during `/pm-backlog-review` and added during `/pm-iteration-plan`.
 
 ## Label strategy — single source of truth
 
@@ -78,10 +78,9 @@ Each prompt has:
 
 ---
 - Maintain consistent label names: `epic`, `story`, `bug` (lowercase).
-- The reusable workflow `add-to-personal-project.yml` is called from other repos via `workflow_call`. It handles both `labeled` and `unlabeled` events — calling repo trigger files must include both.
-- Trigger files (prefixed `trigger-`) are thin callers — document or suggest changes to the reusable workflow, not the trigger files.
+- There are no longer any trigger files in other repos — the workflow automation approach has been replaced by Copilot-driven board management.
 - When suggesting new workflows or scripts, follow the existing pattern (reusable workflow + thin trigger).
-- Use `actions/github-script@v8`, `actions/add-to-project@v1.0.2`, and `titoportas/update-project-fields@v0.1.0` for project automation.
+- Board mutations (adding items, updating Status/Work Item Type fields) are performed via the GitHub Projects v2 GraphQL API using `gh` CLI, not via the retired workflow actions.
 
 ## Tone & style
 - Documentation should be concise, friendly, and welcoming to others who may want to adapt things.

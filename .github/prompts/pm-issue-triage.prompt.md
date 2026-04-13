@@ -23,7 +23,7 @@ agent: PM Backlog Manager
 ## What comes next
 
 After triaging:
-- **All issues now labelled.** The workflow will add `story` and `bug` items to the project board.
+- **All issues now labelled.** Run `/pm-backlog-review` to identify which newly labelled items should be added to the project board, then `/pm-iteration-plan` to add them.
 - **Review the backlog:** Run `/pm-backlog-review` to see the labelled items in priority order.
 - **Then plan or pick items:** Use the prioritised view to decide what to work on next.
 
@@ -40,7 +40,7 @@ gh pr list --repo <owner/repo> --state open --json number,title,body,labels,auth
 
 Filter to items with no core label (`epic`, `story`, or `bug`), or if specific numbers were provided as an argument, fetch only those.
 
-**Skip Dependabot PRs** (`author.login` = `dependabot[bot]` or `dependabot-preview[bot]`) — they are automatically handled by the workflow. Include them only in the count of already-triaged items.
+**Skip Dependabot PRs** (`author.login` = `dependabot[bot]` or `dependabot-preview[bot]`) — they do not need core labels. Include them only in the count of skipped items; they are handled during `/pm-backlog-review`.
 
 **Skip draft PRs** — note their existence but do not triage them until they are marked ready for review.
 
@@ -108,7 +108,7 @@ gh pr edit <number> --repo <owner/repo> --add-label "<label>"
 ## Step 4 — Board check
 
 After labelling:
-- Issues and PRs now labelled `story` or `bug` should appear on the project board once the workflow runs (triggered on label event)
+- Newly labelled `story` and `bug` items will **not** appear on the board automatically — they are added during the next `/pm-iteration-plan` session
 - If any `epic` issues were previously on the board, flag them for removal
 - Note: PRs cannot carry the `epic` label; if one was inadvertently applied, remove it
 

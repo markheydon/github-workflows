@@ -25,7 +25,7 @@ Epics are **excluded** — they exist only to group stories in the repository vi
 
 ### Dependabot Rule
 
-Dependabot PRs are automatically treated as `story` type on the project board (Work Item Type = "Story", Status = "Up Next"). No manual labelling is needed.
+Dependabot PRs are treated as `story` type on the project board (Work Item Type = "Story"). They are surfaced during `/pm-backlog-review` and added to the board by `/pm-iteration-plan` when relevant. No manual labelling is needed.
 
 ---
 
