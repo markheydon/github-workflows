@@ -5,7 +5,7 @@ description: Technical reference for plan/REPO_PRIORITIES.md and how it controls
 
 # Reference: Repository Priorities File
 
-The `plan/REPO_PRIORITIES.md` file defines which repositories are considered high, medium, or low priority for issue scanning, and which are excluded from PM operations. It is the single source of truth for all Copilot PM prompts and agents when deciding which repos to scan for issues and how to order proposals.
+The `plan/REPO_PRIORITIES.md` file defines which repositories are considered high, medium, or low priority for issue scanning, and which are paused or not PM tracked for issue scanning. It is the single source of truth for all Copilot PM prompts and agents when deciding which repos to scan for issues and how to order proposals.
 
 ## Structure
 

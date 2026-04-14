@@ -42,7 +42,7 @@ Present a brief board snapshot before proceeding.
 
 ---
 
-## Step 1 - Fetch open issues and PRs across ALL repos
+## Step 1 - Fetch open issues and PRs using repo priorities
 
 **First, read `plan/EXCLUDED_REPOS.md`** and parse the "Active Exclusions" table. Skip any repos listed there when fetching issues or PRs.
 
@@ -62,7 +62,7 @@ gh pr list --repo <owner/repo> --state open --json number,title,labels,milestone
 
 For PRs, note the author. Dependabot PRs (`author.login` = `dependabot[bot]` or `dependabot-preview[bot]`) are treated as Stories on the board when added - they are handled separately and do not need core labels. Non-Dependabot PRs are subject to the same labelling and board rules as issues.
 
-For each repo, note the date of the most recently updated issue or PR. Flag any repos where nothing has been updated in the last 14 days as **potentially stale** - surface their ready work explicitly so it does not stay forgotten.
+For each Tier 1 and Tier 2 repo, note the date of the most recently updated issue or PR. Flag any Tier 1 or Tier 2 repos where nothing has been updated in the last 14 days as **potentially stale** - surface their ready work explicitly so it does not stay forgotten.
 
 ---
 
