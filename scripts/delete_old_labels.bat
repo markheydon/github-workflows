@@ -2,7 +2,7 @@
 
 :: Deletes deprecated labels from a GitHub repository to align with plan/LABEL_STRATEGY.md.
 :: Run Convert-IssueLabels.ps1 first to re-label existing issues before deleting old labels.
-:: Safe to run multiple times — gh label delete exits cleanly if the label does not exist.
+:: Safe to run multiple times - gh label delete exits cleanly if the label does not exist.
 
 :: Check if GitHub CLI is installed
 where gh >nul 2>nul

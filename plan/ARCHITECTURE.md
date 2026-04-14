@@ -40,7 +40,7 @@ plan/LABEL_STRATEGY.md
 | [`plan/LABEL_STRATEGY.md`](LABEL_STRATEGY.md) | **Source of truth.** All other files derive from this. |
 | [`.github/skills/github-issue-management/SKILL.md`](../.github/skills/github-issue-management/SKILL.md) | Portable triage skill (agentskills.io). Generic logic, repo-specific config in `references/`. |
 | [`.github/agents/repo-label-strategy-keeper.agent.md`](../.github/agents/repo-label-strategy-keeper.agent.md) | Validates consistency between strategy and all files. |
-| [`.github/prompts/repo-update-from-strategy.prompt.md`](../.github/prompts/repo-update-from-strategy.prompt.md) | Interactive prompt — run after strategy changes to propagate updates. |
+| [`.github/prompts/repo-update-from-strategy.prompt.md`](../.github/prompts/repo-update-from-strategy.prompt.md) | Interactive prompt - run after strategy changes to propagate updates. |
 | [`scripts/update_github_labels.bat`](../scripts/update_github_labels.bat) | Creates labels in a repo. Maintained from strategy doc. |
 
 ---
@@ -49,8 +49,8 @@ plan/LABEL_STRATEGY.md
 
 The `github-issue-management` skill is designed for portability. Other repos can:
 
-1. **Reference centrally** — use `markheydon/github-workflows` skill directly, override specifics via their own `.github/copilot-instructions.md`
-2. **Copy and customise** — copy `.github/skills/github-issue-management/` into their own repo, update `references/github-labels.md` and `references/project-setup.md`
+1. **Reference centrally** - use `markheydon/github-workflows` skill directly, override specifics via their own `.github/copilot-instructions.md`
+2. **Copy and customise** - copy `.github/skills/github-issue-management/` into their own repo, update `references/github-labels.md` and `references/project-setup.md`
 
 See [`.github/skills/github-issue-management/references/CUSTOMISATION_GUIDE.md`](../.github/skills/github-issue-management/references/CUSTOMISATION_GUIDE.md).
 

@@ -1,12 +1,12 @@
 # GitHub Workflows, Scripts & Copilot PM Tooling
 
-This repository centralises project management automation for solo developers managing multiple GitHub repos. It provides reusable workflows, label scripts, Copilot prompts, agents, skills, and **Copilot asset packs**—all designed to keep your issues, labels, and project board in sync with minimal manual admin.
+This repository centralises project management automation for solo developers managing multiple GitHub repos. It provides reusable workflows, label scripts, Copilot prompts, agents, skills, and **Copilot asset packs**-all designed to keep your issues, labels, and project board in sync with minimal manual admin.
 
 ## Purpose & Context
 
 - **Frictionless project management:** Automate triage, board updates, and label consistency so you can focus on building.
 - **Single source of truth:** All labels, workflows, and scripts derive from [plan/LABEL_STRATEGY.md](plan/LABEL_STRATEGY.md).
-- **Easy reuse:** Designed for adaptation in other repos—just follow the documented patterns.
+- **Easy reuse:** Designed for adaptation in other repos-just follow the documented patterns.
 
 > **Copilot asset layout:**
 > - Active PM workflow assets (agents, skills, prompts, and instructions used by Copilot on this repo) live under `.github/`.
@@ -18,33 +18,33 @@ This repository centralises project management automation for solo developers ma
 Scripts automate label management, issue migration, and Copilot asset setup. Located in `scripts/`:
 
 **Script files:**
-- Install-CopilotAssets.ps1 — Bootstraps a project with Copilot agents, skills, and instructions from one or more source repositories. Uses a JSON config file (see copilot-assets.example.json) to specify asset sources and types. Assets are copied into the target repo's `.github` folder, preserving structure. Requires GitHub CLI (`gh`).
+- Install-CopilotAssets.ps1 - Bootstraps a project with Copilot agents, skills, and instructions from one or more source repositories. Uses a JSON config file (see copilot-assets.example.json) to specify asset sources and types. Assets are copied into the target repo's `.github` folder, preserving structure. Requires GitHub CLI (`gh`).
   - Usage: `./Install-CopilotAssets.ps1 -TargetFolder <path> -ConfigFile <json-file> [-CloneRoot <path>] [-Force]`
   - Config format: see `scripts/copilot-assets.example.json` or any file in `copilot-packs/`.
   - **Copilot asset packs:** See the `copilot-packs/` folder for ready-made JSON configs for Blazor (Fluent UI, MudBlazor) and C#/.NET development. These packs specify which agents, skills, and instructions to install for each project type.
-  - Source repo asset folders: `agents/`, `skills/`, `instructions/` (root-level, as used by Awesome Copilot and the exportable assets in this repo — not the active `.github/` assets)
-- Convert-IssueLabels.ps1 — Migrate issue labels between repos.
-- Export-PatExists.ps1 — Export PAT existence for audit.
-- Export-WorkflowAudit.ps1 — Export workflow audit data.
-- Import-Workflow.ps1 — Import workflow files.
-- Migrate-Workflows.ps1 — Migrate workflow files between repos.
-- delete_old_labels.bat — Remove deprecated labels.
-- update_github_labels.bat — Upsert all labels in a repo, grouped by type. Usage: `update_github_labels.bat <owner/repo>` (requires GitHub CLI)
+  - Source repo asset folders: `agents/`, `skills/`, `instructions/` (root-level, as used by Awesome Copilot and the exportable assets in this repo - not the active `.github/` assets)
+- Convert-IssueLabels.ps1 - Migrate issue labels between repos.
+- Export-PatExists.ps1 - Export PAT existence for audit.
+- Export-WorkflowAudit.ps1 - Export workflow audit data.
+- Import-Workflow.ps1 - Import workflow files.
+- Migrate-Workflows.ps1 - Migrate workflow files between repos.
+- delete_old_labels.bat - Remove deprecated labels.
+- update_github_labels.bat - Upsert all labels in a repo, grouped by type. Usage: `update_github_labels.bat <owner/repo>` (requires GitHub CLI)
 
 **Config files:**
-- copilot-assets.example.json — Example config for Install-CopilotAssets.ps1
+- copilot-assets.example.json - Example config for Install-CopilotAssets.ps1
 
 ## Copilot Tooling Overview
 
 ### Prompts (`.github/prompts/`)
-- pm-assistant.prompt.md — Entry point for PM workflow
-- pm-backlog-review.prompt.md — Review and prioritise backlog
-- pm-create-story.prompt.md — Create a well-formed story issue
-- pm-daily.prompt.md — Summarise unblocked work
-- pm-issue-triage.prompt.md — Triage and label unlabelled issues
-- pm-iteration-plan.prompt.md — Plan and group work for milestones
-- repo-update-docs.prompt.md — Regenerate this README and plan future docs
-- repo-update-from-strategy.prompt.md — Propagate label strategy changes
+- pm-assistant.prompt.md - Entry point for PM workflow
+- pm-backlog-review.prompt.md - Review and prioritise backlog
+- pm-create-story.prompt.md - Create a well-formed story issue
+- pm-daily.prompt.md - Summarise unblocked work
+- pm-issue-triage.prompt.md - Triage and label unlabelled issues
+- pm-iteration-plan.prompt.md - Plan and group work for milestones
+- repo-update-docs.prompt.md - Regenerate this README and plan future docs
+- repo-update-from-strategy.prompt.md - Propagate label strategy changes
 
 ### Agents (`.github/agents/`)
 - pm-assistant.agent.md
@@ -77,14 +77,14 @@ These assets are consumed by `Install-CopilotAssets.ps1` when bootstrapping othe
 - blazor-csharp.instructions.md
 
 ### Workflows (`.github/workflows/`)
-- powershell-validate.yml — Validates PowerShell scripts on push.
+- powershell-validate.yml - Validates PowerShell scripts on push.
 
 > **Retired:** The `add-to-personal-project.yml` reusable workflow (previously used to add labelled issues to the project board via Actions) has been removed. Board management is now handled by Copilot PM prompts during PM Mode sessions. See [plan/BOARD_AUTOMATION.md](plan/BOARD_AUTOMATION.md).
 
 ## Setup & Prerequisites
 
-- **GitHub CLI (`gh`)** — Required for label scripts and Copilot asset install.
-- **Project board API access:** The PM prompts use `gh` CLI with your authenticated session to mutate the board — no separate PAT secret needed.
+- **GitHub CLI (`gh`)** - Required for label scripts and Copilot asset install.
+- **Project board API access:** The PM prompts use `gh` CLI with your authenticated session to mutate the board - no separate PAT secret needed.
 - **Project board:** Uses [GitHub Projects v2](https://github.com/users/markheydon/projects/6).
 
 ## Label Strategy (Summary)
@@ -96,6 +96,6 @@ These assets are consumed by `Install-CopilotAssets.ps1` when bootstrapping othe
 
 ## License
 
-MIT License — see [LICENSE](LICENSE).
+MIT License - see [LICENSE](LICENSE).
 
 Last updated: 2026-03-16

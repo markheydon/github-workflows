@@ -8,7 +8,7 @@ agent: PM Backlog Manager
 ## When to use this prompt
 
 - **When issues or PRs come in without labels** (every few days or as issues/PRs arrive).
-- **After `/pm-backlog-review`** flags unlabelled PRs or issues — use those numbers as the argument.
+- **After `/pm-backlog-review`** flags unlabelled PRs or issues - use those numbers as the argument.
 - **Before `pm-backlog-review`** if you want a clean view of your backlog.
 - **Before `pm-iteration-plan`** to make sure everything is labelled.
 - **Time:** 5 minutes per 10 items to triage.
@@ -29,7 +29,7 @@ After triaging:
 
 ---
 
-## Step 1 — Find issues and PRs to triage
+## Step 1 - Find issues and PRs to triage
 
 Fetch unlabelled or recently created issues and PRs:
 
@@ -40,13 +40,13 @@ gh pr list --repo <owner/repo> --state open --json number,title,body,labels,auth
 
 Filter to items with no core label (`epic`, `story`, or `bug`), or if specific numbers were provided as an argument, fetch only those.
 
-**Skip Dependabot PRs** (`author.login` = `dependabot[bot]` or `dependabot-preview[bot]`) — they do not need core labels. Include them only in the count of skipped items; they are handled during `/pm-backlog-review`.
+**Skip Dependabot PRs** (`author.login` = `dependabot[bot]` or `dependabot-preview[bot]`) - they do not need core labels. Include them only in the count of skipped items; they are handled during `/pm-backlog-review`.
 
-**Skip draft PRs** — note their existence but do not triage them until they are marked ready for review.
+**Skip draft PRs** - note their existence but do not triage them until they are marked ready for review.
 
 ---
 
-## Step 2 — Classify each item
+## Step 2 - Classify each item
 
 For each issue or PR, apply the triage decision flow:
 
@@ -55,10 +55,10 @@ For each issue or PR, apply the triage decision flow:
    - Issues: `epic`, `story`, or `bug`
    - PRs: `story` or `bug` only (PRs cannot be epics)
 3. For PRs, use these signals:
-   - Dependency/version bump — `story` (if not Dependabot)
-   - Bug fix — `bug`
-   - New feature or improvement — `story`
-   - Documentation change — `story` + `documentation` modifier
+   - Dependency/version bump - `story` (if not Dependabot)
+   - Bug fix - `bug`
+   - New feature or improvement - `story`
+   - Documentation change - `story` + `documentation` modifier
 4. Identify any applicable modifier labels
 5. Show your classification reasoning briefly
 
@@ -70,12 +70,12 @@ Present results as a table before applying anything. Include a **Type** column t
 | 7 | PR | Add CSV export | `story` | | New feature for data export |
 
 ---
-## Step 2.5 — Validate title format
+## Step 2.5 - Validate title format
 
 Before confirming, check each title for format compliance:
 
-- **No `[Type]` prefixes** — Titles must not start with any bracketed type prefix. Known patterns seen in the wild: `[Feature]`, `[Bug]`, `[Improvement]`, `[Structure]`, `[Technical]`, `[Azure]`, `[Epic]`, `[Removal]`, `[Docs]`, `[Use Case]`. These are redundant with labels — remove them.
-- **Title describes what, not type** — Titles should state what specifically needs doing ("Add dark mode toggle" not "[Feature] Add dark mode").
+- **No `[Type]` prefixes** - Titles must not start with any bracketed type prefix. Known patterns seen in the wild: `[Feature]`, `[Bug]`, `[Improvement]`, `[Structure]`, `[Technical]`, `[Azure]`, `[Epic]`, `[Removal]`, `[Docs]`, `[Use Case]`. These are redundant with labels - remove them.
+- **Title describes what, not type** - Titles should state what specifically needs doing ("Add dark mode toggle" not "[Feature] Add dark mode").
 
 If any title has a prefix:
 1. Note it in the Reasoning column as "Title needs cleanup"
@@ -86,10 +86,10 @@ Example:
 
 | # | Title | Suggested Title | Proposed Core | Reasoning |
 |---|-------|-----------------|---------------|----------|
-| 5 | [Feature] Add export to PDF | Add PDF export functionality | `story` | **Title needs cleanup** — remove `[Feature]` prefix. Suggested: "Add PDF export functionality" |
+| 5 | [Feature] Add export to PDF | Add PDF export functionality | `story` | **Title needs cleanup** - remove `[Feature]` prefix. Suggested: "Add PDF export functionality" |
 
 ---
-## Step 3 — Confirm and apply
+## Step 3 - Confirm and apply
 
 Wait for me to confirm the table (or adjust individual rows).
 
@@ -105,15 +105,15 @@ gh pr edit <number> --repo <owner/repo> --add-label "<label>"
 
 ---
 
-## Step 4 — Board check
+## Step 4 - Board check
 
 After labelling:
-- Newly labelled `story` and `bug` items will **not** appear on the board automatically — they are added during the next `/pm-iteration-plan` session
+- Newly labelled `story` and `bug` items will **not** appear on the board automatically - they are added during the next `/pm-iteration-plan` session
 - If any `epic` issues were previously on the board, flag them for removal
 - Note: PRs cannot carry the `epic` label; if one was inadvertently applied, remove it
 
 ---
 
-## Step 5 — Summary
+## Step 5 - Summary
 
 Report what was triaged: how many issues and PRs classified, label breakdown (`epic`/`story`/`bug`), how many Dependabot PRs and draft PRs were skipped, and any items skipped due to needing more information.

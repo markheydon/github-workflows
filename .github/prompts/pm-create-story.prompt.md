@@ -38,9 +38,9 @@ Issue titles describe **what specifically** needs doing, not **what type** of wo
 - "Refactor user service to use dependency injection"
 
 **Avoid:**
-- ❌ "[Feature] Add dark mode" — the `story` label already indicates type
-- ❌ "[Bug] Memory leak" — the `bug` label already indicates type
-- ❌ "[Improvement] Update docs" — the `story` label already indicates type
+- ❌ "[Feature] Add dark mode" - the `story` label already indicates type
+- ❌ "[Bug] Memory leak" - the `bug` label already indicates type
+- ❌ "[Improvement] Update docs" - the `story` label already indicates type
 
 ---
 

@@ -9,7 +9,7 @@ These instructions apply when editing `scripts/update_github_labels.bat`.
 
 ## Source of truth
 
-`plan/LABEL_STRATEGY.md` is the **single source of truth** for all label definitions. Do not invent or modify label names, colours, or descriptions in the script directly — always derive them from the strategy document.
+`plan/LABEL_STRATEGY.md` is the **single source of truth** for all label definitions. Do not invent or modify label names, colours, or descriptions in the script directly - always derive them from the strategy document.
 
 ## How to update the script
 
@@ -19,7 +19,7 @@ When `plan/LABEL_STRATEGY.md` changes, update the script as follows:
 2. **For each label** in the Core Work Item Labels, Modifier Labels, and GitHub Default Labels tables:
    - Use the **Label** column for the `gh label create` name argument.
    - Use the **Hex** column for the `--color` argument (strip the leading `#`).
-   - Use the **Description (used in script)** column for the `--description` argument — not the Purpose column.
+   - Use the **Description (used in script)** column for the `--description` argument - not the Purpose column.
    - Always include `--force` so the command acts as an upsert (creates or updates).
 3. **Remove any `gh label create` lines** for labels that no longer appear in the strategy document.
 4. **Add new `gh label create` lines** for any labels newly added to the strategy document.
@@ -37,7 +37,7 @@ The `Description (used in script)` column is intentionally concise as it is what
 ## Script structure
 
 The script must:
-- Start with the `@echo off` and usage/dependency checks — do not remove these.
+- Start with the `@echo off` and usage/dependency checks - do not remove these.
 - Include the header comment block referencing `plan/LABEL_STRATEGY.md`.
 - Use `set REPO=%~1` and reference `%REPO%` in every `gh label create` call.
 - Group labels with comment headers: `:: --- Core labels ---`, `:: --- Modifier labels ---`, `:: --- GitHub default labels ---`.
