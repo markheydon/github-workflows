@@ -1,6 +1,15 @@
 # GitHub Workflows, Scripts & Copilot PM Tooling
 
+## Motivation & Problem Solved
+
+I was conscious of the fact I had a very stop/start relationship with GitHub and was only using the bare minimum of features for a long time. A major factor was that it never felt easy to manage a whole bunch of repos across different domains—work-related (private), open source, and hobby projects. As a result, I tended not to use GitHub as much as I probably should have, relying on Azure DevOps Boards for work only.
+
+**Problem Solved:** I wanted a single place (my Work Board Project) with everything that needed dealing with across all my repos, both private and public. But I didn't want a whole bunch of manual effort (admin) to make sure issues and PRs were getting added to the board in a consistent way that gave me confidence nothing was slipping through the cracks (which it often was).
+
+*Sub-note:* I previously attempted to use GitHub Actions to add all issues to my board, but it was very messy as it needed a per-repo workflow and a repo secret.
+
 This repository centralises project management automation for solo developers managing multiple GitHub repos. It provides reusable workflows, label scripts, Copilot prompts, agents, skills, and **Copilot asset packs**-all designed to keep your issues, labels, and project board in sync with minimal manual admin.
+
 
 ## Purpose & Context
 
