@@ -1,6 +1,6 @@
 ---
 title: GitHub Workflows and Copilot PM Tooling
-description: Public entrypoint for the Diataxis-structured documentation site.
+description: GitHub Workflows and Copilot PM Tooling documentation site.
 ---
 
 # GitHub Workflows & Copilot PM Tooling
@@ -35,13 +35,13 @@ Managing multiple GitHub repositories across work, open source, and hobby projec
 
 ## Site Map
 
-- [Tutorials](tutorials/).
-- [How-to Guides](how-to/).
-- [Reference](reference/).
-- [Explanation](explanation/).
+- [Tutorials](tutorials/)
+- [How-to Guides](how-to/)
+- [Reference](reference/)
+- [Explanation](explanation/)
 
 ---
 
-For internal/contributor-facing documentation, see the [README.md](../README.md) in the repo root.
+For internal/contributor-facing documentation, see the [README.md](https://github.com/markheydon/github-workflows/blob/main/README.md) in the repository.
 
 For repository folder context, see [README.md](README.md) in this directory.

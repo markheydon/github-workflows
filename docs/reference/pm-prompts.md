@@ -35,4 +35,4 @@ This page documents the main Copilot PM workflow prompts provided in this reposi
 
 ---
 
-For more, see the [Operating Model](../../plan/OPERATING_MODEL.md).
+For more, see the [Operating Model](https://github.com/markheydon/github-workflows/blob/main/plan/OPERATING_MODEL.md).

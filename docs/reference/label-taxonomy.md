@@ -5,7 +5,7 @@ description: Core, modifier, and default labels used by the workflow.
 
 # Reference: Label Taxonomy
 
-This page documents the label strategy used across all repos managed by this workflow. For the single source of truth, see [plan/LABEL_STRATEGY.md](../../plan/LABEL_STRATEGY.md).
+This page documents the label strategy used across all repos managed by this workflow. For the single source of truth, see [plan/LABEL_STRATEGY.md](https://github.com/markheydon/github-workflows/blob/main/plan/LABEL_STRATEGY.md).
 
 ## Core Work Item Labels
 
@@ -42,4 +42,4 @@ These are optional modifiers and retain their default colours.
 
 ---
 
-For automation rules, see [BOARD_AUTOMATION.md](../../plan/BOARD_AUTOMATION.md).
+For automation rules, see [BOARD_AUTOMATION.md](https://github.com/markheydon/github-workflows/blob/main/plan/BOARD_AUTOMATION.md).

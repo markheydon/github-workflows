@@ -17,7 +17,7 @@ This tutorial will guide you through setting up and running the Copilot-powered 
 ## Steps
 
 1. **Clone this repository** or copy the relevant assets (see [How-to: Install Copilot Assets](../how-to/install-copilot-assets.md)).
-2. **Review the label strategy** in [plan/LABEL_STRATEGY.md](../../plan/LABEL_STRATEGY.md) and adapt as needed.
+2. **Review the label strategy** in [plan/LABEL_STRATEGY.md](https://github.com/markheydon/github-workflows/blob/main/plan/LABEL_STRATEGY.md) and adapt as needed.
 3. **Install Copilot assets** using `Install-CopilotAssets.ps1` or manually copy `.github/agents/`, `.github/skills/`, `.github/prompts/`, and `.github/instructions/` into your repo.
 4. **Configure your project board** as described in [How-to: Set Up the Project Board](../how-to/setup-project-board.md).
 5. **Run the PM workflow prompts**:
@@ -28,6 +28,6 @@ This tutorial will guide you through setting up and running the Copilot-powered 
 
 ## Next Steps
 
-- Explore the [How-to Guides](../how-to/) for specific tasks.
-- Read the [Reference](../reference/) for label and script details.
-- Understand the [Explanation](../explanation/) for design rationale.
+- Explore the [How-to Guides](../how-to/) for specific tasks
+- Read the [Reference](../reference/) for label and script details
+- Understand the [Explanation](../explanation/) for design rationale

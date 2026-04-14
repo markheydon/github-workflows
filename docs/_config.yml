@@ -1,5 +1,7 @@
 title: GitHub Workflows & Copilot PM Tooling
 description: Public documentation for adopting and adapting the Copilot-powered PM workflow.
+url: https://markheydon.me.uk
+baseurl: /github-workflows
 theme: jekyll-theme-cayman
 markdown: kramdown
 

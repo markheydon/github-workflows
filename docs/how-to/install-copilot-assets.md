@@ -27,5 +27,5 @@ This guide explains how to install the Copilot agents, skills, prompts, and inst
 
 ## Next Steps
 
-- [Set Up the Project Board](setup-project-board.md).
-- [Run the PM Workflow Prompts](../tutorials/getting-started.md).
+- [Set Up the Project Board](setup-project-board.md)
+- [Run the PM Workflow Prompts](../tutorials/getting-started.md)

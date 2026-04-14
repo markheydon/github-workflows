@@ -27,4 +27,4 @@ The Diátaxis framework ensures every type of user need is covered:
 
 ---
 
-For day-to-day usage, see the [Operating Model](../../plan/OPERATING_MODEL.md).
+For day-to-day usage, see the [Operating Model](https://github.com/markheydon/github-workflows/blob/main/plan/OPERATING_MODEL.md).

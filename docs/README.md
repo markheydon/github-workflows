@@ -8,7 +8,7 @@ description: Repository-facing signpost for the docs directory.
 This folder contains the public, Diataxis-structured documentation for this repository.
 
 - For the GitHub Pages homepage content, see [index.md](index.md).
-- For contributor-facing/internal context, see the root [README.md](../README.md).
+- For contributor-facing/internal context, see the root [README.md](https://github.com/markheydon/github-workflows/blob/main/README.md).
 
 GitHub Pages may treat `README.md` as an index page in some Jekyll flows, but this repo standardises on [index.md](index.md) as the canonical homepage.
 

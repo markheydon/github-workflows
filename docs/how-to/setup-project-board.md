@@ -20,12 +20,12 @@ This guide explains how to configure your GitHub Project board to work with the 
    - Add a field for "Status" (if not already present).
 4. **Set Up Board Automation**
    - Use the Copilot PM prompts to automate board membership and status transitions.
-   - See [BOARD_AUTOMATION.md](../../plan/BOARD_AUTOMATION.md) for rules.
+   - See [BOARD_AUTOMATION.md](https://github.com/markheydon/github-workflows/blob/main/plan/BOARD_AUTOMATION.md) for rules.
 5. **Add Issues and PRs**
    - Only items labelled `story` or `bug` are added to the board.
    - Epics are used for grouping but do not appear on the board.
 
 ## Next Steps
 
-- [Run the PM Workflow Prompts](../tutorials/getting-started.md).
-- [Label Taxonomy Reference](../reference/label-taxonomy.md).
+- [Run the PM Workflow Prompts](../tutorials/getting-started.md)
+- [Label Taxonomy Reference](../reference/label-taxonomy.md)
