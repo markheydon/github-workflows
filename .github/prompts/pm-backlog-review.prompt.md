@@ -42,11 +42,17 @@ Present a brief board snapshot before proceeding.
 
 ---
 
-## Step 1 - Fetch open issues and PRs across ALL repos
+## Step 1 - Fetch open issues and PRs using repo priorities
 
 **First, read `plan/EXCLUDED_REPOS.md`** and parse the "Active Exclusions" table. Skip any repos listed there when fetching issues or PRs.
 
-Run the following for **all `markheydon` repos** with open issues or PRs (excluding those in `plan/EXCLUDED_REPOS.md` - do not limit to a single repo):
+**Then, read `plan/REPO_PRIORITIES.md`**. Apply these rules when scanning:
+- Fetch issues from Tier 1, Tier 2, and Tier 3 repos only. Skip **Not PM Tracked** and **Paused** repos for issue scanning.
+- Always fetch PRs from **all** repos regardless of tier — PRs surface on the board regardless of repo priority.
+- In the prioritised backlog summary (Step 3), order items by tier: Tier 1 repos first, then Tier 2, then Tier 3.
+- When flagging stale repos (no activity in 14 days), apply this only to Tier 1 and Tier 2 — Tier 3 repos are low priority by design and need not be flagged.
+
+Run the following for **all applicable `markheydon` repos** (applying the tier rules above):
 
 ```sh
 gh repo list markheydon --json name,isArchived --limit 100
@@ -56,7 +62,7 @@ gh pr list --repo <owner/repo> --state open --json number,title,labels,milestone
 
 For PRs, note the author. Dependabot PRs (`author.login` = `dependabot[bot]` or `dependabot-preview[bot]`) are treated as Stories on the board when added - they are handled separately and do not need core labels. Non-Dependabot PRs are subject to the same labelling and board rules as issues.
 
-For each repo, note the date of the most recently updated issue or PR. Flag any repos where nothing has been updated in the last 14 days as **potentially stale** - surface their ready work explicitly so it does not stay forgotten.
+For each Tier 1 and Tier 2 repo, note the date of the most recently updated issue or PR. Flag any Tier 1 or Tier 2 repos where nothing has been updated in the last 14 days as **potentially stale** - surface their ready work explicitly so it does not stay forgotten.
 
 ---
 

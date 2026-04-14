@@ -1,113 +1,112 @@
 # GitHub Workflows, Scripts & Copilot PM Tooling
 
-## Motivation & Problem Solved
-
-I was conscious of the fact I had a very stop/start relationship with GitHub and was only using the bare minimum of features for a long time. A major factor was that it never felt easy to manage a whole bunch of repos across different domains—work-related (private), open source, and hobby projects. As a result, I tended not to use GitHub as much as I probably should have, relying on Azure DevOps Boards for work only.
-
-**Problem Solved:** I wanted a single place (my Work Board Project) with everything that needed dealing with across all my repos, both private and public. But I didn't want a whole bunch of manual effort (admin) to make sure issues and PRs were getting added to the board in a consistent way that gave me confidence nothing was slipping through the cracks (which it often was).
-
-*Sub-note:* I previously attempted to use GitHub Actions to add all issues to my board, but it was very messy as it needed a per-repo workflow and a repo secret.
-
-This repository centralises project management automation for solo developers managing multiple GitHub repos. It provides reusable workflows, label scripts, Copilot prompts, agents, skills, and **Copilot asset packs** - all designed to keep your issues, labels, and project board in sync with minimal manual admin.
+This repository centralises project management automation for a solo developer managing multiple GitHub repos. It provides reusable workflows, label scripts, Copilot prompts, agents, skills, and Copilot asset packs to keep issues, labels, and project board state in sync with minimal admin.
 
 ## Purpose & Context
 
-- **Frictionless project management:** Automate triage, board updates, and label consistency so you can focus on building.
-- **Single source of truth:** All labels, workflows, and scripts derive from [plan/LABEL_STRATEGY.md](plan/LABEL_STRATEGY.md).
-- **Easy reuse:** Designed for adaptation in other repos - just follow the documented patterns.
+- Frictionless project management: automate triage, board updates, and label consistency.
+- Single source of truth: labels, scripts, prompts, and agents align with [plan/LABEL_STRATEGY.md](plan/LABEL_STRATEGY.md).
+- Easy reuse: patterns are designed to be adapted for other repos.
 
-> **Copilot asset layout:**
-> - Active PM workflow assets (agents, skills, prompts, and instructions used by Copilot on this repo) live under `.github/`.
-> - Exportable assets intended for bootstrapping other repos via `Install-CopilotAssets.ps1` live in the root-level `skills/` and `instructions/` folders.
-> - **Copilot asset packs** in the `copilot-packs/` folder are JSON configuration files for different project types. These are used as input to `Install-CopilotAssets.ps1` to automate setup of Copilot agents, skills, and instructions in new projects. Each pack specifies which assets to copy from which source repos.
+> Copilot asset layout:
+> - Active PM assets used by this repo live under `.github/`.
+> - Exportable assets for bootstrapping other repos live in root `skills/` and `instructions/`.
+> - JSON asset packs live in `copilot-packs/` and are consumed by `scripts/Install-CopilotAssets.ps1`.
+
+## Reusable GitHub Actions Workflows
+
+Workflows in `.github/workflows/`:
+
+- `powershell-validate.yml`: validates PowerShell scripts in the repo.
+
+Notes:
+- There are currently no `trigger-*` workflow files in this repo.
+- Board mutation is now Copilot-driven (PM prompts + GitHub Projects v2 API via `gh`), not workflow-driven.
 
 ## Scripts
 
-Scripts automate label management, issue migration, and Copilot asset setup. Located in `scripts/`:
+Scripts in `scripts/`:
 
-**Script files:**
-- Install-CopilotAssets.ps1 - Bootstraps a project with Copilot agents, skills, and instructions from one or more source repositories. Uses a JSON config file (see copilot-assets.example.json) to specify asset sources and types. Assets are copied into the target repo's `.github` folder, preserving structure. Requires GitHub CLI (`gh`).
-  - Usage: `./Install-CopilotAssets.ps1 -TargetFolder <path> -ConfigFile <json-file> [-CloneRoot <path>] [-Force]`
-  - Config format: see `scripts/copilot-assets.example.json` or any file in `copilot-packs/`.
-  - **Copilot asset packs:** See the `copilot-packs/` folder for ready-made JSON configs for Blazor (Fluent UI, MudBlazor) and C#/.NET development. These packs specify which agents, skills, and instructions to install for each project type.
-  - Source repo asset folders: `agents/`, `skills/`, `instructions/` (root-level, as used by Awesome Copilot and the exportable assets in this repo - not the active `.github/` assets)
-- Convert-IssueLabels.ps1 - Migrate issue labels between repos.
-- Export-PatExists.ps1 - Export PAT existence for audit.
-- Export-WorkflowAudit.ps1 - Export workflow audit data.
-- Import-Workflow.ps1 - Import workflow files.
-- Migrate-Workflows.ps1 - Migrate workflow files between repos.
-- delete_old_labels.bat - Remove deprecated labels.
-- update_github_labels.bat - Upsert all labels in a repo, grouped by type. Usage: `update_github_labels.bat <owner/repo>` (requires GitHub CLI)
+- `Install-CopilotAssets.ps1`: installs agents/skills/instructions into a target repo from configured source repos.
+- `Convert-IssueLabels.ps1`: migrates deprecated labels on issues to the current strategy labels.
+- `Export-PatExists.ps1`: audits repos for `PERSONAL_ACCESS_TOKEN` usage.
+- `Export-WorkflowAudit.ps1`: audits workflow presence/content across repos.
+- `Import-Workflow.ps1`: imports workflow files into repos.
+- `Migrate-Workflows.ps1`: migrates legacy workflow usage across repos.
+- `delete_old_labels.bat`: removes deprecated labels after migration.
+- `remove-project-workflow.sh`: removes legacy project workflow and token secret from repos.
+- `update_github_labels.bat`: upserts labels from strategy definitions.
+- `copilot-assets.example.json`: sample configuration for `Install-CopilotAssets.ps1`.
 
-**Config files:**
-- copilot-assets.example.json - Example config for Install-CopilotAssets.ps1
+Recommended label migration order:
+
+1. `scripts/update_github_labels.bat <owner/repo>`
+2. `scripts/Convert-IssueLabels.ps1 <owner/repo> -WhatIf`
+3. `scripts/Convert-IssueLabels.ps1 <owner/repo>`
+4. Review results
+5. `scripts/delete_old_labels.bat <owner/repo>`
 
 ## Copilot Tooling Overview
 
-### Prompts (`.github/prompts/`)
-- pm-assistant.prompt.md - Entry point for PM workflow
-- pm-backlog-review.prompt.md - Review and prioritise backlog
-- pm-create-story.prompt.md - Create a well-formed story issue
-- pm-daily.prompt.md - Summarise unblocked work
-- pm-issue-triage.prompt.md - Triage and label unlabelled issues
-- pm-iteration-plan.prompt.md - Plan and group work for milestones
-- repo-update-docs.prompt.md - Regenerate this README and plan future docs
-- repo-update-from-strategy.prompt.md - Propagate label strategy changes
+Prompts in `.github/prompts/`:
 
-### Agents (`.github/agents/`)
-- pm-assistant.agent.md
-- pm-backlog-management.agent.md
-- repo-docs-writer.agent.md
-- repo-label-strategy-keeper.agent.md
+- `pm-assistant.prompt.md`
+- `pm-backlog-review.prompt.md`
+- `pm-create-story.prompt.md`
+- `pm-daily.prompt.md`
+- `pm-issue-triage.prompt.md`
+- `pm-iteration-plan.prompt.md`
+- `repo-update-docs.prompt.md`
+- `repo-update-from-strategy.prompt.md`
 
-### Skills (`.github/skills/`)
-- documentation-writer/SKILL.md
-- github-issue-management/SKILL.md
-  - references/github-labels.md
-  - references/project-setup.md
-  - references/CUSTOMISATION_GUIDE.md
-  - references/assets/
-  - references/scripts/triage-example.sh
-  - references/assets/triage-workflow.md
+Agents in `.github/agents/`:
 
-### Instructions (`.github/instructions/`)
-- label-script-update.instructions.md
+- `pm-assistant.agent.md`
+- `pm-backlog-management.agent.md`
+- `repo-docs-writer.agent.md`
+- `repo-label-strategy-keeper.agent.md`
 
-### Exportable Assets (root-level)
+Skills in `.github/skills/`:
 
-These assets are consumed by `Install-CopilotAssets.ps1` when bootstrapping other repos:
+- `documentation-writer/SKILL.md`
+- `github-issue-management/SKILL.md`
+- `github-issue-management/references/github-labels.md`
+- `github-issue-management/references/project-setup.md`
+- `github-issue-management/references/CUSTOMISATION_GUIDE.md`
+- `github-issue-management/assets/triage-workflow.md`
+- `github-issue-management/scripts/triage-example.sh`
 
-**`skills/`**
-- dotnet-best-practices/SKILL.md
-- mudblazor/SKILL.md (and references/)
+Instructions in `.github/instructions/`:
 
-**`instructions/`**
-- blazor-csharp.instructions.md
+- `label-script-update.instructions.md`
 
-### Workflows (`.github/workflows/`)
-- powershell-validate.yml - Validates PowerShell scripts on push.
+Exportable root assets:
 
-> **Retired:** The `add-to-personal-project.yml` reusable workflow (previously used to add labelled issues to the project board via Actions) has been removed. Board management is now handled by Copilot PM prompts during PM Mode sessions. See [plan/BOARD_AUTOMATION.md](plan/BOARD_AUTOMATION.md).
+- `skills/dotnet-best-practices/SKILL.md`
+- `skills/mudblazor/SKILL.md` (plus references)
+- `instructions/blazor-csharp.instructions.md`
 
 ## Setup & Prerequisites
 
-- **GitHub CLI (`gh`)** - Required for label scripts and Copilot asset install.
-- **Project board API access:** The PM prompts use `gh` CLI with your authenticated session to mutate the board - no separate PAT secret needed.
-- **Project board:** Uses [GitHub Projects v2](https://github.com/users/markheydon/projects/6).
+- GitHub CLI (`gh`) authenticated for repository and project operations.
+- Access to GitHub Projects v2 board: <https://github.com/users/markheydon/projects/6>.
+- Repo access for cross-repo issue/PR scanning where PM prompts are used.
 
-## Label Strategy (Summary)
+## Label Strategy
 
-- **Core labels:** `epic` (never on board), `story` (on board), `bug` (on board)
-- **Modifier labels:** `priority-high`, `blocked`, `not-started`, `out-of-scope`, `feedback-required`, `waiting-for-details`
-- **Board inclusion:** Only `story` and `bug` are tracked; `epic` is for grouping only.
-- See [plan/LABEL_STRATEGY.md](plan/LABEL_STRATEGY.md) for full details, colours, and deprecated labels.
+Summary:
+- Core labels: `epic`, `story`, `bug`
+- Modifier labels include: `priority-high`, `blocked`, `not-started`, `out-of-scope`, `feedback-required`, `waiting-for-details`
+- Board inclusion: only `story` and `bug`; `epic` is never added
+
+See full strategy in [plan/LABEL_STRATEGY.md](plan/LABEL_STRATEGY.md).
 
 ## Public Documentation
 
-- For the public-facing documentation entrypoint, see [docs/README.md](docs/README.md).
+Public docs live in `docs/` (GitHub Pages scaffold). Start at [docs/README.md](docs/README.md).
 
 ## License
 
-MIT License - see [LICENSE](LICENSE).
+MIT License. See [LICENSE](LICENSE).
 
-Last updated: 2026-03-16
+Last updated: 2026-04-14

@@ -68,7 +68,13 @@ If available slots = 0, tell the user and do not suggest adding more. Let them d
 
 **First, read `plan/EXCLUDED_REPOS.md`** and parse the "Active Exclusions" table. Skip any repos listed there when fetching candidate issues or PRs.
 
-Fetch candidate issues **and PRs** from **all `markheydon` repos** (excluding those in `plan/EXCLUDED_REPOS.md` - cross-repo, not single-repo):
+**Then, read `plan/REPO_PRIORITIES.md`**. Apply these rules when fetching and proposing candidates:
+- Fetch issues from Tier 1, Tier 2, and Tier 3 repos only. Skip **Not PM Tracked** and **Paused** repos for issue scanning.
+- Always fetch PRs from **all** repos regardless of tier — PRs surface on the board regardless of repo priority.
+- When proposing candidates for Up Next, prioritise Tier 1 before Tier 2, and Tier 2 before Tier 3.
+- Only surface Tier 3 issue candidates if capacity remains after all Tier 1 and Tier 2 candidates have been handled or deliberately skipped.
+
+Fetch candidate issues **and PRs** from **all applicable `markheydon` repos** (applying the tier rules above):
 
 **Cross-reference against the board:** After fetching candidates, exclude any item that is already on the project board in **any** status (Backlog, Blocked, Ice Box, Up Next, In Progress, In Review, Done). Only items not yet on the board at all are eligible to be added. Items already in Backlog or Ice Box are surfaced via the board itself - do not add duplicates.
 

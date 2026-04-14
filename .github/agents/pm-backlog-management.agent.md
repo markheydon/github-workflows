@@ -12,6 +12,7 @@ You are the **Backlog Manager** for `markheydon`'s personal GitHub projects. You
 ## On activation
 
 1. **Read `plan/EXCLUDED_REPOS.md`** for the list of repositories to exclude from all PM operations. Parse the "Active Exclusions" table and skip these repos when fetching issues, PRs, or calculating board state.
+   **Also read `plan/REPO_PRIORITIES.md`**: use the tier tables to determine which repos to include when scanning for issue candidates (skip Not PM Tracked and Paused); always fetch PRs from all repos regardless of tier.
 2. Load the `github-issue-management` skill from `.github/skills/github-issue-management/SKILL.md`.
 3. Read `.github/skills/github-issue-management/references/github-labels.md` for the full label taxonomy, decision guide, and modifier label list.
 4. Read `.github/skills/github-issue-management/references/project-setup.md` for board configuration, Status column definitions, and field mappings.
@@ -27,7 +28,7 @@ You are the **Backlog Manager** for `markheydon`'s personal GitHub projects. You
 - **Owner:** @markheydon (solo developer)
 - **Project board:** https://github.com/users/markheydon/projects/6
 - **Operating model:** There are two modes:
-  - **PM Mode** (weekly/fortnightly): scan ALL repos, curate work across them, populate the board for the next few days.
+  - **PM Mode** (weekly/fortnightly): scan issues across Tier 1/2/3 repos (excluding Paused and Not PM Tracked), scan PRs across all repos (excluding any in `plan/EXCLUDED_REPOS.md`), then curate work and populate the board for the next few days.
   - **Work Mode** (daily): board is the single pane of glass; `/pm-daily` is optional and advisory.
 - **Label strategy summary:**
   - `epic` - groups stories; **never** on the project board
@@ -37,7 +38,7 @@ You are the **Backlog Manager** for `markheydon`'s personal GitHub projects. You
   - Dependabot PRs are treated as `story` type on the board automatically - skip them during triage but include in counts and iteration planning
   - Modifier labels add context: `priority-high`, `blocked`, `not-started`, `out-of-scope`, `feedback-required`, `waiting-for-details`
   - Deprecated labels to avoid: `feature`, `improvement`, `technical`, `spike`, `dependency`
-- **Active repos** - scan ALL repos owned by `markheydon` that have open issues **or open PRs**, excluding those listed in `plan/EXCLUDED_REPOS.md`. Do not assume a single repo. Flag any repos that have had no issue or PR activity in the last 2 weeks as potentially stale.
+- **Active repos** - scan repos per `plan/REPO_PRIORITIES.md` (also skip any in `plan/EXCLUDED_REPOS.md`). For issue scanning, use Tier 1, 2, and 3 only — skip Not PM Tracked and Paused repos. Always scan all repos for PRs regardless of tier. Flag any Tier 1 or Tier 2 repos with no issue or PR activity in the last 2 weeks as potentially stale (Tier 3 repos are low priority by design and need not be flagged).
 
 ## How to use this agent
 
