@@ -18,13 +18,14 @@ This tutorial will guide you through setting up and running the Copilot-powered 
 
 1. **Clone this repository** or copy the relevant assets (see [How-to: Install Copilot Assets](../how-to/install-copilot-assets.md)).
 2. **Review the label strategy** in [plan/LABEL_STRATEGY.md](https://github.com/markheydon/github-workflows/blob/main/plan/LABEL_STRATEGY.md) and adapt as needed.
-3. **Install Copilot assets** using `Install-CopilotAssets.ps1` or manually copy `.github/agents/`, `.github/skills/`, `.github/prompts/`, and `.github/instructions/` into your repo.
-4. **Configure your project board** as described in [How-to: Set Up the Project Board](../how-to/setup-project-board.md).
-5. **Run the PM workflow prompts**:
-   - `/pm-backlog-review` - Review all issues and PRs across your repos
-   - `/pm-iteration-plan` - Curate your board for the next few days
+3. **Set your repository priorities** in [plan/REPO_PRIORITIES.md](https://github.com/markheydon/github-workflows/blob/main/plan/REPO_PRIORITIES.md). Assign each repo to a tier (Active Focus, Medium, Low, Paused, or Not PM Tracked) to control which ones are surfaced by the PM workflow prompts.
+4. **Install Copilot assets** using `Install-CopilotAssets.ps1` or manually copy `.github/agents/`, `.github/skills/`, `.github/prompts/`, and `.github/instructions/` into your repo.
+5. **Configure your project board** as described in [How-to: Set Up the Project Board](../how-to/setup-project-board.md).
+6. **Run the PM workflow prompts**:
+   - `/pm-backlog-review` - Review all issues and PRs across your repos (uses your repo priorities)
+   - `/pm-iteration-plan` - Curate your board for the next few days (uses your repo priorities)
    - `/pm-daily` - Get a daily nudge on what to focus on
-6. **Customise as needed** - Update prompts, agents, or skills to fit your workflow.
+7. **Customise as needed** - Update prompts, agents, or skills to fit your workflow.
 
 ## Next Steps
 

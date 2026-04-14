@@ -1,0 +1,29 @@
+---
+title: How-to - Change Repo Priority or Pause a Repo
+description: Step-by-step guide to updating plan/REPO_PRIORITIES.md to change a repo's priority or pause it.
+---
+
+# How-to: Change Repo Priority or Pause a Repo
+
+This guide explains how to update your repository priorities so the Copilot PM workflow prompts surface the right work at the right time.
+
+## Steps
+
+1. **Open `plan/REPO_PRIORITIES.md`** in your repo.
+2. **To promote or demote a repo:**
+   - Move its row to the appropriate tier table (Active Focus, Medium, Low).
+   - Update the Notes column if needed.
+3. **To pause a repo:**
+   - Move its row to the Paused table.
+   - Add a reason and a resume condition.
+   - When ready to resume, move it back to its previous tier.
+4. **To permanently exclude a repo:**
+   - Add it to `plan/EXCLUDED_REPOS.md` instead.
+5. **Save and commit your changes.**
+6. **Next time you run `/pm-backlog-review` or `/pm-iteration-plan`,** the prompts will use your updated priorities.
+
+## Tips
+
+- Keep Tier 1 (Active Focus) small for best results.
+- Paused repos are skipped for issue scanning but PRs are always surfaced.
+- See [Repository Priorities Reference](../reference/repo-priorities.md) for full details.

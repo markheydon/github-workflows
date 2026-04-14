@@ -12,11 +12,22 @@ This page documents the main Copilot PM workflow prompts provided in this reposi
 | Prompt                | Purpose                                                      |
 |-----------------------|--------------------------------------------------------------|
 | `/pm-assistant`       | Conversational guide to the PM workflow                      |
-| `/pm-backlog-review`  | Review all issues/PRs, flag stale work, surface priorities   |
-| `/pm-iteration-plan`  | Curate board for the next few days, resolve stalled items    |
+| `/pm-backlog-review`  | Review all issues/PRs, flag stale work, surface priorities. Uses [repo priorities](repo-priorities.md) to decide which repos to scan and how to order candidates.   |
+| `/pm-iteration-plan`  | Curate board for the next few days, resolve stalled items. Uses [repo priorities](repo-priorities.md) to decide which repos to scan and how to order candidates.    |
 | `/pm-daily`           | Daily nudge: what to focus on today                         |
 | `/pm-issue-triage`    | Triage and label unlabelled issues/PRs                      |
 | `/pm-create-story`    | Create a well-formed story issue                            |
+
+
+## How Repo Priorities Affect Prompts
+
+- Both `/pm-backlog-review` and `/pm-iteration-plan` read [plan/REPO_PRIORITIES.md](../../plan/REPO_PRIORITIES.md) to determine which repos to scan for issues and how to order candidates.
+- Only Tier 1, 2, and 3 repos are scanned for issues. Not PM Tracked and Paused are skipped for issue scanning, but PRs from all repos are always included.
+- When proposing work, prompts order candidates by tier: Tier 1 first, then Tier 2, then Tier 3.
+
+See [Repository Priorities Reference](repo-priorities.md) for details on the file structure and rules.
+
+---
 
 ## How to Use
 

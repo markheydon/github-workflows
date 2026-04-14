@@ -7,10 +7,20 @@ description: Rationale and design principles behind the workflow and documentati
 
 This documentation site and workflow exist to solve a real problem: as a solo developer managing many repos, it's easy to lose track of issues and let work go stale. The system here is designed to:
 
-- Surface neglected work across all repos.
-- Keep the project board lean and intentional.
+- Surface neglected work across all repos, but **focus attention on the most important ones** using a tiered priorities file ([plan/REPO_PRIORITIES.md](../../plan/REPO_PRIORITIES.md)).
+- Keep the project board lean and intentional by only surfacing work from Tier 1, 2, and 3 repos (and always surfacing PRs from any repo).
 - Minimise manual admin by automating triage, board updates, and label consistency.
 - Make it easy for others to adopt or adapt the approach.
+
+## Why Repository Priorities?
+
+Not all repos are equally important at all times. The priorities file lets you:
+- Promote or demote repos as your focus changes
+- Pause repos temporarily without losing their tier
+- Exclude legacy or irrelevant repos from PM operations
+- Always surface PRs, even from paused or low-priority repos
+
+This keeps the board and prompt suggestions relevant, actionable, and free from noise.
 
 ## Public vs Internal Documentation
 
