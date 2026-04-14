@@ -2,10 +2,11 @@
 name: Update Docs
 description: Update README and plan docs/ content to reflect the current state of the repo.
 agent: Repo Docs Writer
-model: GPT-4.1
 ---
 
 Use the Repo Docs Writer agent to update documentation for this repository.
+
+This prompt is intended for direct documentation work in chat. The Repo Docs Writer agent may inspect the repo, create folders or files when needed, and update documentation content directly.
 
 Read `plan/GOALS.md` first to keep the documentation grounded in the repo's intent.
 
@@ -39,7 +40,10 @@ The `docs/` folder does not yet exist. When asked to plan or draft content for i
    - **Reference** — label taxonomy, script parameters, workflow inputs/outputs
    - **Explanation** — why this strategy exists, design decisions, tradeoffs
 2. Await approval of the site map before drafting individual pages.
-3. Each page should be self-contained and written for a developer who is **not** familiar with this repo.
+3. If approval is already implicit in the task, create the required `docs/` directory structure before writing any pages.
+4. Each page should be self-contained and written for a developer who is **not** familiar with this repo.
+
+Before finishing, verify that any claimed README or `docs/` changes are present in the repo.
 
 ---
 
