@@ -1,0 +1,14 @@
+title: GitHub Workflows & Copilot PM Tooling
+description: Public documentation for adopting and adapting the Copilot-powered PM workflow.
+theme: jekyll-theme-cayman
+markdown: kramdown
+
+relative_links:
+  enabled: true
+  collections: true
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default

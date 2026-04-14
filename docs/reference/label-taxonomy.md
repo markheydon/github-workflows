@@ -1,3 +1,8 @@
+---
+title: Reference - Label Taxonomy
+description: Core, modifier, and default labels used by the workflow.
+---
+
 # Reference: Label Taxonomy
 
 This page documents the label strategy used across all repos managed by this workflow. For the single source of truth, see [plan/LABEL_STRATEGY.md](../../plan/LABEL_STRATEGY.md).

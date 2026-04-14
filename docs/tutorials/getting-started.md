@@ -1,3 +1,8 @@
+---
+title: Tutorial - Getting Started with Copilot PM Workflow
+description: Step-by-step onboarding guide for adopting the workflow in your own repositories.
+---
+
 # Tutorial: Getting Started with Copilot PM Workflow
 
 This tutorial will guide you through setting up and running the Copilot-powered project management workflow for your own repositories.

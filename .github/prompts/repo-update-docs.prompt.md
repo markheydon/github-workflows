@@ -30,17 +30,17 @@ The README should cover:
 - Label strategy (brief summary, link to `plan/LABEL_STRATEGY.md`)
 - License
 
-## docs/ (future GitHub Pages - end-user-facing)
+## docs/ (public GitHub Pages - end-user-facing)
 
-The `docs/` folder does not yet exist. When asked to plan or draft content for it:
+The `docs/` folder exists and is the public documentation scaffold. When asked to plan, expand, or update content:
 
 1. Propose a Diátaxis-structured site map before writing any content:
    - **Tutorials** - walkthrough for adopting this label/PM strategy from scratch
    - **How-to Guides** - specific tasks (add a new repo, migrate labels, triage issues)
    - **Reference** - label taxonomy, script parameters, workflow inputs/outputs
    - **Explanation** - why this strategy exists, design decisions, tradeoffs
-2. Await approval of the site map before drafting individual pages.
-3. If approval is already implicit in the task, create the required `docs/` directory structure before writing any pages.
+2. Await approval of the site map before drafting major new sections, unless the task explicitly asks for direct implementation.
+3. Create any missing directories before writing new pages.
 4. Each page should be self-contained and written for a developer who is **not** familiar with this repo.
 
 Before finishing, verify that any claimed README or `docs/` changes are present in the repo.

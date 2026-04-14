@@ -1,3 +1,8 @@
+---
+title: Reference - PM Workflow Prompts
+description: Prompt catalogue for the Copilot-powered PM workflow.
+---
+
 # Reference: PM Workflow Prompts
 
 This page documents the main Copilot PM workflow prompts provided in this repository. Each prompt is a slash command you can run in Copilot Chat or VS Code to automate project management tasks.

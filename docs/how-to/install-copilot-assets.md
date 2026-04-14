@@ -1,3 +1,8 @@
+---
+title: How-to - Install Copilot Assets in Your Repo
+description: Install prompts, agents, skills, and instructions into another repository.
+---
+
 # How-to Guide: Install Copilot Assets in Your Repo
 
 This guide explains how to install the Copilot agents, skills, prompts, and instructions from this repository into your own project.

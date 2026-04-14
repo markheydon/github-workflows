@@ -1,3 +1,8 @@
+---
+title: How-to - Set Up the Project Board
+description: Configure a GitHub Project board to work with the PM workflow and label strategy.
+---
+
 # How-to Guide: Set Up the Project Board
 
 This guide explains how to configure your GitHub Project board to work with the Copilot PM workflow and label strategy.
@@ -5,7 +10,7 @@ This guide explains how to configure your GitHub Project board to work with the 
 ## Steps
 
 1. **Create a new Project (beta or later) in GitHub**
-   - Go to https://github.com/users/<your-username>/projects.
+   - Go to https://github.com/users/{your-username}/projects.
    - Click "New Project".
    - Choose "Table" or "Board" view.
 2. **Configure Status Columns**

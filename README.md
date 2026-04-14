@@ -8,13 +8,13 @@ I was conscious of the fact I had a very stop/start relationship with GitHub and
 
 *Sub-note:* I previously attempted to use GitHub Actions to add all issues to my board, but it was very messy as it needed a per-repo workflow and a repo secret.
 
-This repository centralises project management automation for solo developers managing multiple GitHub repos. It provides reusable workflows, label scripts, Copilot prompts, agents, skills, and **Copilot asset packs**-all designed to keep your issues, labels, and project board in sync with minimal manual admin.
+This repository centralises project management automation for solo developers managing multiple GitHub repos. It provides reusable workflows, label scripts, Copilot prompts, agents, skills, and **Copilot asset packs** - all designed to keep your issues, labels, and project board in sync with minimal manual admin.
 
 ## Purpose & Context
 
 - **Frictionless project management:** Automate triage, board updates, and label consistency so you can focus on building.
 - **Single source of truth:** All labels, workflows, and scripts derive from [plan/LABEL_STRATEGY.md](plan/LABEL_STRATEGY.md).
-- **Easy reuse:** Designed for adaptation in other repos-just follow the documented patterns.
+- **Easy reuse:** Designed for adaptation in other repos - just follow the documented patterns.
 
 > **Copilot asset layout:**
 > - Active PM workflow assets (agents, skills, prompts, and instructions used by Copilot on this repo) live under `.github/`.
@@ -101,6 +101,10 @@ These assets are consumed by `Install-CopilotAssets.ps1` when bootstrapping othe
 - **Modifier labels:** `priority-high`, `blocked`, `not-started`, `out-of-scope`, `feedback-required`, `waiting-for-details`
 - **Board inclusion:** Only `story` and `bug` are tracked; `epic` is for grouping only.
 - See [plan/LABEL_STRATEGY.md](plan/LABEL_STRATEGY.md) for full details, colours, and deprecated labels.
+
+## Public Documentation
+
+- For the public-facing documentation entrypoint, see [docs/README.md](docs/README.md).
 
 ## License
 

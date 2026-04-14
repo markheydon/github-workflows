@@ -1,3 +1,8 @@
+---
+title: Explanation - Why This Strategy
+description: Rationale and design principles behind the workflow and documentation approach.
+---
+
 # Explanation: Why This Strategy?
 
 This documentation site and workflow exist to solve a real problem: as a solo developer managing many repos, it's easy to lose track of issues and let work go stale. The system here is designed to:

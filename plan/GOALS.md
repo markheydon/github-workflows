@@ -1,8 +1,8 @@
 # Project Goals
 
-This repository was created to solve a real problem: as a solo developer managing multiple personal, commercial, and open-source projects, I needed a way to keep all my GitHub issues organised and actionable-without drowning in admin work.
+This repository was created to solve a real problem: as a solo developer managing multiple personal, commercial, and open-source projects, I needed a way to keep all my GitHub issues organised and actionable - without drowning in admin work.
 
-The core challenge is **visibility and curation across multiple repos**. It's easy to focus on active, exciting projects and let older ones go stale-older repos quietly accumulate issues that never get actioned because they're out of sight and out of mind. I needed a system that:
+The core challenge is **visibility and curation across multiple repos**. It's easy to focus on active, exciting projects and let older ones go stale - older repos quietly accumulate issues that never get actioned because they're out of sight and out of mind. I needed a system that:
 
 - Forces me to regularly review *all* my repos, not just the ones I'm currently excited about.
 - Actively surfaces neglected work so nothing gets accidentally forgotten.

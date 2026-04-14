@@ -1,3 +1,8 @@
+---
+title: Explanation - Public vs Internal Documentation
+description: Why content is split between public docs and contributor-facing repo documentation.
+---
+
 # Explanation: Public vs Internal Documentation
 
 This system is designed to be transparent and reusable. All the details needed to use, adapt, or extend the workflow are included in the public documentation (this site). However, some information is only relevant to contributors or maintainers of this specific repository.
