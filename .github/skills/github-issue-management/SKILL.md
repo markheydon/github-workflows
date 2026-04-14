@@ -37,7 +37,7 @@ This skill helps you manage GitHub Issues consistently using a **three-tier labe
 
 ### 1. Always start with the label taxonomy
 
-Before creating or labelling any issue, read [`references/github-labels.md`](references/github-labels.md). If a `.github/copilot-instructions.md` exists in the **target repo**, read it too — it may override label names or add repo-specific rules.
+Before creating or labelling any issue, read [`references/github-labels.md`](references/github-labels.md). If a `.github/copilot-instructions.md` exists in the **target repo**, read it too - it may override label names or add repo-specific rules.
 
 > **If you are operating in a repo other than `markheydon/github-workflows`**, check [`references/CUSTOMISATION_GUIDE.md`](references/CUSTOMISATION_GUIDE.md) to understand what to override.
 
@@ -58,10 +58,10 @@ Use the decision guide in [`references/github-labels.md`](references/github-labe
 After the core label, assess whether any modifier labels apply. Multiple modifiers are allowed. See [`references/github-labels.md`](references/github-labels.md) for the full list.
 
 Common combinations:
-- `story` + `priority-high` — urgent new work.
-- `story` + `blocked` — blocked waiting on another issue.
-- `bug` + `priority-high` — urgent fix needed.
-- `story` + `out-of-scope` — explicit backlog deferral.
+- `story` + `priority-high` - urgent new work.
+- `story` + `blocked` - blocked waiting on another issue.
+- `bug` + `priority-high` - urgent fix needed.
+- `story` + `out-of-scope` - explicit backlog deferral.
 
 ### 4. Project board membership
 
@@ -128,7 +128,7 @@ When triaging a batch of unlabelled issues:
 2. Classify as `epic`, `story`, or `bug` using the decision guide.
 3. Apply the core label and any appropriate modifiers.
 4. If the issue is clearly `story` or `bug`, check it should be on the project board.
-5. Flag any issues that need more information before classification — apply `waiting-for-details`.
+5. Flag any issues that need more information before classification - apply `waiting-for-details`.
 6. Summarise what was triaged and highlight anything requiring human review.
 
 **Watch for disguised epics.** An issue labelled `story` may actually be an epic if it: has multiple sub-issues listed, describes a large feature with its own data model or architecture section, or has an acceptance criteria list that spans several independent deliverables. If so, relabel it `epic`, remove it from the project board, and ensure its sub-issues are individually labelled and have appropriate statuses (e.g. `blocked` if they depend on each other sequentially).
@@ -141,8 +141,8 @@ For a visual flow, see [`assets/triage-workflow.md`](assets/triage-workflow.md).
 
 When asked to validate issue/label consistency:
 
-1. List all open issues without a core label (`epic`, `story`, or `bug`) — these need triage.
-2. List all issues labelled `story` or `bug` that are **not** on the project board — these need adding.
-3. List all issues labelled `epic` that **are** on the project board — these need removing.
+1. List all open issues without a core label (`epic`, `story`, or `bug`) - these need triage.
+2. List all issues labelled `story` or `bug` that are **not** on the project board - these need adding.
+3. List all issues labelled `epic` that **are** on the project board - these need removing.
 4. Report any labels in use that are not in the approved taxonomy.
 5. Summarise findings and ask whether to auto-fix.

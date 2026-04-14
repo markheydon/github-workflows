@@ -12,7 +12,7 @@ Rather than copying the skill, you can reference it directly from `markheydon/gi
 markheydon/github-workflows/.github/skills/github-issue-management/
 ```
 
-This means you always get the latest version without maintenance overhead. The trade-off is that the label names and project board config in the `references/` files reflect Mark's personal setup — your agent should use your repo's `.github/copilot-instructions.md` to override specifics.
+This means you always get the latest version without maintenance overhead. The trade-off is that the label names and project board config in the `references/` files reflect Mark's personal setup - your agent should use your repo's `.github/copilot-instructions.md` to override specifics.
 
 **Recommended if:** You follow the same `epic`/`story`/`bug` taxonomy and are one of Mark's repos.
 
@@ -26,7 +26,7 @@ Copy the entire `github-issue-management/` folder into your own `.github/skills/
 
 #### 1. `references/github-labels.md`
 
-Change the label names, colours, and descriptions to match your repo's labels. Keep the same structure — the `SKILL.md` instructions reference this file for all label decisions.
+Change the label names, colours, and descriptions to match your repo's labels. Keep the same structure - the `SKILL.md` instructions reference this file for all label decisions.
 
 **What to update:**
 - Core label names (e.g., if you use `feature` instead of `story`)
@@ -60,7 +60,7 @@ metadata:
 
 If your repo has a `.github/copilot-instructions.md`, the skill checks for it and reads it for overrides. This is the recommended way to document any repo-specific label rules without needing to fork the skill itself.
 
-> **Note:** This file may not exist. The skill works without it — it just means the skill uses the defaults from `references/github-labels.md`.
+> **Note:** This file may not exist. The skill works without it - it just means the skill uses the defaults from `references/github-labels.md`.
 
 Example `.github/copilot-instructions.md` addition:
 
@@ -74,5 +74,5 @@ Example `.github/copilot-instructions.md` addition:
 
 ## What NOT to change
 
-- The **SKILL.md body** — the core triage workflow and consistency check logic is generic and should work for any label set. Update the `references/` files instead of the main instructions.
-- The **folder name** (`github-issue-management`) — this must match the `name` field in the SKILL.md frontmatter per the agentskills.io specification.
+- The **SKILL.md body** - the core triage workflow and consistency check logic is generic and should work for any label set. Update the `references/` files instead of the main instructions.
+- The **folder name** (`github-issue-management`) - this must match the `name` field in the SKILL.md frontmatter per the agentskills.io specification.

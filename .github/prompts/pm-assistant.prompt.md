@@ -1,6 +1,6 @@
 ---
 name: PM Assistant
-description: Start here — guides you through your PM workflow by interviewing you about your goal and routing you to the right prompts in order.
+description: Start here - guides you through your PM workflow by interviewing you about your goal and routing you to the right prompts in order.
 agent: PM Assistant
 ---
 

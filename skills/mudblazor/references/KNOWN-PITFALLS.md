@@ -13,7 +13,7 @@ Operational diagnosis guidance for common MudBlazor issues.
 **Fix:**
 
 ```razor
-@* MainLayout.razor — ensure this is present alongside the other providers *@
+@* MainLayout.razor - ensure this is present alongside the other providers *@
 <MudThemeProvider />
 <MudPopoverProvider />   <!-- ← this is the fix -->
 <MudDialogProvider />
@@ -42,7 +42,7 @@ Operational diagnosis guidance for common MudBlazor issues.
 
 ---
 
-## Pitfall 4: MudColorPicker — binding a hex string
+## Pitfall 4: MudColorPicker - binding a hex string
 
 **Symptom:** Two-way binding on `MudColorPicker` fails or the value does not update.
 
@@ -78,7 +78,7 @@ To convert between `MudColor` and `string`: `new MudColor(hexString)` or `mudCol
 
 ---
 
-## Pitfall 6: bUnit tests — MudBlazor JS interop errors
+## Pitfall 6: bUnit tests - MudBlazor JS interop errors
 
 **Symptom:** bUnit tests throw `JSException` or similar during component render.
 
@@ -111,7 +111,7 @@ ctx.Services.AddMudServices();
 
 ---
 
-## Pitfall 8: MudAutocomplete — SearchFunc must return Task
+## Pitfall 8: MudAutocomplete - SearchFunc must return Task
 
 **Symptom:** `MudAutocomplete` filter does not work or throws.
 

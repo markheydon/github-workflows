@@ -26,10 +26,10 @@ Apply alongside a core label as needed. Multiple modifiers are allowed.
 
 | Label | Colour | Hex | Description |
 |-------|--------|-----|-------------|
-| `priority-high` | Amber | `#fbca04` | High priority — address before other items. |
+| `priority-high` | Amber | `#fbca04` | High priority - address before other items. |
 | `blocked` | Light grey | `#cfd3d7` | Blocked by another issue or external dependency. |
 | `not-started` | White | `#ffffff` | Work has not yet started. |
-| `out-of-scope` | Grey | `#ededed` | Intentionally deferred — may be revisited in future. |
+| `out-of-scope` | Grey | `#ededed` | Intentionally deferred - may be revisited in future. |
 | `feedback-required` | Lavender | `#d9d4f5` | Waiting for feedback before work can proceed. |
 | `waiting-for-details` | Lavender | `#d9d4f5` | Further details required before work can start. |
 
@@ -79,7 +79,7 @@ These are optional modifier labels, using GitHub's default colours and descripti
 ---
 
 ## Excluded Labels
-Do not create or use these — they are superseded or intentionally removed:
+Do not create or use these - they are superseded or intentionally removed:
 
 - `feature`, `improvement`, `technical` → use `story`
 - `spike` → use `story`

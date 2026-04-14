@@ -3,7 +3,7 @@ name: mudblazor
 description: Guide for using the MudBlazor component library in Blazor applications. Use this when building or refactoring Blazor pages and components with MudBlazor. Covers setup, layout, component usage patterns, dialog and snackbar services, data grids, forms, colour pickers, theming, and optional bUnit examples. Also use when troubleshooting z-index, popup rendering, or styling issues.
 ---
 
-# MudBlazor — Consumer Usage Guide
+# MudBlazor - Consumer Usage Guide
 
 **MudBlazor** is a Material Design component library for Blazor built entirely in pure C#/Razor with no web components or shadow DOM.
 
@@ -56,7 +56,7 @@ builder.Services.AddMudServices(config =>
 @using MudBlazor
 ```
 
-### MainLayout.razor — Required Providers
+### MainLayout.razor - Required Providers
 
 The following components **MUST** appear in `MainLayout.razor` for services to work:
 
