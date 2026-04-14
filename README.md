@@ -10,7 +10,6 @@ I was conscious of the fact I had a very stop/start relationship with GitHub and
 
 This repository centralises project management automation for solo developers managing multiple GitHub repos. It provides reusable workflows, label scripts, Copilot prompts, agents, skills, and **Copilot asset packs**-all designed to keep your issues, labels, and project board in sync with minimal manual admin.
 
-
 ## Purpose & Context
 
 - **Frictionless project management:** Automate triage, board updates, and label consistency so you can focus on building.

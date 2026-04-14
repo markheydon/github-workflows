@@ -1,8 +1,4 @@
-# GitHub Workflows & Copilot PM Tooling — Public Documentation
-
-## Motivation
-
-Managing multiple GitHub repositories across work, open source, and hobby projects used to be a chore. It was easy to lose track, and the admin overhead meant issues and PRs often slipped through the cracks. This system was built to solve that: a single project board for everything, with automation and Copilot prompts to keep it all in sync—so you can focus on building, not on manual triage.
+# GitHub Workflows & Copilot PM Tooling
 
 Welcome! This site explains how to adopt, adapt, and extend the project management automation and Copilot-powered workflows used in this repository. It is structured using the Diátaxis documentation framework:
 
@@ -12,6 +8,10 @@ Welcome! This site explains how to adopt, adapt, and extend the project manageme
 - **Explanation** - The rationale behind the strategy, design decisions, and how it all fits together.
 
 ---
+
+## Motivation
+
+Managing multiple GitHub repositories across work, open source, and hobby projects used to be a chore. It was easy to lose track, and the admin overhead meant issues and PRs often slipped through the cracks. This system was built to solve that: a single project board for everything, with automation and Copilot prompts to keep it all in sync—so you can focus on building, not on manual triage.
 
 ## Who is this for?
 
