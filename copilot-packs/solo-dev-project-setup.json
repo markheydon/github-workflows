@@ -1,0 +1,30 @@
+{
+  "name": "solo-dev-project-setup",
+  "description": "Full project setup pack for solo .NET/C# dev projects. Installs ADR skill, implementation plan skill, issue-from-spec skills, PM agents, issue management, and doc writing assets from Awesome Copilot and markheydon/github-workflows.",
+  "version": "1.0",
+  "sources": [
+    {
+      "name": "Awesome Copilot",
+      "repo": "github/awesome-copilot",
+      "agents": [
+        "CSharpExpert"
+      ],
+      "skills": [
+        "create-architectural-decision-record",
+        "create-implementation-plan",
+        "create-github-issue-feature-from-specification",
+        "create-github-issues-feature-from-implementation-plan"
+      ],
+      "instructions": [
+        "csharp"
+      ]
+    },
+    {
+      "name": "Mark's GitHub Workflows",
+      "repo": "markheydon/github-workflows",
+      "skills": [
+        "dotnet-best-practices"
+      ]
+    }
+  ]
+}
