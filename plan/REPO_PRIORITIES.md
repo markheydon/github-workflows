@@ -8,16 +8,16 @@ This file defines the priority tiers for all active `markheydon` repositories. I
 
 | Tier | Name | Issue Scanning | PR Scanning |
 |------|------|----------------|-------------|
-| 1 | **Active Focus** | ✅ First — highest priority candidates | ✅ Always |
+| 1 | **Active Focus** | ✅ First - highest priority candidates | ✅ Always |
 | 2 | **Medium Priority** | ✅ After Tier 1 | ✅ Always |
-| 3 | **Low Priority** | ✅ Last — only when capacity remains after Tier 1 and 2 | ✅ Always |
-| — | **Not PM Tracked** | ❌ Skipped for issue scanning | ✅ Always |
+| 3 | **Low Priority** | ✅ Last - only when capacity remains after Tier 1 and 2 | ✅ Always |
+| - | **Not PM Tracked** | ❌ Skipped for issue scanning | ✅ Always |
 
-> **Key rule:** PRs from **any** repo — including Not PM Tracked and Paused — are always surfaced and must always be resolved. A PR awaiting review is never deprioritised because of the repo's tier.
+> **Key rule:** PRs from **any** repo - including Not PM Tracked and Paused - are always surfaced and must always be resolved. A PR awaiting review is never deprioritised because of the repo's tier.
 
 ---
 
-## Tier 1 — Active Focus
+## Tier 1 - Active Focus
 
 | Repository | Description | Notes |
 |------------|-------------|-------|
@@ -29,26 +29,26 @@ This file defines the priority tiers for all active `markheydon` repositories. I
 
 ---
 
-## Tier 2 — Medium Priority
+## Tier 2 - Medium Priority
 
 | Repository | Description | Notes |
 |------------|-------------|-------|
-| `markheydon/github-workflows` | PM tooling, reusable workflows, Copilot assets | Always relevant — this repo. |
+| `markheydon/github-workflows` | PM tooling, reusable workflows, Copilot assets | Always relevant - this repo. |
 | `markheydon/mhcg-cs-mhcgintegrationapp` | FreeAgent / Stripe / Dataverse integration app | Primary client tooling. Core billing epic in progress. Internal app with private repo. |
 | `markheydon/national-lottery-generator` | Fun lottery number predictor | Good for a quick win or learning experiment. |
 
 ---
 
-## Tier 3 — Low Priority
+## Tier 3 - Low Priority
 
 | Repository | Description | Notes |
 |------------|-------------|-------|
 | `markheydon/rename-my-files-ai` | PowerShell AI file renaming tool | Very low priority. Only suggest if Tier 1 and 2 have no suitable candidates. |
 | `markheydon/the-teachings-of-monkey` | Hugo archive site for TV series content | Very low priority. Long-running passion project. |
-| `markheydon/m365-powershell-docker` | Docker utility — no active feature work |
-| `markheydon/markheydon` | GitHub profile README — no issue tracking |
-| `markheydon/markheydon.github.io` | Personal site — no active development |
-| `markheydon/UnmessyCleanExample` | Demo/example project — not actively developed |
+| `markheydon/m365-powershell-docker` | Docker utility - no active feature work |
+| `markheydon/markheydon` | GitHub profile README - no issue tracking |
+| `markheydon/markheydon.github.io` | Personal site - no active development |
+| `markheydon/UnmessyCleanExample` | Demo/example project - not actively developed |
 
 ---
 
@@ -58,7 +58,7 @@ Use this table to temporarily suspend issue scanning for a repo without changing
 
 | Repository | Tier | Reason | Paused Since | Resume When |
 |------------|------|--------|-------------|-------------|
-| _(none)_ | — | — | — | — |
+| _(none)_ | - | - | - | - |
 
 ---
 
@@ -68,12 +68,12 @@ These repos are skipped when scanning for issue candidates. PRs from these repos
 
 | Repository | Reason |
 |------------|--------|
-| `markheydon/Avada-Child-Theme` | WordPress child theme template — legacy boilerplate |
-| `markheydon/WordPress-Plugin-Boilerplate` | Plugin boilerplate — not actively developed |
-| `markheydon/php-library-template` | PHP boilerplate — not actively used |
-| `markheydon/template-development` | Template repo — no feature work |
-| `markheydon/wordpress-localdockerdev` | WordPress local dev tooling — no active development |
-| `markheydon/wordpress-vscode-container` | WordPress VS Code container setup — no active development |
+| `markheydon/Avada-Child-Theme` | WordPress child theme template - legacy boilerplate |
+| `markheydon/WordPress-Plugin-Boilerplate` | Plugin boilerplate - not actively developed |
+| `markheydon/php-library-template` | PHP boilerplate - not actively used |
+| `markheydon/template-development` | Template repo - no feature work |
+| `markheydon/wordpress-localdockerdev` | WordPress local dev tooling - no active development |
+| `markheydon/wordpress-vscode-container` | WordPress VS Code container setup - no active development |
 
 > **Note:** `markheydon/solo-dev-board` is permanently excluded from all PM operations via `plan/EXCLUDED_REPOS.md` and does not appear here.
 
@@ -95,4 +95,4 @@ These repos are skipped when scanning for issue candidates. PRs from these repos
 3. Always fetch PRs from **all** repos regardless of tier, including Not PM Tracked and Paused.
 4. When proposing candidates for Up Next, order by tier: Tier 1 first, then Tier 2, then Tier 3.
 5. Only surface Tier 3 issue candidates if capacity remains after all Tier 1 and Tier 2 candidates have been handled or deliberately skipped by the user.
-6. When flagging stale repos (no activity in 14 days), apply this only to Tier 1 and Tier 2 repos — Tier 3 repos are low priority by design.
+6. When flagging stale repos (no activity in 14 days), apply this only to Tier 1 and Tier 2 repos - Tier 3 repos are low priority by design.

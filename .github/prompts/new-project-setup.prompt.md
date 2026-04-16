@@ -12,31 +12,31 @@ model: GPT-4.1
 ## When to use this prompt
 
 - **When you have a completed Project Kickoff Spec** and a fresh (or near-empty) repo.
-- **Before writing any code** — this sets up the context that guides everything else.
+- **Before writing any code** - this sets up the context that guides everything else.
 - **Time:** 10–20 minutes depending on spec detail and number of MVP items.
 
 ## What you'll get
 
-- `GOALS.md` — project intent and success criteria
-- `SCOPE.md` — in/out of scope for v1.0
-- `AGENTS.md` — AI agent operating rules for this repo
-- `CONVENTIONS.md` — code style and naming decisions (with .NET defaults, flagged for review)
-- `.github/copilot-instructions.md` — Copilot context file for this repo
-- `adr/README.md` — ADR index, ready for first entry
-- `adr/0001-core-technology-stack.md` — first ADR covering the tech stack decision
+- `GOALS.md` - project intent and success criteria
+- `SCOPE.md` - in/out of scope for v1.0
+- `AGENTS.md` - AI agent operating rules for this repo
+- `CONVENTIONS.md` - code style and naming decisions (with .NET defaults, flagged for review)
+- `.github/copilot-instructions.md` - Copilot context file for this repo
+- `adr/README.md` - ADR index, ready for first entry
+- `adr/0001-core-technology-stack.md` - first ADR covering the tech stack decision
 - GitHub Issues for each MVP scope item (labelled `story`, `mvp`)
 - GitHub Issues for each key user journey (labelled `story`, `needs-spec`)
 
 ## What comes next
 
 After this prompt completes:
-1. **Review and customise** `CONVENTIONS.md` and `.github/copilot-instructions.md` — they contain .NET defaults that need project-specific detail.
+1. **Review and customise** `CONVENTIONS.md` and `.github/copilot-instructions.md` - they contain .NET defaults that need project-specific detail.
 2. **Run** `Install-CopilotAssets.ps1` with `copilot-packs/solo-dev-project-setup.json` to install skills and agents.
 3. **Create a Feature Mini Spec** for each user journey issue before starting work on it.
 
 ---
 
-## Step 0 — Gather inputs
+## Step 0 - Gather inputs
 
 Before starting, confirm you have everything needed. Ask for anything missing.
 
@@ -53,7 +53,7 @@ Summarise back what you've received before proceeding.
 
 ---
 
-## Step 1 — GOALS.md
+## Step 1 - GOALS.md
 
 Create `GOALS.md` in the repo root.
 
@@ -64,19 +64,19 @@ Source material:
 - Section 12 (Kill Criteria) → **Kill Criteria** bullet list
 - Section 5 (Non-Goals) → **What This Is NOT For** section
 
-Set **Last updated** to today's date. Set **Revision History** with today's date and "Initial draft — project kickoff".
+Set **Last updated** to today's date. Set **Revision History** with today's date and "Initial draft - project kickoff".
 
 Confirm the file has been created before moving to Step 2.
 
 ---
 
-## Step 2 — SCOPE.md
+## Step 2 - SCOPE.md
 
 Create `SCOPE.md` in the repo root.
 
 Source material:
-- Section 6 (MVP Scope) → **In Scope — v1.0**
-- Section 5 (Non-Goals) → **Out of Scope — v1.0**
+- Section 6 (MVP Scope) → **In Scope - v1.0**
+- Section 5 (Non-Goals) → **Out of Scope - v1.0**
 - Any items in Section 6 or the spec notes marked as "later" or "v2" → **Possible v2 Candidates**
 
 Set **Last updated** to today's date.
@@ -85,7 +85,7 @@ Confirm the file has been created before moving to Step 3.
 
 ---
 
-## Step 3 — .github/copilot-instructions.md
+## Step 3 - .github/copilot-instructions.md
 
 Create `.github/copilot-instructions.md`.
 
@@ -98,7 +98,7 @@ Source material:
 
 Include a **What Not to Do** section with these standard entries:
 - Do not put business logic in controllers
-- Do not generate migrations automatically — flag when a migration is needed
+- Do not generate migrations automatically - flag when a migration is needed
 - Do not add NuGet packages without flagging it first
 - Do not change the architecture pattern without an ADR
 
@@ -110,7 +110,7 @@ Confirm the file has been created before moving to Step 4.
 
 ---
 
-## Step 4 — AGENTS.md
+## Step 4 - AGENTS.md
 
 Create `AGENTS.md` in the repo root.
 
@@ -124,7 +124,7 @@ Confirm the file has been created before moving to Step 5.
 
 ---
 
-## Step 5 — CONVENTIONS.md
+## Step 5 - CONVENTIONS.md
 
 Create `CONVENTIONS.md` in the repo root.
 
@@ -139,7 +139,7 @@ Confirm the file has been created before moving to Step 6.
 
 ---
 
-## Step 6 — ADR index and first ADR
+## Step 6 - ADR index and first ADR
 
 **6a.** Create `adr/README.md` using the standard ADR index template. Add a single row to the index table for ADR-0001.
 
@@ -154,7 +154,7 @@ Confirm both files have been created before moving to Step 7.
 
 ---
 
-## Step 7 — GitHub Issues: MVP scope items
+## Step 7 - GitHub Issues: MVP scope items
 
 For each item in **Section 6 (MVP Scope)** of the kickoff spec, create a GitHub Issue:
 
@@ -168,7 +168,7 @@ For each item in **Section 6 (MVP Scope)** of the kickoff spec, create a GitHub 
 
   ## Acceptance Criteria and Tasks
 
-  - [ ] [Derive 2–3 tasks from the scope item — keep them high level]
+  - [ ] [Derive 2–3 tasks from the scope item - keep them high level]
 
   ## Notes
 
@@ -182,7 +182,7 @@ Confirm each issue has been created (with issue number) before moving to Step 8.
 
 ---
 
-## Step 8 — GitHub Issues: key user journeys
+## Step 8 - GitHub Issues: key user journeys
 
 For each item in **Section 7 (Key User Journeys)** of the kickoff spec, create a GitHub Issue:
 
@@ -209,7 +209,7 @@ Confirm each issue has been created (with issue number) before completing.
 
 ---
 
-## Step 9 — Summary
+## Step 9 - Summary
 
 Output a completion summary in this format:
 
@@ -226,13 +226,13 @@ Output a completion summary in this format:
 - adr/0001-core-technology-stack.md
 
 ### GitHub Issues Created
-- #[n] — [title] (mvp, story)
-- #[n] — Journey: [name] (needs-spec, story)
+- #[n] - [title] (mvp, story)
+- #[n] - Journey: [name] (needs-spec, story)
 [...]
 
 ### Items Flagged for Review
-- CONVENTIONS.md — review project structure and patterns once tech stack is finalised
-- .github/copilot-instructions.md — review Coding Conventions and Naming sections
+- CONVENTIONS.md - review project structure and patterns once tech stack is finalised
+- .github/copilot-instructions.md - review Coding Conventions and Naming sections
 
 ### Suggested Next Step
 Run Install-CopilotAssets.ps1 with copilot-packs/solo-dev-project-setup.json to install

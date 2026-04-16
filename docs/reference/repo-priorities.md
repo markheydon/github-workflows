@@ -9,9 +9,9 @@ The `plan/REPO_PRIORITIES.md` file defines which repositories are considered hig
 
 ## Structure
 
-- **Tier 1 — Active Focus:** Highest priority. Issues from these repos are always considered first for Up Next. Keep this tier small.
-- **Tier 2 — Medium Priority:** Considered after Tier 1. Good for background or less urgent work.
-- **Tier 3 — Low Priority:** Only considered if there is capacity after Tier 1 and 2. Long-running or low-urgency projects.
+- **Tier 1 - Active Focus:** Highest priority. Issues from these repos are always considered first for Up Next. Keep this tier small.
+- **Tier 2 - Medium Priority:** Considered after Tier 1. Good for background or less urgent work.
+- **Tier 3 - Low Priority:** Only considered if there is capacity after Tier 1 and 2. Long-running or low-urgency projects.
 - **Paused:** Temporarily suspends issue scanning for a repo without changing its tier. PRs are still always surfaced.
 - **Not PM Tracked:** Repos skipped for issue scanning. PRs are still always surfaced.
 

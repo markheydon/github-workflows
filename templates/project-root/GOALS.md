@@ -22,7 +22,7 @@ These are the outcomes this project must achieve to be considered successful.
 ---
 
 ## Success Looks Like
-[Concrete, honest description of what "this worked" means. Could be usage numbers, revenue, personal satisfaction, learning outcomes — be real about it.]
+[Concrete, honest description of what "this worked" means. Could be usage numbers, revenue, personal satisfaction, learning outcomes - be real about it.]
 
 ---
 
@@ -36,8 +36,8 @@ I will stop work on this project if:
 
 ## What This Is NOT For
 (See also: SCOPE.md)
-- [e.g. This is not a platform play — no public API in v1]
-- [e.g. This is not trying to compete on features — simplicity is the product]
+- [e.g. This is not a platform play - no public API in v1]
+- [e.g. This is not trying to compete on features - simplicity is the product]
 
 ---
 

@@ -14,7 +14,7 @@ One or two sentences. If you can't summarise it, it's not ready yet.
 What's broken, missing, or painful right now?
 
 ## Why I Care
-Personal connection, market instinct, frustration — be honest here.
+Personal connection, market instinct, frustration - be honest here.
 
 ---
 

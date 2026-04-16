@@ -14,7 +14,7 @@ A short description of the project in 2–4 sentences.
 What problem are we solving, and why does it matter?
 
 ## 3. Target Users
-Who is this for? Be specific — "developers" is not a target user.
+Who is this for? Be specific - "developers" is not a target user.
 
 ## 4. Goals
 What must this project achieve? (These will become entries in GOALS.md)

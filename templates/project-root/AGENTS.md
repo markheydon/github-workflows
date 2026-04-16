@@ -26,10 +26,10 @@ operating autonomously in this repository.
 
 ## Context Files
 When working in this repo, refer to:
-- `GOALS.md` — project intent and success criteria
-- `SCOPE.md` — what is and isn't in scope
-- `CONVENTIONS.md` — naming, patterns, and style
-- `.github/copilot-instructions.md` — coding standards
+- `GOALS.md` - project intent and success criteria
+- `SCOPE.md` - what is and isn't in scope
+- `CONVENTIONS.md` - naming, patterns, and style
+- `.github/copilot-instructions.md` - coding standards
 
 ## Issue Formatting
 When raising GitHub Issues, use the templates in `.github/ISSUE_TEMPLATE/`.

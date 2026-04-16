@@ -28,10 +28,10 @@ tests/
 ---
 
 ## Patterns in Use
-- **CQRS** via MediatR — all writes are Commands, all reads are Queries
-- **Repository pattern** — `IRepository<T>` in Application, implemented in Infrastructure
-- **Result pattern** — use `Result<T>` for operations that can fail; no exceptions for flow control
-- **Validation** — FluentValidation on all Commands and Queries
+- **CQRS** via MediatR - all writes are Commands, all reads are Queries
+- **Repository pattern** - `IRepository<T>` in Application, implemented in Infrastructure
+- **Result pattern** - use `Result<T>` for operations that can fail; no exceptions for flow control
+- **Validation** - FluentValidation on all Commands and Queries
 
 ---
 
