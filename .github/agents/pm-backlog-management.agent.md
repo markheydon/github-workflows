@@ -38,7 +38,7 @@ You are the **Backlog Manager** for `markheydon`'s personal GitHub projects. You
   - Dependabot PRs are treated as `story` type on the board automatically - skip them during triage but include in counts and iteration planning
   - Modifier labels add context: `priority-high`, `blocked`, `not-started`, `out-of-scope`, `feedback-required`, `waiting-for-details`
   - Deprecated labels to avoid: `feature`, `improvement`, `technical`, `spike`, `dependency`
-- **Active repos** - scan repos per `plan/REPO_PRIORITIES.md` (also skip any in `plan/EXCLUDED_REPOS.md`). For issue scanning, use Tier 1, 2, and 3 only — skip Not PM Tracked and Paused repos. Always scan all repos for PRs regardless of tier. Flag any Tier 1 or Tier 2 repos with no issue or PR activity in the last 2 weeks as potentially stale (Tier 3 repos are low priority by design and need not be flagged).
+- **Active repos** - scan repos per `plan/REPO_PRIORITIES.md` (also skip any in `plan/EXCLUDED_REPOS.md`). For issue scanning, use Tier 1, 2, and 3 only - skip Not PM Tracked and Paused repos. Always scan all repos for PRs regardless of tier. Flag any Tier 1 or Tier 2 repos with no issue or PR activity in the last 2 weeks as potentially stale (Tier 3 repos are low priority by design and need not be flagged).
 
 ## How to use this agent
 

@@ -9,8 +9,8 @@
     agents, skills, and instructions to copy from each source repository, and installs
     them into the target project's .github folder.
 
-    Agents and instructions are treated as single files; skills are folders and are copied
-    recursively. The same relative paths are preserved under the target .github folder.
+    Agents, instructions, and prompts are treated as single files; skills are folders and are
+    copied recursively. The same relative paths are preserved under the target .github folder.
 
     Requires GitHub CLI (gh) for the clone operation. If gh is not installed, the script
     will exit with a human-readable error and instructions for how to install it.
@@ -26,7 +26,7 @@
 .PARAMETER ConfigFile
     Path to a JSON file listing one or more source repositories and their assets.
     Each source uses a repo slug in owner/repo format and can contain agents,
-    skills, and instructions arrays.
+    skills, instructions, and prompts arrays.
 
     Agent and instruction entries are short names (for example "example-agent"),
     while skills are folder names (for example "example-skill").
@@ -133,7 +133,8 @@ Example:
             "name": "Awesome Copilot",
             "repo": "github/awesome-copilot",
             "agents": ["CSharpExpert"],
-            "skills": ["csharp-async", "csharp-docs"]
+            "skills": ["csharp-async", "csharp-docs"],
+            "prompts": ["new-project-setup"]
         }
     ]
 "@
@@ -181,7 +182,8 @@ if ($config.PSObject.Properties['repository'] -and $config.repository) {
 $legacyAgents = @(if ($config.PSObject.Properties['agents']) { $config.agents } else { @() })
 $legacySkills = @(if ($config.PSObject.Properties['skills']) { $config.skills } else { @() })
 $legacyInstructions = @(if ($config.PSObject.Properties['instructions']) { $config.instructions } else { @() })
-$hasLegacyAssets = $legacyAgents.Count -gt 0 -or $legacySkills.Count -gt 0 -or $legacyInstructions.Count -gt 0
+$legacyPrompts = @(if ($config.PSObject.Properties['prompts']) { $config.prompts } else { @() })
+$hasLegacyAssets = $legacyAgents.Count -gt 0 -or $legacySkills.Count -gt 0 -or $legacyInstructions.Count -gt 0 -or $legacyPrompts.Count -gt 0
 
 $configuredSources = @(if ($config.PSObject.Properties['sources']) { $config.sources } else { @() })
 $sourceConfigs = @($configuredSources)
@@ -194,6 +196,7 @@ if ($hasLegacyAssets) {
         agents = $legacyAgents
         skills = $legacySkills
         instructions = $legacyInstructions
+        prompts = $legacyPrompts
     }
 }
 
@@ -210,9 +213,10 @@ foreach ($sourceConfig in $sourceConfigs) {
     $agents = @(if ($sourceConfig.PSObject.Properties['agents']) { $sourceConfig.agents } else { @() })
     $skills = @(if ($sourceConfig.PSObject.Properties['skills']) { $sourceConfig.skills } else { @() })
     $instructions = @(if ($sourceConfig.PSObject.Properties['instructions']) { $sourceConfig.instructions } else { @() })
+    $prompts = @(if ($sourceConfig.PSObject.Properties['prompts']) { $sourceConfig.prompts } else { @() })
 
-    if ($agents.Count -eq 0 -and $skills.Count -eq 0 -and $instructions.Count -eq 0) {
-        Write-Warning "Source '$repo' has no agents, skills, or instructions and will be skipped."
+    if ($agents.Count -eq 0 -and $skills.Count -eq 0 -and $instructions.Count -eq 0 -and $prompts.Count -eq 0) {
+        Write-Warning "Source '$repo' has no agents, skills, instructions, or prompts and will be skipped."
         continue
     }
 
@@ -222,6 +226,7 @@ foreach ($sourceConfig in $sourceConfigs) {
         agents = $agents
         skills = $skills
         instructions = $instructions
+        prompts = $prompts
     }
 }
 
@@ -233,16 +238,18 @@ if ($sources.Count -eq 0) {
 $totalAgents = ($sources | ForEach-Object { $_.agents.Count } | Measure-Object -Sum).Sum
 $totalSkills = ($sources | ForEach-Object { $_.skills.Count } | Measure-Object -Sum).Sum
 $totalInstructions = ($sources | ForEach-Object { $_.instructions.Count } | Measure-Object -Sum).Sum
+$totalPrompts = ($sources | ForEach-Object { $_.prompts.Count } | Measure-Object -Sum).Sum
 
 Write-Information "  Sources:      $($sources.Count)" -InformationAction Continue
 Write-Information "  Agents:       $totalAgents" -InformationAction Continue
 Write-Information "  Skills:       $totalSkills" -InformationAction Continue
 Write-Information "  Instructions: $totalInstructions" -InformationAction Continue
+Write-Information "  Prompts:      $totalPrompts" -InformationAction Continue
 
 # --- Resolve shorthand config entries to Awesome Copilot relative paths ---
 function Resolve-AssetRelativePath {
     param(
-        [Parameter(Mandatory)][ValidateSet('agents', 'skills', 'instructions')][string]$AssetType,
+        [Parameter(Mandatory)][ValidateSet('agents', 'skills', 'instructions', 'prompts')][string]$AssetType,
         [Parameter(Mandatory)][string]$AssetName
     )
 
@@ -259,6 +266,9 @@ function Resolve-AssetRelativePath {
         }
         'instructions' {
             return "instructions/$AssetName.instructions.md"
+        }
+        'prompts' {
+            return "prompts/$AssetName.prompt.md"
         }
     }
 }
@@ -447,6 +457,21 @@ foreach ($source in $sources) {
         Write-Information "Copying instructions from '$($source.repo)'..." -InformationAction Continue
         foreach ($instruction in $source.instructions) {
             $resolvedPath = Resolve-AssetRelativePath -AssetType 'instructions' -AssetName ([string]$instruction)
+            $result = Copy-Asset -SourceRoot $sourceRoot -RelativePath $resolvedPath -Recurse $false
+
+            switch ($result) {
+                'copied' { $copiedCount++ }
+                'existing' { $skippedCount++ }
+                'missing' { $missingCount++ }
+            }
+        }
+    }
+
+    # --- Copy prompts (single files) ---
+    if ($source.prompts.Count -gt 0) {
+        Write-Information "Copying prompts from '$($source.repo)'..." -InformationAction Continue
+        foreach ($prompt in $source.prompts) {
+            $resolvedPath = Resolve-AssetRelativePath -AssetType 'prompts' -AssetName ([string]$prompt)
             $result = Copy-Asset -SourceRoot $sourceRoot -RelativePath $resolvedPath -Recurse $false
 
             switch ($result) {

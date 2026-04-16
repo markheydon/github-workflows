@@ -70,7 +70,7 @@ If available slots = 0, tell the user and do not suggest adding more. Let them d
 
 **Then, read `plan/REPO_PRIORITIES.md`**. Apply these rules when fetching and proposing candidates:
 - Fetch issues from Tier 1, Tier 2, and Tier 3 repos only. Skip **Not PM Tracked** and **Paused** repos for issue scanning.
-- Always fetch PRs from **all** repos regardless of tier — PRs surface on the board regardless of repo priority.
+- Always fetch PRs from **all** repos regardless of tier - PRs surface on the board regardless of repo priority.
 - When proposing candidates for Up Next, prioritise Tier 1 before Tier 2, and Tier 2 before Tier 3.
 - Only surface Tier 3 issue candidates if capacity remains after all Tier 1 and Tier 2 candidates have been handled or deliberately skipped.
 

@@ -1,0 +1,25 @@
+{
+  "name": "solo-dev-project-setup",
+  "description": "Technology-agnostic project setup pack. Installs planning and setup assets so language/platform packs can be layered on top.",
+  "version": "1.1",
+  "sources": [
+    {
+      "name": "Awesome Copilot",
+      "repo": "github/awesome-copilot",
+      "skills": [
+        "create-architectural-decision-record",
+        "create-implementation-plan",
+        "create-github-issue-feature-from-specification",
+        "create-github-issues-feature-from-implementation-plan"
+      ]
+    },
+    {
+      "name": "Mark's GitHub Workflows",
+      "repo": "markheydon/github-workflows",
+      "prompts": [
+        "new-project-setup",
+        "pr-address-coding-review"
+      ]
+    }
+  ]
+}

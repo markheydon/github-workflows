@@ -85,3 +85,4 @@ Each prompt has:
 ## Tone & style
 - Documentation should be concise, friendly, and welcoming to others who may want to adapt things.
 - YAML examples must use spaces (never tabs).
+- Avoid em dashes where practical. Prefer a spaced hyphen like 'something - something else' for consistency.
