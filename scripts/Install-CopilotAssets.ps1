@@ -35,7 +35,8 @@
 
 .PARAMETER CloneRoot
     Directory in which to clone (or look for existing clones of) all configured source
-    repositories. Defaults to the current working directory.
+    repositories. Defaults to ~/.copilot-assets-cache (per-user).
+    Use -CloneRoot to override this location.
 
 .PARAMETER Force
     Overwrite existing files and folders in the target .github folder.
@@ -65,7 +66,7 @@ param(
     [Parameter(Mandatory)]
     [string]$ConfigFile,
 
-    [string]$CloneRoot = $PWD,
+    [string]$CloneRoot = (Join-Path ([System.Environment]::GetFolderPath('UserProfile')) '.copilot-assets-cache'),
 
     [switch]$Force
 )

@@ -16,6 +16,8 @@ This guide explains how to install the Copilot agents, skills, prompts, and inst
    ```
 3. The script will copy the specified agents, skills, prompts, and instructions into `.github/`.
 
+By default, source repositories are cloned into a per-user cache at `~/.copilot-assets-cache`. To use a different location, pass `-CloneRoot <path>`.
+
 ## Manual Installation
 
 1. Copy the following folders from this repo to your target repo:
