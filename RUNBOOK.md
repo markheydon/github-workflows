@@ -40,7 +40,7 @@ to do properly and is worth every minute - it becomes the direct input to Phase 
 
 Once you have a completed `PROJECT-KICKOFF-SPEC.md` and have created a new (empty) GitHub repo:
 
-### Command 1 - Install skills and agents
+### Command 1 - Install setup assets
 
 ```powershell
 .\scripts\Install-CopilotAssets.ps1 `
@@ -49,13 +49,21 @@ Once you have a completed `PROJECT-KICKOFF-SPEC.md` and have created a new (empt
 ```
 
 This installs into your new repo's `.github/` folder:
-- `CSharpExpert` agent (from Awesome Copilot)
 - `create-architectural-decision-record` skill
 - `create-implementation-plan` skill
 - `create-github-issue-feature-from-specification` skill
 - `create-github-issues-feature-from-implementation-plan` skill
-- `dotnet-best-practices` skill (from this repo)
-- `csharp` instructions (from Awesome Copilot)
+- `new-project-setup` prompt (from this repo)
+
+This pack is intentionally technology-agnostic. After setup, install any language or platform pack you need.
+
+Optional example for C#/.NET:
+
+```powershell
+.\scripts\Install-CopilotAssets.ps1 `
+  -TargetFolder C:\path\to\your-new-repo `
+  -ConfigFile .\copilot-packs\csharp-dotnet-development.json
+```
 
 ### Command 2 - Run the setup prompt
 
@@ -125,8 +133,8 @@ Gets you: adr/XXXX-[title].md, and the ADR index updated automatically
 
 ### Addressing PR code review comments
 
-See `.github/prompts/pr-address-review.prompt.md` (coming in a follow-up PR).
-Short version: run `/pr-address-review` with the PR number - it reads all open threads,
+See `prompts/pr-address-coding-review.prompt.md`.
+Short version: run `/pr-address-coding-review` with the PR number - it reads all open threads,
 fixes the code, replies to each thread, and resolves them. Never silently skip a comment.
 
 ---
@@ -144,7 +152,7 @@ fixes the code, replies to each thread, and resolves them. Never silently skip a
 | Plan a complex feature | `create-implementation-plan` skill |
 | Turn a plan into Issues | `create-github-issues-feature-from-implementation-plan` skill |
 | Record an architectural decision | `create-architectural-decision-record` skill |
-| Address PR review comments | `/pr-address-review` prompt |
+| Address PR review comments | `/pr-address-coding-review` prompt |
 
 ---
 
@@ -166,7 +174,7 @@ Use `-Force` to overwrite any existing assets.
 
 | Pack | Use for |
 |---|---|
-| `solo-dev-project-setup.json` | New project setup - all skills, ADR, issue management |
-| `csharp-dotnet-development.json` | C#/.NET day-to-day dev (subset of above, no issue/plan skills) |
+| `solo-dev-project-setup.json` | Language/platform-agnostic project setup and planning assets |
+| `csharp-dotnet-development.json` | C#/.NET development assets to layer on after setup |
 | `blazor-fluentui-development.json` | Blazor with Fluent UI |
 | `blazor-mudblazor-development.json` | Blazor with MudBlazor |
