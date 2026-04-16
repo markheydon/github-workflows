@@ -35,8 +35,8 @@
 
 .PARAMETER CloneRoot
     Directory in which to clone (or look for existing clones of) all configured source
-    repositories. Defaults to a shared cache folder in the current user profile:
-    <UserProfile>/.copilot-assets-cache. Use -CloneRoot to override this location.
+    repositories. Defaults to ~/.copilot-assets-cache (per-user).
+    Use -CloneRoot to override this location.
 
 .PARAMETER Force
     Overwrite existing files and folders in the target .github folder.
