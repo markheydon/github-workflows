@@ -74,9 +74,9 @@ Scripts in `scripts/`:
 - `label-script-update.instructions.md`
 
 **Exportable root assets:**
-- `skills/dotnet-best-practices/SKILL.md`
-- `skills/mudblazor/SKILL.md` (plus references)
-- `instructions/blazor-csharp.instructions.md`
+- `skills/repo-dotnet-best-practices/SKILL.md`
+- `skills/repo-mudblazor/SKILL.md` (plus references)
+- `instructions/repo-blazor-csharp.instructions.md`
 
 **Template asset folders:**
 Each of `skills/`, `instructions/`, `prompts/`, and `agents/` contains a README clarifying that these are templates only - active runtime assets are always under `.github/`.

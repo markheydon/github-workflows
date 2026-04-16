@@ -17,8 +17,8 @@
       "name": "Mark's GitHub Workflows",
       "repo": "markheydon/github-workflows",
       "prompts": [
-        "new-project-setup",
-        "pr-address-coding-review"
+        "repo-new-project-setup",
+        "repo-pr-address-coding-review"
       ]
     }
   ]

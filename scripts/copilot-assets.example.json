@@ -23,14 +23,14 @@
     {
       "name": "GitHub Workflows",
       "repo": "markheydon/github-workflows",
-      "agents": [
-        "pm-assistant"
-      ],
       "skills": [
-        "github-issue-management"
+        "repo-dotnet-best-practices"
       ],
       "instructions": [
-        "label-script-update"
+        "repo-blazor-csharp"
+      ],
+      "prompts": [
+        "repo-new-project-setup"
       ]
     }
   ]

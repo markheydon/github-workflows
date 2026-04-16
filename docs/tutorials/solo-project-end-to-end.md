@@ -16,7 +16,7 @@ Every project follows three phases, each with its own tools:
 
 ```
 Phase 1: Pre-repo planning    → templates/
-Phase 2: Repo setup           → copilot-packs/ + .github/prompts/new-project-setup
+Phase 2: Repo setup           → copilot-packs/ + .github/prompts/repo-new-project-setup
 Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates/FEATURE-MINI-SPEC.md
 ```
 
@@ -40,10 +40,10 @@ Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates
      ```powershell
      ./scripts/Install-CopilotAssets.ps1 -TargetFolder <path-to-your-new-repo> -ConfigFile ./copilot-packs/solo-dev-project-setup.json
      ```
-   - This copies the planning/setup skills and the `new-project-setup` prompt into the target repo's `.github/` folder.
+   - This copies the planning/setup skills and the `repo-new-project-setup` prompt into the target repo's `.github/` folder.
    - (Optional) Layer on a language/platform pack from `./copilot-packs/`, for example `csharp-dotnet-development.json` for .NET projects.
 2. **Run the setup prompt:**
-   - Open the repo in VS Code and run `/new-project-setup` in Copilot Chat.
+   - Open the repo in VS Code and run `/repo-new-project-setup` in Copilot Chat.
    - Paste your completed kickoff spec when prompted.
    - The prompt generates all standing docs, ADRs, and initial issues for you.
 
@@ -59,7 +59,7 @@ Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates
 - **Record architectural decisions:**
   - Use the `create-architectural-decision-record` skill to document decisions and alternatives.
 - **Address PR review comments:**
-  - Use the `/pr-address-coding-review` prompt to process and resolve all open PR review threads.
+  - Use the `/repo-pr-address-coding-review` prompt to process and resolve all open PR review threads.
 
 ---
 
@@ -70,13 +70,13 @@ Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates
 | Capture a new idea | `IDEA-CAPTURE.md` |
 | Plan a new project | `PROJECT-KICKOFF-SPEC.md` |
 | Bootstrap a new repo | `Install-CopilotAssets.ps1` + `solo-dev-project-setup.json` |
-| Generate standing docs | `/new-project-setup` prompt |
+| Generate standing docs | `/repo-new-project-setup` prompt |
 | Spec out a feature | `FEATURE-MINI-SPEC.md` |
 | Turn a spec into an Issue | `create-github-issue-feature-from-specification` skill |
 | Plan a complex feature | `create-implementation-plan` skill |
 | Turn a plan into Issues | `create-github-issues-feature-from-implementation-plan` skill |
 | Record an architectural decision | `create-architectural-decision-record` skill |
-| Address PR review comments | `/pr-address-coding-review` prompt |
+| Address PR review comments | `/repo-pr-address-coding-review` prompt |
 
 ---
 

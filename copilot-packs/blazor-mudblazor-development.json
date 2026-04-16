@@ -20,11 +20,11 @@
       "name": "Mark's GitHub Workflows",
       "repo": "markheydon/github-workflows",
       "skills": [
-        "dotnet-best-practices",
-        "mudblazor"
+        "repo-dotnet-best-practices",
+        "repo-mudblazor"
       ],
       "instructions": [
-        "blazor-csharp"
+        "repo-blazor-csharp"
       ]
     }
   ]

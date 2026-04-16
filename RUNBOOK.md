@@ -11,7 +11,7 @@ There are three phases to every project. Different tools apply at each phase.
 
 ```
 Phase 1: Pre-repo planning    → templates/
-Phase 2: Repo setup           → copilot-packs/ + .github/prompts/new-project-setup
+Phase 2: Repo setup           → copilot-packs/ + .github/prompts/repo-new-project-setup
 Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates/FEATURE-MINI-SPEC.md
 ```
 
@@ -53,7 +53,7 @@ This installs into your new repo's `.github/` folder:
 - `create-implementation-plan` skill
 - `create-github-issue-feature-from-specification` skill
 - `create-github-issues-feature-from-implementation-plan` skill
-- `new-project-setup` prompt (from this repo)
+- `repo-new-project-setup` prompt (from this repo)
 
 This pack is intentionally technology-agnostic. After setup, install any language or platform pack you need.
 
@@ -72,7 +72,7 @@ Optional example for C#/.NET:
 Open the new repo in VS Code. In Copilot Chat, run:
 
 ```
-/new-project-setup
+/repo-new-project-setup
 ```
 
 When prompted, paste in your completed `PROJECT-KICKOFF-SPEC.md`. The prompt will generate:
@@ -135,8 +135,8 @@ Gets you: adr/XXXX-[title].md, and the ADR index updated automatically
 
 ### Addressing PR code review comments
 
-See `prompts/pr-address-coding-review.prompt.md`.
-Short version: run `/pr-address-coding-review` with the PR number - it reads all open threads,
+See `prompts/repo-pr-address-coding-review.prompt.md`.
+Short version: run `/repo-pr-address-coding-review` with the PR number - it reads all open threads,
 fixes the code, replies to each thread, and resolves them. Never silently skip a comment.
 
 ---
@@ -148,13 +148,13 @@ fixes the code, replies to each thread, and resolves them. Never silently skip a
 | Capture a new idea | `templates/IDEA-CAPTURE.md` (in your notes) |
 | Plan a new project | `templates/PROJECT-KICKOFF-SPEC.md` (in your notes) |
 | Bootstrap a new repo | `Install-CopilotAssets.ps1` + `copilot-packs/solo-dev-project-setup.json` |
-| Generate all standing docs | `/new-project-setup` prompt (paste kickoff spec) |
+| Generate all standing docs | `/repo-new-project-setup` prompt (paste kickoff spec) |
 | Spec out a feature | `templates/FEATURE-MINI-SPEC.md` |
 | Turn a spec into an Issue | `create-github-issue-feature-from-specification` skill |
 | Plan a complex feature | `create-implementation-plan` skill |
 | Turn a plan into Issues | `create-github-issues-feature-from-implementation-plan` skill |
 | Record an architectural decision | `create-architectural-decision-record` skill |
-| Address PR review comments | `/pr-address-coding-review` prompt |
+| Address PR review comments | `/repo-pr-address-coding-review` prompt |
 
 ---
 
