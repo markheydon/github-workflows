@@ -85,7 +85,36 @@ Confirm the file has been created before moving to Step 3.
 
 ---
 
-## Step 3 - .github/copilot-instructions.md
+## Step 3 - AGENTS.md
+
+Create `AGENTS.md` in the repo root.
+
+Use the standard template. In the **Context Files** section, list:
+- `GOALS.md`
+- `SCOPE.md`
+- `CONVENTIONS.md`
+- `.github/copilot-instructions.md`
+
+Confirm the file has been created before moving to Step 4.
+
+---
+
+## Step 4 - CONVENTIONS.md
+
+Create `CONVENTIONS.md` in the repo root.
+
+Use .NET Clean Architecture defaults for the Project Structure and Patterns sections.
+Note any constraints from Section 8 of the kickoff spec.
+
+Add this note at the top: `> ⚠️ Review and update this file once tech stack choices are finalised. The structure and patterns below are .NET Clean Architecture defaults.`
+
+Set **Last updated** to today's date.
+
+Confirm the file has been created before moving to Step 5.
+
+---
+
+## Step 5 - .github/copilot-instructions.md
 
 Create `.github/copilot-instructions.md`.
 
@@ -105,35 +134,6 @@ Include a **What Not to Do** section with these standard entries:
 Include a **GitHub Issues** section:
 - When suggesting work to be done, format it as a GitHub Issue using the story issue template
 - Link issues to GOALS.md goals where relevant
-
-Confirm the file has been created before moving to Step 4.
-
----
-
-## Step 4 - AGENTS.md
-
-Create `AGENTS.md` in the repo root.
-
-Use the standard template. In the **Context Files** section, list:
-- `GOALS.md`
-- `SCOPE.md`
-- `CONVENTIONS.md`
-- `.github/copilot-instructions.md`
-
-Confirm the file has been created before moving to Step 5.
-
----
-
-## Step 5 - CONVENTIONS.md
-
-Create `CONVENTIONS.md` in the repo root.
-
-Use .NET Clean Architecture defaults for the Project Structure and Patterns sections.
-Note any constraints from Section 8 of the kickoff spec.
-
-Add this note at the top: `> ⚠️ Review and update this file once tech stack choices are finalised. The structure and patterns below are .NET Clean Architecture defaults.`
-
-Set **Last updated** to today's date.
 
 Confirm the file has been created before moving to Step 6.
 

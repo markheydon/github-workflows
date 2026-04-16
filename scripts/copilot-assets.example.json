@@ -15,6 +15,9 @@
       ],
       "instructions": [
         "example"
+      ],
+      "prompts": [
+        "example-prompt"
       ]
     },
     {
