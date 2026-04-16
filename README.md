@@ -1,6 +1,6 @@
 # GitHub Workflows & Copilot PM Automation
 
-This repository provides a complete, reusable system for solo developers to automate project management across multiple GitHub repositories. It centralises label strategy, board automation, Copilot prompts, agents, skills, and setup scripts—making it easy to keep issues, PRs, and project board state in sync with minimal admin.
+This repository provides a complete, reusable system for solo developers to automate project management across multiple GitHub repositories. It centralises label strategy, board automation, Copilot prompts, agents, skills, and setup scripts - making it easy to keep issues, PRs, and project board state in sync with minimal admin.
 
 ## Purpose & Context
 
@@ -79,7 +79,7 @@ Scripts in `scripts/`:
 - `instructions/blazor-csharp.instructions.md`
 
 **Template asset folders:**
-Each of `skills/`, `instructions/`, `prompts/`, and `agents/` contains a README clarifying that these are templates only—active runtime assets are always under `.github/`.
+Each of `skills/`, `instructions/`, `prompts/`, and `agents/` contains a README clarifying that these are templates only - active runtime assets are always under `.github/`.
 
 ## Copilot Asset Packs
 

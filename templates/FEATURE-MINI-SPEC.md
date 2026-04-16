@@ -84,5 +84,5 @@ When this spec is agreed, convert it to GitHub Issues:
 - [ ] One parent Issue for the feature (link to this spec)
 - [ ] Child Issues for each discrete piece of work
 - [ ] Acceptance criteria copied into the parent Issue
-- [ ] Issues labelled: `story`, `[epic name]`
+- [ ] Child Issues labelled `story` and linked to the parent epic Issue
 - [ ] Issues linked to relevant milestone

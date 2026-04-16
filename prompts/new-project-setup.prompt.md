@@ -24,14 +24,14 @@ model: GPT-4.1
 - `.github/copilot-instructions.md` - Copilot context file for this repo
 - `adr/README.md` - ADR index, ready for first entry
 - `adr/0001-core-technology-stack.md` - first ADR covering the tech stack decision
-- GitHub Issues for each MVP scope item (labelled `story`, `mvp`)
-- GitHub Issues for each key user journey (labelled `story`, `needs-spec`)
+- GitHub Issues for each MVP scope item (labelled `story`, with MVP context captured in the issue body)
+- GitHub Issues for each key user journey (labelled `story`, with spec follow-up captured in the issue body)
 
 ## What comes next
 
 After this prompt completes:
 1. **Review and customise** `CONVENTIONS.md` and `.github/copilot-instructions.md` - they contain .NET defaults that need project-specific detail.
-2. **Run** `Install-CopilotAssets.ps1` with `copilot-packs/solo-dev-project-setup.json` to install setup skills and prompts.
+2. **Copy** `scripts/Install-CopilotAssets.ps1` from your `github-workflows` clone into this repo's `scripts/` folder, then run it with `copilot-packs/solo-dev-project-setup.json` to install setup skills and prompts.
 3. **Create a Feature Mini Spec** for each user journey issue before starting work on it.
 
 ---
@@ -159,7 +159,7 @@ Confirm both files have been created before moving to Step 7.
 For each item in **Section 6 (MVP Scope)** of the kickoff spec, create a GitHub Issue:
 
 - **Title:** the scope item, written as an actionable task (e.g. "Implement user authentication")
-- **Labels:** `story`, `mvp`
+- **Labels:** `story`
 - **Body:**
   ```
   ## Description
@@ -173,6 +173,7 @@ For each item in **Section 6 (MVP Scope)** of the kickoff spec, create a GitHub 
   ## Notes
 
   Source: Project Kickoff Spec, Section 6 (MVP Scope)
+  Delivery context: This is part of the MVP scope for the first release.
   Related goal: [reference the most relevant goal from GOALS.md]
 
   > ⚠️ A Feature Mini Spec should be completed before work begins on this issue.
@@ -187,7 +188,7 @@ Confirm each issue has been created (with issue number) before moving to Step 8.
 For each item in **Section 7 (Key User Journeys)** of the kickoff spec, create a GitHub Issue:
 
 - **Title:** "Journey: [journey name]"
-- **Labels:** `story`, `needs-spec`
+- **Labels:** `story`
 - **Body:**
   ```
   ## Description
@@ -198,7 +199,7 @@ For each item in **Section 7 (Key User Journeys)** of the kickoff spec, create a
 
   - [ ] Complete a Feature Mini Spec for this journey (use `templates/FEATURE-MINI-SPEC.md`)
   - [ ] Break the journey into individual story issues
-  - [ ] Remove the `needs-spec` label once the spec is done
+  - [ ] Update this issue once the spec is done and link to the spec file
 
   ## Notes
 
@@ -226,8 +227,8 @@ Output a completion summary in this format:
 - adr/0001-core-technology-stack.md
 
 ### GitHub Issues Created
-- #[n] - [title] (mvp, story)
-- #[n] - Journey: [name] (needs-spec, story)
+- #[n] - [title] (story)
+- #[n] - Journey: [name] (story)
 [...]
 
 ### Items Flagged for Review
@@ -238,5 +239,5 @@ Output a completion summary in this format:
 Run Install-CopilotAssets.ps1 with copilot-packs/solo-dev-project-setup.json to install
 setup skills and prompts into this repo's .github/ folder:
 
-  .\Install-CopilotAssets.ps1 -TargetFolder . -ConfigFile path/to/github-workflows/copilot-packs/solo-dev-project-setup.json
+  .\scripts\Install-CopilotAssets.ps1 -TargetFolder . -ConfigFile path/to/github-workflows/copilot-packs/solo-dev-project-setup.json
 ```

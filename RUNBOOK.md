@@ -84,8 +84,8 @@ When prompted, paste in your completed `PROJECT-KICKOFF-SPEC.md`. The prompt wil
 | `.github/copilot-instructions.md` | Sections 1, 8 + tech stack |
 | `adr/README.md` | Standard template |
 | `adr/0001-core-technology-stack.md` | Sections 8, 9 + tech stack |
-| GitHub Issues (MVP items) | Section 6 - labelled `story`, `mvp` |
-| GitHub Issues (journeys) | Section 7 - labelled `story`, `needs-spec` |
+| GitHub Issues (MVP items) | Section 6 - labelled `story`, with MVP context captured in the issue body |
+| GitHub Issues (journeys) | Section 7 - labelled `story`, with spec follow-up captured in the issue body |
 
 **After the prompt completes:**
 - Review `CONVENTIONS.md` and `.github/copilot-instructions.md` - they use .NET defaults that need project-specific detail.
@@ -97,7 +97,7 @@ When prompted, paste in your completed `PROJECT-KICKOFF-SPEC.md`. The prompt wil
 
 ### Per-feature workflow
 
-For each `needs-spec` journey issue (or any new feature):
+For each journey issue created from Section 7 (or any new feature):
 
 **Step 1 - Write the spec**
 Copy `templates/FEATURE-MINI-SPEC.md` into `plan/specs/` in your repo. Fill it in.

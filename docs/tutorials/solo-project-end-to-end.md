@@ -36,12 +36,12 @@ Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates
 ## Phase 2: New Repo Setup
 
 1. **Install setup assets:**
-   - Run the install script in your new repo:
+   - From a checkout of this toolkit repo, run the install script and point it at your new repo:
      ```powershell
-     ./scripts/Install-CopilotAssets.ps1 -TargetFolder <your-new-repo> -ConfigFile ./copilot-packs/solo-dev-project-setup.json
+     ./scripts/Install-CopilotAssets.ps1 -TargetFolder <path-to-your-new-repo> -ConfigFile ./copilot-packs/solo-dev-project-setup.json
      ```
-   - This installs planning/setup skills and the `new-project-setup` prompt into `.github/`.
-   - (Optional) Layer on a language/platform pack, e.g. `csharp-dotnet-development.json` for .NET projects.
+   - This copies the planning/setup skills and the `new-project-setup` prompt into the target repo's `.github/` folder.
+   - (Optional) Layer on a language/platform pack from `./copilot-packs/`, for example `csharp-dotnet-development.json` for .NET projects.
 2. **Run the setup prompt:**
    - Open the repo in VS Code and run `/new-project-setup` in Copilot Chat.
    - Paste your completed kickoff spec when prompted.
