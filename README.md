@@ -10,7 +10,7 @@ This repository centralises project management automation for a solo developer m
 
 > Copilot asset layout:
 > - Active PM assets used by this repo live under `.github/`.
-> - Exportable assets for bootstrapping other repos live in root `skills/` and `instructions/`.
+> - Exportable assets for bootstrapping other repos live in root `skills/`, `instructions/`, `prompts/`, and `agents/`.
 > - JSON asset packs live in `copilot-packs/` and are consumed by `scripts/Install-CopilotAssets.ps1`.
 
 ## Reusable GitHub Actions Workflows
@@ -27,7 +27,7 @@ Notes:
 
 Scripts in `scripts/`:
 
-- `Install-CopilotAssets.ps1`: installs agents/skills/instructions into a target repo from configured source repos.
+- `Install-CopilotAssets.ps1`: installs agents/skills/instructions/prompts into a target repo from configured source repos.
 - `Convert-IssueLabels.ps1`: migrates deprecated labels on issues to the current strategy labels.
 - `Export-PatExists.ps1`: audits repos for `PERSONAL_ACCESS_TOKEN` usage.
 - `Export-WorkflowAudit.ps1`: audits workflow presence/content across repos.

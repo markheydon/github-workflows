@@ -31,7 +31,7 @@ model: GPT-4.1
 
 After this prompt completes:
 1. **Review and customise** `CONVENTIONS.md` and `.github/copilot-instructions.md` - they contain .NET defaults that need project-specific detail.
-2. **Run** `Install-CopilotAssets.ps1` with `copilot-packs/solo-dev-project-setup.json` to install skills and agents.
+2. **Run** `Install-CopilotAssets.ps1` with `copilot-packs/solo-dev-project-setup.json` to install setup skills and prompts.
 3. **Create a Feature Mini Spec** for each user journey issue before starting work on it.
 
 ---
@@ -236,7 +236,7 @@ Output a completion summary in this format:
 
 ### Suggested Next Step
 Run Install-CopilotAssets.ps1 with copilot-packs/solo-dev-project-setup.json to install
-skills and agents into this repo's .github/ folder:
+setup skills and prompts into this repo's .github/ folder:
 
   .\Install-CopilotAssets.ps1 -TargetFolder . -ConfigFile path/to/github-workflows/copilot-packs/solo-dev-project-setup.json
 ```
