@@ -57,6 +57,8 @@ This installs into your new repo's `.github/` folder:
 
 This pack is intentionally technology-agnostic. After setup, install any language or platform pack you need.
 
+By default, `Install-CopilotAssets.ps1` clones source repositories into a shared cache at `~/.copilot-assets-cache` so repeated runs reuse the same local clones. Use `-CloneRoot` to override this location when needed.
+
 Optional example for C#/.NET:
 
 ```powershell
