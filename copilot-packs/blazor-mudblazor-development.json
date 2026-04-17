@@ -19,12 +19,16 @@
     {
       "name": "Mark's GitHub Workflows",
       "repo": "markheydon/github-workflows",
+      "nameTransform": {
+        "suffix": "mh",
+        "updateFrontmatter": true
+      },
       "skills": [
-        "repo-dotnet-best-practices",
-        "repo-mudblazor"
+        "dotnet-best-practices",
+        "mudblazor"
       ],
       "instructions": [
-        "repo-blazor-csharp"
+        "blazor-csharp"
       ]
     }
   ]

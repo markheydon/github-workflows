@@ -74,12 +74,16 @@ Scripts in `scripts/`:
 - `label-script-update.instructions.md`
 
 **Exportable root assets:**
-- `skills/repo-dotnet-best-practices/SKILL.md`
-- `skills/repo-mudblazor/SKILL.md` (plus references)
-- `instructions/repo-blazor-csharp.instructions.md`
+- `skills/dotnet-best-practices/SKILL.md`
+- `skills/mudblazor/SKILL.md` (plus references)
+- `instructions/blazor-csharp.instructions.md`
+- `prompts/new-project-setup.prompt.md`
+- `prompts/pr-address-coding-review.prompt.md`
 
 **Template asset folders:**
 Each of `skills/`, `instructions/`, `prompts/`, and `agents/` contains a README clarifying that these are templates only - active runtime assets are always under `.github/`.
+
+Install-time naming transforms are configured in `copilot-packs/*.json` via an optional `nameTransform` object on each source entry. This keeps canonical source asset names clean while allowing installed assets to be suffixed or prefixed to avoid collisions with library assets.
 
 ## Copilot Asset Packs
 

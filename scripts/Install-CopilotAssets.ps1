@@ -26,7 +26,13 @@
 .PARAMETER ConfigFile
     Path to a JSON file listing one or more source repositories and their assets.
     Each source uses a repo slug in owner/repo format and can contain agents,
-    skills, instructions, and prompts arrays.
+        skills, instructions, and prompts arrays.
+
+        Each source can also include an optional `nameTransform` object:
+        - `prefix`: optional token to prepend to installed asset names
+        - `suffix`: optional token to append to installed asset names
+        - `updateFrontmatter`: when true, update frontmatter `name` fields for
+            renamed prompts, agents, and other single-file assets when present
 
     Agent and instruction entries are short names (for example "example-agent"),
     while skills are folder names (for example "example-skill").
@@ -175,6 +181,160 @@ function Convert-ToRepoSlug {
     return $candidate
 }
 
+function Get-NameTransform {
+    param(
+        [Parameter(Mandatory)]$SourceConfig
+    )
+
+    $prefix = $null
+    $suffix = $null
+    $updateFrontmatter = $false
+
+    if ($SourceConfig.PSObject.Properties['nameTransform'] -and $SourceConfig.nameTransform) {
+        $transform = $SourceConfig.nameTransform
+
+        if ($transform.PSObject.Properties['prefix']) {
+            $prefix = [string]$transform.prefix
+        }
+
+        if ($transform.PSObject.Properties['suffix']) {
+            $suffix = [string]$transform.suffix
+        }
+
+        if ($transform.PSObject.Properties['updateFrontmatter']) {
+            $updateFrontmatter = [bool]$transform.updateFrontmatter
+        }
+    }
+
+    foreach ($tokenName in @('prefix', 'suffix')) {
+        $value = if ($tokenName -eq 'prefix') { $prefix } else { $suffix }
+
+        if ([string]::IsNullOrWhiteSpace($value)) {
+            if ($tokenName -eq 'prefix') { $prefix = $null } else { $suffix = $null }
+            continue
+        }
+
+        $normalised = $value.Trim().Trim('-')
+        if ([string]::IsNullOrWhiteSpace($normalised)) {
+            Write-Error "nameTransform.$tokenName must contain at least one non-separator character."
+            exit 1
+        }
+
+        if ($normalised -match '[\\/\s]') {
+            Write-Error "nameTransform.$tokenName cannot contain slashes or whitespace: '$value'"
+            exit 1
+        }
+
+        if ($tokenName -eq 'prefix') { $prefix = $normalised } else { $suffix = $normalised }
+    }
+
+    return [PSCustomObject]@{
+        prefix = $prefix
+        suffix = $suffix
+        updateFrontmatter = $updateFrontmatter
+    }
+}
+
+function Apply-NameTransform {
+    param(
+        [Parameter(Mandatory)][string]$Name,
+        [Parameter(Mandatory)]$NameTransform
+    )
+
+    $parts = @()
+    if ($NameTransform.prefix) {
+        $parts += $NameTransform.prefix
+    }
+
+    $parts += $Name
+
+    if ($NameTransform.suffix) {
+        $parts += $NameTransform.suffix
+    }
+
+    return ($parts -join '-')
+}
+
+function Get-InstalledRelativePath {
+    param(
+        [Parameter(Mandatory)][ValidateSet('agents', 'skills', 'instructions', 'prompts')][string]$AssetType,
+        [Parameter(Mandatory)][string]$ResolvedPath,
+        [Parameter(Mandatory)]$NameTransform
+    )
+
+    if (-not $NameTransform.prefix -and -not $NameTransform.suffix) {
+        return $ResolvedPath
+    }
+
+    $segments = $ResolvedPath -split '[\\/]+'
+    $parentSegments = if ($segments.Length -gt 1) { $segments[0..($segments.Length - 2)] } else { @() }
+    $leaf = $segments[-1]
+
+    if ($AssetType -eq 'skills') {
+        $transformedLeaf = Apply-NameTransform -Name $leaf -NameTransform $NameTransform
+        return (@($parentSegments) + $transformedLeaf) -join '/'
+    }
+
+    $pattern = switch ($AssetType) {
+        'agents' { '\.agent\.md$' }
+        'instructions' { '\.instructions\.md$' }
+        'prompts' { '\.prompt\.md$' }
+    }
+
+    $baseName = [regex]::Replace($leaf, $pattern, '')
+    $extension = $leaf.Substring($baseName.Length)
+    $transformedLeaf = (Apply-NameTransform -Name $baseName -NameTransform $NameTransform) + $extension
+
+    return (@($parentSegments) + $transformedLeaf) -join '/'
+}
+
+function Update-FrontmatterNameField {
+    param(
+        [Parameter(Mandatory)][string]$FilePath,
+        [Parameter(Mandatory)][string]$NewName,
+        [switch]$Required
+    )
+
+    if (-not (Test-Path $FilePath)) {
+        if ($Required) {
+            Write-Error "Expected frontmatter file was not found: $FilePath"
+            exit 1
+        }
+
+        return $false
+    }
+
+    $content = Get-Content -Path $FilePath -Raw
+    $match = [regex]::Match($content, '^(---\r?\n)(?<frontmatter>.*?)(\r?\n---\r?\n?)', [System.Text.RegularExpressions.RegexOptions]::Singleline)
+
+    if (-not $match.Success) {
+        if ($Required) {
+            Write-Error "Required frontmatter block was not found in '$FilePath'."
+            exit 1
+        }
+
+        return $false
+    }
+
+    $frontmatter = $match.Groups['frontmatter'].Value
+    $nameMatch = [regex]::Match($frontmatter, '^(?<indent>\s*)name\s*:\s*(?<value>.+?)\s*$', [System.Text.RegularExpressions.RegexOptions]::Multiline)
+
+    if (-not $nameMatch.Success) {
+        if ($Required) {
+            Write-Error "Required frontmatter name field was not found in '$FilePath'."
+            exit 1
+        }
+
+        return $false
+    }
+
+    $updatedFrontmatter = $frontmatter.Substring(0, $nameMatch.Index) + $nameMatch.Groups['indent'].Value + "name: $NewName" + $frontmatter.Substring($nameMatch.Index + $nameMatch.Length)
+
+    $updatedContent = $content.Substring(0, $match.Groups['frontmatter'].Index) + $updatedFrontmatter + $content.Substring($match.Groups['frontmatter'].Index + $match.Groups['frontmatter'].Length)
+    Set-Content -Path $FilePath -Value $updatedContent -NoNewline
+    return $true
+}
+
 $defaultSourceRepo = 'github/awesome-copilot'
 if ($config.PSObject.Properties['repository'] -and $config.repository) {
     $defaultSourceRepo = Convert-ToRepoSlug -Repository ([string]$config.repository)
@@ -198,6 +358,7 @@ if ($hasLegacyAssets) {
         skills = $legacySkills
         instructions = $legacyInstructions
         prompts = $legacyPrompts
+        nameTransform = $null
     }
 }
 
@@ -215,6 +376,7 @@ foreach ($sourceConfig in $sourceConfigs) {
     $skills = @(if ($sourceConfig.PSObject.Properties['skills']) { $sourceConfig.skills } else { @() })
     $instructions = @(if ($sourceConfig.PSObject.Properties['instructions']) { $sourceConfig.instructions } else { @() })
     $prompts = @(if ($sourceConfig.PSObject.Properties['prompts']) { $sourceConfig.prompts } else { @() })
+    $nameTransform = Get-NameTransform -SourceConfig $sourceConfig
 
     if ($agents.Count -eq 0 -and $skills.Count -eq 0 -and $instructions.Count -eq 0 -and $prompts.Count -eq 0) {
         Write-Warning "Source '$repo' has no agents, skills, instructions, or prompts and will be skipped."
@@ -228,6 +390,7 @@ foreach ($sourceConfig in $sourceConfigs) {
         skills = $skills
         instructions = $instructions
         prompts = $prompts
+        nameTransform = $nameTransform
     }
 }
 
@@ -357,31 +520,46 @@ $dotGithubDirFull = [System.IO.Path]::GetFullPath($dotGithubDir)
 function Copy-Asset {
     param(
         [Parameter(Mandatory)][string]$SourceRoot,
-        [Parameter(Mandatory)][string]$RelativePath,
-        [Parameter(Mandatory)][bool]$Recurse
+        [Parameter(Mandatory)][string]$SourceRelativePath,
+        [Parameter(Mandatory)][string]$DestinationRelativePath,
+        [Parameter(Mandatory)][bool]$Recurse,
+        [string]$FrontmatterName,
+        [switch]$UpdateFrontmatter,
+        [switch]$RequireFrontmatterName
     )
 
     # Validate that the relative path cannot escape the expected directories
-    if ([System.IO.Path]::IsPathRooted($RelativePath)) {
-        Write-Warning "Skipping asset with rooted path (not allowed): $RelativePath"
+    if ([System.IO.Path]::IsPathRooted($SourceRelativePath)) {
+        Write-Warning "Skipping asset with rooted source path (not allowed): $SourceRelativePath"
         return 'invalid'
     }
 
-    $segments = $RelativePath -split '[\\/]+'
-    if ($segments -contains '..') {
-        Write-Warning "Skipping asset with traversal segments (not allowed): $RelativePath"
+    if ([System.IO.Path]::IsPathRooted($DestinationRelativePath)) {
+        Write-Warning "Skipping asset with rooted destination path (not allowed): $DestinationRelativePath"
         return 'invalid'
     }
 
-    $source = Join-Path $SourceRoot $RelativePath
-    $dest   = Join-Path $dotGithubDirFull $RelativePath
+    $sourceSegments = $SourceRelativePath -split '[\\/]+'
+    if ($sourceSegments -contains '..') {
+        Write-Warning "Skipping asset with traversal segments (not allowed): $SourceRelativePath"
+        return 'invalid'
+    }
+
+    $destinationSegments = $DestinationRelativePath -split '[\\/]+'
+    if ($destinationSegments -contains '..') {
+        Write-Warning "Skipping asset with traversal segments (not allowed): $DestinationRelativePath"
+        return 'invalid'
+    }
+
+    $source = Join-Path $SourceRoot $SourceRelativePath
+    $dest   = Join-Path $dotGithubDirFull $DestinationRelativePath
     $dest   = [System.IO.Path]::GetFullPath($dest)
 
     # Ensure the destination path stays under the .github directory
     $basePath = [System.IO.Path]::GetFullPath($dotGithubDirFull)
     $separator = [System.IO.Path]::DirectorySeparatorChar
     if (-not ($dest.StartsWith($basePath + $separator) -or $dest -eq $basePath)) {
-        Write-Warning "Destination path escapes .github directory, skipping: $RelativePath"
+        Write-Warning "Destination path escapes .github directory, skipping: $DestinationRelativePath"
         return 'invalid'
     }
 
@@ -397,7 +575,7 @@ function Copy-Asset {
 
     if (Test-Path $dest) {
         if (-not $Force.IsPresent) {
-            Write-Information "  Skipped (exists): $RelativePath" -InformationAction Continue
+            Write-Information "  Skipped (exists): $DestinationRelativePath" -InformationAction Continue
             return 'existing'
         }
 
@@ -411,7 +589,12 @@ function Copy-Asset {
         Copy-Item -Path $source -Destination $dest -Force
     }
 
-    Write-Information "  Copied: $RelativePath" -InformationAction Continue
+    if ($FrontmatterName -and ($UpdateFrontmatter.IsPresent -or $RequireFrontmatterName.IsPresent)) {
+        $frontmatterFile = if ($Recurse) { Join-Path $dest 'SKILL.md' } else { $dest }
+        $null = Update-FrontmatterNameField -FilePath $frontmatterFile -NewName $FrontmatterName -Required:$RequireFrontmatterName.IsPresent
+    }
+
+    Write-Information "  Copied: $DestinationRelativePath" -InformationAction Continue
     return 'copied'
 }
 
@@ -427,8 +610,11 @@ foreach ($source in $sources) {
     if ($source.agents.Count -gt 0) {
         Write-Information "Copying agents from '$($source.repo)'..." -InformationAction Continue
         foreach ($agent in $source.agents) {
-            $resolvedPath = Resolve-AssetRelativePath -AssetType 'agents' -AssetName ([string]$agent)
-            $result = Copy-Asset -SourceRoot $sourceRoot -RelativePath $resolvedPath -Recurse $false
+            $assetName = [string]$agent
+            $resolvedPath = Resolve-AssetRelativePath -AssetType 'agents' -AssetName $assetName
+            $installedPath = Get-InstalledRelativePath -AssetType 'agents' -ResolvedPath $resolvedPath -NameTransform $source.nameTransform
+            $frontmatterName = if ($source.nameTransform.updateFrontmatter -and ($source.nameTransform.prefix -or $source.nameTransform.suffix)) { Apply-NameTransform -Name $assetName -NameTransform $source.nameTransform } else { $null }
+            $result = Copy-Asset -SourceRoot $sourceRoot -SourceRelativePath $resolvedPath -DestinationRelativePath $installedPath -Recurse $false -FrontmatterName $frontmatterName -UpdateFrontmatter:$source.nameTransform.updateFrontmatter
 
             switch ($result) {
                 'copied' { $copiedCount++ }
@@ -442,8 +628,12 @@ foreach ($source in $sources) {
     if ($source.skills.Count -gt 0) {
         Write-Information "Copying skills from '$($source.repo)'..." -InformationAction Continue
         foreach ($skill in $source.skills) {
-            $resolvedPath = Resolve-AssetRelativePath -AssetType 'skills' -AssetName ([string]$skill)
-            $result = Copy-Asset -SourceRoot $sourceRoot -RelativePath $resolvedPath -Recurse $true
+            $assetName = [string]$skill
+            $resolvedPath = Resolve-AssetRelativePath -AssetType 'skills' -AssetName $assetName
+            $installedPath = Get-InstalledRelativePath -AssetType 'skills' -ResolvedPath $resolvedPath -NameTransform $source.nameTransform
+            $renamedSkill = $installedPath -ne $resolvedPath
+            $frontmatterName = if ($renamedSkill) { Apply-NameTransform -Name $assetName -NameTransform $source.nameTransform } else { $null }
+            $result = Copy-Asset -SourceRoot $sourceRoot -SourceRelativePath $resolvedPath -DestinationRelativePath $installedPath -Recurse $true -FrontmatterName $frontmatterName -RequireFrontmatterName:$renamedSkill
 
             switch ($result) {
                 'copied' { $copiedCount++ }
@@ -457,8 +647,11 @@ foreach ($source in $sources) {
     if ($source.instructions.Count -gt 0) {
         Write-Information "Copying instructions from '$($source.repo)'..." -InformationAction Continue
         foreach ($instruction in $source.instructions) {
-            $resolvedPath = Resolve-AssetRelativePath -AssetType 'instructions' -AssetName ([string]$instruction)
-            $result = Copy-Asset -SourceRoot $sourceRoot -RelativePath $resolvedPath -Recurse $false
+            $assetName = [string]$instruction
+            $resolvedPath = Resolve-AssetRelativePath -AssetType 'instructions' -AssetName $assetName
+            $installedPath = Get-InstalledRelativePath -AssetType 'instructions' -ResolvedPath $resolvedPath -NameTransform $source.nameTransform
+            $frontmatterName = if ($source.nameTransform.updateFrontmatter -and ($source.nameTransform.prefix -or $source.nameTransform.suffix)) { Apply-NameTransform -Name $assetName -NameTransform $source.nameTransform } else { $null }
+            $result = Copy-Asset -SourceRoot $sourceRoot -SourceRelativePath $resolvedPath -DestinationRelativePath $installedPath -Recurse $false -FrontmatterName $frontmatterName -UpdateFrontmatter:$source.nameTransform.updateFrontmatter
 
             switch ($result) {
                 'copied' { $copiedCount++ }
@@ -472,8 +665,11 @@ foreach ($source in $sources) {
     if ($source.prompts.Count -gt 0) {
         Write-Information "Copying prompts from '$($source.repo)'..." -InformationAction Continue
         foreach ($prompt in $source.prompts) {
-            $resolvedPath = Resolve-AssetRelativePath -AssetType 'prompts' -AssetName ([string]$prompt)
-            $result = Copy-Asset -SourceRoot $sourceRoot -RelativePath $resolvedPath -Recurse $false
+            $assetName = [string]$prompt
+            $resolvedPath = Resolve-AssetRelativePath -AssetType 'prompts' -AssetName $assetName
+            $installedPath = Get-InstalledRelativePath -AssetType 'prompts' -ResolvedPath $resolvedPath -NameTransform $source.nameTransform
+            $frontmatterName = if ($source.nameTransform.updateFrontmatter -and ($source.nameTransform.prefix -or $source.nameTransform.suffix)) { Apply-NameTransform -Name $assetName -NameTransform $source.nameTransform } else { $null }
+            $result = Copy-Asset -SourceRoot $sourceRoot -SourceRelativePath $resolvedPath -DestinationRelativePath $installedPath -Recurse $false -FrontmatterName $frontmatterName -UpdateFrontmatter:$source.nameTransform.updateFrontmatter
 
             switch ($result) {
                 'copied' { $copiedCount++ }
