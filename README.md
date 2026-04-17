@@ -1,6 +1,7 @@
+
 # GitHub Workflows & Copilot PM Automation
 
-This repository provides a complete, reusable system for solo developers to automate project management across multiple GitHub repositories. It centralises label strategy, board automation, Copilot prompts, agents, skills, and setup scripts - making it easy to keep issues, PRs, and project board state in sync with minimal admin.
+This repository provides a complete, reusable system for solo developers to automate project management across multiple GitHub repositories. It centralises label strategy, board automation, Copilot prompts, agents, skills, and setup scripts—making it easy to keep issues, PRs, and project board state in sync with minimal admin.
 
 ## Purpose & Context
 
@@ -26,6 +27,7 @@ Workflows in `.github/workflows/`:
 Scripts in `scripts/`:
 
 - `Install-CopilotAssets.ps1`: Installs agents, skills, instructions, and prompts into a target repo from configured source repos (see `copilot-assets.example.json`).
+	- **Install-time asset name transforms:** Supports optional `nameTransform` (prefix/suffix/frontmatter update) per source entry, so installed assets can be safely namespaced without renaming the canonical source files. See the script and example config for details.
 - `Convert-IssueLabels.ps1`: Migrates deprecated labels on issues to the current strategy labels.
 - `Export-PatExists.ps1`: Audits repos for `PERSONAL_ACCESS_TOKEN` usage.
 - `Export-WorkflowAudit.ps1`: Audits workflow presence/content across repos.
@@ -46,50 +48,53 @@ Scripts in `scripts/`:
 ## Copilot Tooling Overview
 
 **Prompts in `.github/prompts/`:**
-- `pm-assistant.prompt.md`
-- `pm-backlog-review.prompt.md`
-- `pm-create-story.prompt.md`
-- `pm-daily.prompt.md`
-- `pm-issue-triage.prompt.md`
-- `pm-iteration-plan.prompt.md`
-- `repo-update-docs.prompt.md`
-- `repo-update-from-strategy.prompt.md`
+	- `pm-assistant.prompt.md`
+	- `pm-backlog-review.prompt.md`
+	- `pm-create-story.prompt.md`
+	- `pm-daily.prompt.md`
+	- `pm-issue-triage.prompt.md`
+	- `pm-iteration-plan.prompt.md`
+	- `repo-update-docs.prompt.md`
+	- `repo-update-from-strategy.prompt.md`
+	- `new-project-setup.prompt.md`
+	- `pr-address-coding-review.prompt.md`
 
 **Agents in `.github/agents/`:**
-- `pm-assistant.agent.md`
-- `pm-backlog-management.agent.md`
-- `repo-docs-writer.agent.md`
-- `repo-label-strategy-keeper.agent.md`
+	- `pm-assistant.agent.md`
+	- `pm-backlog-management.agent.md`
+	- `repo-docs-writer.agent.md`
+	- `repo-label-strategy-keeper.agent.md`
 
 **Skills in `.github/skills/`:**
-- `documentation-writer/SKILL.md`
-- `github-issue-management/SKILL.md`
-- `github-issue-management/references/github-labels.md`
-- `github-issue-management/references/project-setup.md`
-- `github-issue-management/references/CUSTOMISATION_GUIDE.md`
-- `github-issue-management/assets/triage-workflow.md`
-- `github-issue-management/scripts/triage-example.sh`
+	- `documentation-writer/SKILL.md`
+	- `github-issue-management/SKILL.md`
+	- `github-issue-management/references/github-labels.md`
+	- `github-issue-management/references/project-setup.md`
+	- `github-issue-management/references/CUSTOMISATION_GUIDE.md`
+	- `github-issue-management/assets/triage-workflow.md`
+	- `github-issue-management/scripts/triage-example.sh`
 
 **Instructions in `.github/instructions/`:**
-- `label-script-update.instructions.md`
+	- `label-script-update.instructions.md`
 
 **Exportable root assets:**
-- `skills/dotnet-best-practices/SKILL.md`
-- `skills/mudblazor/SKILL.md` (plus references)
-- `instructions/blazor-csharp.instructions.md`
-- `prompts/new-project-setup.prompt.md`
-- `prompts/pr-address-coding-review.prompt.md`
+	- `skills/dotnet-best-practices/SKILL.md`
+	- `skills/mudblazor/SKILL.md` (plus references)
+	- `instructions/blazor-csharp.instructions.md`
+	- `prompts/new-project-setup.prompt.md`
+	- `prompts/pr-address-coding-review.prompt.md`
 
 **Template asset folders:**
-Each of `skills/`, `instructions/`, `prompts/`, and `agents/` contains a README clarifying that these are templates only - active runtime assets are always under `.github/`.
+Each of `skills/`, `instructions/`, `prompts/`, and `agents/` contains a README clarifying that these are templates only—active runtime assets are always under `.github/`.
 
 Install-time naming transforms are configured in `copilot-packs/*.json` via an optional `nameTransform` object on each source entry. This keeps canonical source asset names clean while allowing installed assets to be suffixed or prefixed to avoid collisions with library assets.
 
 ## Copilot Asset Packs
 
 **Pack examples in `copilot-packs/`:**
-- `solo-dev-project-setup.json`: Technology-agnostic setup pack (installs planning/setup skills and prompts).
-- `csharp-dotnet-development.json`: C#/.NET pack (installs C# skills, best practices, and ADR support).
+	- `solo-dev-project-setup.json`: Technology-agnostic setup pack (installs planning/setup skills and prompts).
+	- `csharp-dotnet-development.json`: C#/.NET pack (installs C# skills, best practices, and ADR support).
+	- `blazor-fluentui-development.json`, `blazor-mudblazor-development.json`: Blazor-specific packs.
 
 ## Setup & Prerequisites
 
@@ -113,4 +118,4 @@ End-user documentation lives in `docs/` (GitHub Pages scaffold). Start at [docs/
 
 MIT License. See [LICENSE](LICENSE).
 
-Last updated: 2026-04-16
+Last updated: 2026-04-17
