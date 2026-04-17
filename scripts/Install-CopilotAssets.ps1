@@ -26,13 +26,13 @@
 .PARAMETER ConfigFile
     Path to a JSON file listing one or more source repositories and their assets.
     Each source uses a repo slug in owner/repo format and can contain agents,
-        skills, instructions, and prompts arrays.
+    skills, instructions, and prompts arrays.
 
-        Each source can also include an optional `nameTransform` object:
-        - `prefix`: optional token to prepend to installed asset names
-        - `suffix`: optional token to append to installed asset names
-        - `updateFrontmatter`: when true, update frontmatter `name` fields for
-            renamed prompts, agents, and other single-file assets when present
+    Each source can also include an optional `nameTransform` object:
+    - `prefix`: optional token to prepend to installed asset names
+    - `suffix`: optional token to append to installed asset names
+    - `updateFrontmatter`: when true, update frontmatter `name` fields for
+      renamed prompts, agents, and other single-file assets when present
 
     Agent and instruction entries are short names (for example "example-agent"),
     while skills are folder names (for example "example-skill").
@@ -282,6 +282,11 @@ function Get-InstalledRelativePath {
     }
 
     $baseName = [regex]::Replace($leaf, $pattern, '')
+    if ($baseName -eq $leaf) {
+        Write-Warning "Asset leaf '$leaf' does not match expected pattern for type '$AssetType'; skipping name transform."
+        return $ResolvedPath
+    }
+
     $extension = $leaf.Substring($baseName.Length)
     $transformedLeaf = (Get-TransformedName -Name $baseName -NameTransform $NameTransform) + $extension
 
@@ -334,7 +339,7 @@ function Update-FrontmatterNameField {
     $updatedContent = $content.Substring(0, $match.Groups['frontmatter'].Index) + $updatedFrontmatter + $content.Substring($match.Groups['frontmatter'].Index + $match.Groups['frontmatter'].Length)
 
     if ($PSCmdlet.ShouldProcess($FilePath, "Update frontmatter name to '$NewName'")) {
-        Set-Content -Path $FilePath -Value $updatedContent -NoNewline
+        Set-Content -Path $FilePath -Value $updatedContent -NoNewline -Encoding utf8
         return $true
     }
 

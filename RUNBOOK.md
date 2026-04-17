@@ -49,11 +49,11 @@ Once you have a completed `PROJECT-KICKOFF-SPEC.md` and have created a new (empt
 ```
 
 This installs into your new repo's `.github/` folder:
-- `create-architectural-decision-record` skill
-- `create-implementation-plan` skill
-- `create-github-issue-feature-from-specification` skill
-- `create-github-issues-feature-from-implementation-plan` skill
-- `new-project-setup-mh` prompt (from this repo, installed with the pack's `nameTransform` settings)
+   - `create-architectural-decision-record` skill
+   - `create-implementation-plan` skill
+   - `create-github-issue-feature-from-specification` skill
+   - `create-github-issues-feature-from-implementation-plan` skill
+   - `new-project-setup-mh` prompt (from this repo, installed with the pack's `nameTransform` settings)
 
 This pack is intentionally technology-agnostic. After setup, install any language or platform pack you need.
 
