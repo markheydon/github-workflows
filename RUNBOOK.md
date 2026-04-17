@@ -53,7 +53,10 @@ This installs into your new repo's `.github/` folder:
    - `create-implementation-plan` skill
    - `create-github-issue-feature-from-specification` skill
    - `create-github-issues-feature-from-implementation-plan` skill
+   - `documentation-writer` skill (Diátaxis framework guidance)
+   - `tech-writer` agent (project-aware writing agent for docs, ADRs, and user guides)
    - `new-project-setup-mh` prompt (from this repo, installed with the pack's `nameTransform` settings)
+   - `pr-address-coding-review-mh` prompt (from this repo, installed with the pack's `nameTransform` settings)
 
 This pack is intentionally technology-agnostic. After setup, install any language or platform pack you need.
 
@@ -139,6 +142,18 @@ See `prompts/pr-address-coding-review.prompt.md`.
 Short version: run `/pr-address-coding-review-mh` with the PR number - it reads all open threads,
 fixes the code, replies to each thread, and resolves them. Never silently skip a comment.
 
+### Writing and updating documentation
+
+The `tech-writer` agent handles all project documentation work. Select it from the Agent mode picker in VS Code Copilot Chat.
+
+It loads the `documentation-writer` skill (Diátaxis guidance) and reads your project context files (`GOALS.md`, `SCOPE.md`, `CONVENTIONS.md`, `.github/copilot-instructions.md`) on activation, so it writes in terms of your project - not generic boilerplate.
+
+Use it for:
+- Creating or updating user guides in `docs/` (Diátaxis-structured)
+- Writing ADRs (uses this project's `Context / Decision / Rationale / Consequences` format and updates `adr/README.md` automatically)
+- Technical blog posts and tutorials
+- Any documentation that needs to reflect the project's goals and scope accurately
+
 ---
 
 ## Quick Reference
@@ -155,6 +170,8 @@ fixes the code, replies to each thread, and resolves them. Never silently skip a
 | Turn a plan into Issues | `create-github-issues-feature-from-implementation-plan` skill |
 | Record an architectural decision | `create-architectural-decision-record` skill |
 | Address PR review comments | `/pr-address-coding-review-mh` prompt |
+| Write or update project documentation | `tech-writer` agent (select from Agent mode picker) |
+| Write an ADR | `tech-writer` agent — tell it the decision, context, and alternatives |
 
 ---
 
