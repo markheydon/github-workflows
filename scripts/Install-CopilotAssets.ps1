@@ -235,7 +235,7 @@ function Get-NameTransform {
     }
 }
 
-function Apply-NameTransform {
+function Get-TransformedName {
     param(
         [Parameter(Mandatory)][string]$Name,
         [Parameter(Mandatory)]$NameTransform
@@ -271,7 +271,7 @@ function Get-InstalledRelativePath {
     $leaf = $segments[-1]
 
     if ($AssetType -eq 'skills') {
-        $transformedLeaf = Apply-NameTransform -Name $leaf -NameTransform $NameTransform
+        $transformedLeaf = Get-TransformedName -Name $leaf -NameTransform $NameTransform
         return (@($parentSegments) + $transformedLeaf) -join '/'
     }
 
@@ -283,12 +283,13 @@ function Get-InstalledRelativePath {
 
     $baseName = [regex]::Replace($leaf, $pattern, '')
     $extension = $leaf.Substring($baseName.Length)
-    $transformedLeaf = (Apply-NameTransform -Name $baseName -NameTransform $NameTransform) + $extension
+    $transformedLeaf = (Get-TransformedName -Name $baseName -NameTransform $NameTransform) + $extension
 
     return (@($parentSegments) + $transformedLeaf) -join '/'
 }
 
 function Update-FrontmatterNameField {
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)][string]$FilePath,
         [Parameter(Mandatory)][string]$NewName,
@@ -331,8 +332,13 @@ function Update-FrontmatterNameField {
     $updatedFrontmatter = $frontmatter.Substring(0, $nameMatch.Index) + $nameMatch.Groups['indent'].Value + "name: $NewName" + $frontmatter.Substring($nameMatch.Index + $nameMatch.Length)
 
     $updatedContent = $content.Substring(0, $match.Groups['frontmatter'].Index) + $updatedFrontmatter + $content.Substring($match.Groups['frontmatter'].Index + $match.Groups['frontmatter'].Length)
-    Set-Content -Path $FilePath -Value $updatedContent -NoNewline
-    return $true
+
+    if ($PSCmdlet.ShouldProcess($FilePath, "Update frontmatter name to '$NewName'")) {
+        Set-Content -Path $FilePath -Value $updatedContent -NoNewline
+        return $true
+    }
+
+    return $false
 }
 
 $defaultSourceRepo = 'github/awesome-copilot'
@@ -613,7 +619,7 @@ foreach ($source in $sources) {
             $assetName = [string]$agent
             $resolvedPath = Resolve-AssetRelativePath -AssetType 'agents' -AssetName $assetName
             $installedPath = Get-InstalledRelativePath -AssetType 'agents' -ResolvedPath $resolvedPath -NameTransform $source.nameTransform
-            $frontmatterName = if ($source.nameTransform.updateFrontmatter -and ($source.nameTransform.prefix -or $source.nameTransform.suffix)) { Apply-NameTransform -Name $assetName -NameTransform $source.nameTransform } else { $null }
+            $frontmatterName = if ($source.nameTransform.updateFrontmatter -and ($source.nameTransform.prefix -or $source.nameTransform.suffix)) { Get-TransformedName -Name $assetName -NameTransform $source.nameTransform } else { $null }
             $result = Copy-Asset -SourceRoot $sourceRoot -SourceRelativePath $resolvedPath -DestinationRelativePath $installedPath -Recurse $false -FrontmatterName $frontmatterName -UpdateFrontmatter:$source.nameTransform.updateFrontmatter
 
             switch ($result) {
@@ -632,7 +638,7 @@ foreach ($source in $sources) {
             $resolvedPath = Resolve-AssetRelativePath -AssetType 'skills' -AssetName $assetName
             $installedPath = Get-InstalledRelativePath -AssetType 'skills' -ResolvedPath $resolvedPath -NameTransform $source.nameTransform
             $renamedSkill = $installedPath -ne $resolvedPath
-            $frontmatterName = if ($renamedSkill) { Apply-NameTransform -Name $assetName -NameTransform $source.nameTransform } else { $null }
+            $frontmatterName = if ($renamedSkill) { Get-TransformedName -Name $assetName -NameTransform $source.nameTransform } else { $null }
             $result = Copy-Asset -SourceRoot $sourceRoot -SourceRelativePath $resolvedPath -DestinationRelativePath $installedPath -Recurse $true -FrontmatterName $frontmatterName -RequireFrontmatterName:$renamedSkill
 
             switch ($result) {
@@ -650,7 +656,7 @@ foreach ($source in $sources) {
             $assetName = [string]$instruction
             $resolvedPath = Resolve-AssetRelativePath -AssetType 'instructions' -AssetName $assetName
             $installedPath = Get-InstalledRelativePath -AssetType 'instructions' -ResolvedPath $resolvedPath -NameTransform $source.nameTransform
-            $frontmatterName = if ($source.nameTransform.updateFrontmatter -and ($source.nameTransform.prefix -or $source.nameTransform.suffix)) { Apply-NameTransform -Name $assetName -NameTransform $source.nameTransform } else { $null }
+            $frontmatterName = if ($source.nameTransform.updateFrontmatter -and ($source.nameTransform.prefix -or $source.nameTransform.suffix)) { Get-TransformedName -Name $assetName -NameTransform $source.nameTransform } else { $null }
             $result = Copy-Asset -SourceRoot $sourceRoot -SourceRelativePath $resolvedPath -DestinationRelativePath $installedPath -Recurse $false -FrontmatterName $frontmatterName -UpdateFrontmatter:$source.nameTransform.updateFrontmatter
 
             switch ($result) {
@@ -668,7 +674,7 @@ foreach ($source in $sources) {
             $assetName = [string]$prompt
             $resolvedPath = Resolve-AssetRelativePath -AssetType 'prompts' -AssetName $assetName
             $installedPath = Get-InstalledRelativePath -AssetType 'prompts' -ResolvedPath $resolvedPath -NameTransform $source.nameTransform
-            $frontmatterName = if ($source.nameTransform.updateFrontmatter -and ($source.nameTransform.prefix -or $source.nameTransform.suffix)) { Apply-NameTransform -Name $assetName -NameTransform $source.nameTransform } else { $null }
+            $frontmatterName = if ($source.nameTransform.updateFrontmatter -and ($source.nameTransform.prefix -or $source.nameTransform.suffix)) { Get-TransformedName -Name $assetName -NameTransform $source.nameTransform } else { $null }
             $result = Copy-Asset -SourceRoot $sourceRoot -SourceRelativePath $resolvedPath -DestinationRelativePath $installedPath -Recurse $false -FrontmatterName $frontmatterName -UpdateFrontmatter:$source.nameTransform.updateFrontmatter
 
             switch ($result) {
