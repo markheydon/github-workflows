@@ -22,6 +22,10 @@
     {
       "name": "Mark's GitHub Workflows",
       "repo": "markheydon/github-workflows",
+      "nameTransform": {
+        "suffix": "mh",
+        "updateFrontmatter": true
+      },
       "skills": [
         "dotnet-best-practices"
       ]

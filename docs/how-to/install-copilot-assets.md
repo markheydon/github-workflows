@@ -10,11 +10,12 @@ This guide explains how to install the Copilot agents, skills, prompts, and inst
 ## Using PowerShell Script (Recommended)
 
 1. Copy `Install-CopilotAssets.ps1` and a config file (see `copilot-packs/` for examples) into your target repo.
-2. Run:
+2. (Optional) Add a `nameTransform` object to any source entry in your config to apply a prefix, suffix, or frontmatter update to installed asset names. This helps avoid filename collisions and makes it clear which repo an asset came from, without renaming the canonical source files. See [Reference: Copilot Asset Installation & Name Transform](../reference/asset-installation.md) for details and examples.
+3. Run:
    ```powershell
    ./Install-CopilotAssets.ps1 -TargetFolder <your-repo> -ConfigFile <config.json>
    ```
-3. The script will copy the specified agents, skills, prompts, and instructions into `.github/`.
+4. The script will copy the specified agents, skills, prompts, and instructions into `.github/`, applying any configured name transforms.
 
 By default, source repositories are cloned into a per-user cache at `~/.copilot-assets-cache`. To use a different location, pass `-CloneRoot <path>`.
 

@@ -16,6 +16,10 @@
     {
       "name": "Mark's GitHub Workflows",
       "repo": "markheydon/github-workflows",
+      "nameTransform": {
+        "suffix": "mh",
+        "updateFrontmatter": true
+      },
       "prompts": [
         "new-project-setup",
         "pr-address-coding-review"

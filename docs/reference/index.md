@@ -7,3 +7,4 @@ description: Technical reference pages for labels, prompts, and automation behav
 
 - [Label Taxonomy](label-taxonomy.md)
 - [PM Workflow Prompts](pm-prompts.md)
+- [Copilot Asset Installation & Name Transform](asset-installation.md)

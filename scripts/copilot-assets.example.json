@@ -23,14 +23,18 @@
     {
       "name": "GitHub Workflows",
       "repo": "markheydon/github-workflows",
-      "agents": [
-        "pm-assistant"
-      ],
+      "nameTransform": {
+        "suffix": "mh",
+        "updateFrontmatter": true
+      },
       "skills": [
-        "github-issue-management"
+        "dotnet-best-practices"
       ],
       "instructions": [
-        "label-script-update"
+        "blazor-csharp"
+      ],
+      "prompts": [
+        "new-project-setup"
       ]
     }
   ]
