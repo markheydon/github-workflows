@@ -6,7 +6,7 @@ description: Project-aware documentation conventions that complement the upstrea
 # Project Documentation Companion
 
 This skill complements the upstream `documentation-writer` skill.
-Use it to add project-aware documentation judgement on top of Diataxis guidance.
+Use it to add project-aware documentation judgement on top of Diátaxis guidance.
 
 ## When to use this skill
 
@@ -19,7 +19,7 @@ Use this skill when you need to:
 
 Treat the writing stack as three layers:
 
-1. `documentation-writer` - Diataxis framework, audience clarification, and document structure.
+1. `documentation-writer` - Diátaxis framework, audience clarification, and document structure.
 2. This skill - project-aware placement, terminology, and review rules.
 3. The active repository context files - the source of truth for goals, scope, conventions, and local standards.
 

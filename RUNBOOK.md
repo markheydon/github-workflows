@@ -61,15 +61,15 @@ This copies the following starter files into your new repo root:
 - `CONVENTIONS.md`
 
 It then installs the following into your new repo's `.github/` folder:
-   - `create-architectural-decision-record` skill
-   - `create-implementation-plan` skill
-   - `create-github-issue-feature-from-specification` skill
-   - `create-github-issues-feature-from-implementation-plan` skill
-   - `documentation-writer` skill (Diátaxis framework guidance)
-  - `project-documentation` skill (project-aware documentation placement, terminology, and review guidance)
-  - `tech-writer` agent (project-aware writing agent for docs, guides, tutorials, and blogs)
-   - `new-project-setup-mh` prompt (from this repo, installed with the pack's `nameTransform` settings)
-   - `pr-address-coding-review-mh` prompt (from this repo, installed with the pack's `nameTransform` settings)
+- `create-architectural-decision-record` skill
+- `create-implementation-plan` skill
+- `create-github-issue-feature-from-specification` skill
+- `create-github-issues-feature-from-implementation-plan` skill
+- `documentation-writer` skill (Diátaxis framework guidance)
+- `project-documentation` skill (project-aware documentation placement, terminology, and review guidance)
+- `tech-writer` agent (project-aware writing agent for docs, guides, tutorials, and blogs)
+- `new-project-setup-mh` prompt (from this repo, installed with the pack's `nameTransform` settings)
+- `pr-address-coding-review-mh` prompt (from this repo, installed with the pack's `nameTransform` settings)
 
 The starter files in the repo root are there for the prompt to populate and for the user to edit later. They are the single source template set for future project bootstraps.
 

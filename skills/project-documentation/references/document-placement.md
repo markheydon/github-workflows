@@ -1,6 +1,6 @@
 # Document Placement Guide
 
-Use this guide after applying the Diataxis decision from the upstream `documentation-writer` skill.
+Use this guide after applying the Diátaxis decision from the upstream `documentation-writer` skill.
 
 ## Put content in `README.md` when
 
@@ -11,7 +11,7 @@ Use this guide after applying the Diataxis decision from the upstream `documenta
 ## Put content in `docs/` when
 
 - The content is end-user-facing or intended to scale beyond a short repository overview.
-- It fits a Diataxis category such as tutorial, how-to guide, reference, or explanation.
+- It fits a Diátaxis category such as tutorial, how-to guide, reference, or explanation.
 - It will grow over time and benefits from navigation, indexing, or cross-linking.
 
 ## Put content in another project file when
