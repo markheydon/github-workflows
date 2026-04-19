@@ -12,7 +12,7 @@ There are three phases to every project. Different tools apply at each phase.
 ```
 Phase 1: Pre-repo planning    → templates/
 Phase 2: Repo setup           → copilot-packs/ + .github/prompts/new-project-setup-mh
-Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates/FEATURE-MINI-SPEC.md
+Phase 3: Ongoing development  → installed skills and agents + templates/FEATURE-MINI-SPEC.md
 ```
 
 ---
@@ -40,29 +40,47 @@ to do properly and is worth every minute - it becomes the direct input to Phase 
 
 Once you have a completed `PROJECT-KICKOFF-SPEC.md` and have created a new (empty) GitHub repo:
 
-### Command 1 - Install setup assets
+### Command 1 - Bootstrap the repo
+
+The assets in this repository are split across two destinations in the target repo:
+- `templates/project-root/` -> copied into the target repository root as editable starter files
+- `agents/`, `skills/`, and `prompts/` -> copied into the target repository's `.github/` folder
+
+Use `Install-ProjectBootstrap.ps1` to do both in one step. It copies the root templates first, then calls `Install-CopilotAssets.ps1` for the `.github` assets.
 
 ```powershell
-.\scripts\Install-CopilotAssets.ps1 `
+.\scripts\Install-ProjectBootstrap.ps1 `
   -TargetFolder C:\path\to\your-new-repo `
   -ConfigFile .\copilot-packs\solo-dev-project-setup.json
 ```
 
-This installs into your new repo's `.github/` folder:
-   - `create-architectural-decision-record` skill
-   - `create-implementation-plan` skill
-   - `create-github-issue-feature-from-specification` skill
-   - `create-github-issues-feature-from-implementation-plan` skill
-   - `new-project-setup-mh` prompt (from this repo, installed with the pack's `nameTransform` settings)
+This copies the following starter files into your new repo root:
+- `GOALS.md`
+- `SCOPE.md`
+- `AGENTS.md`
+- `CONVENTIONS.md`
 
-This pack is intentionally technology-agnostic. After setup, install any language or platform pack you need.
+It then installs the following into your new repo's `.github/` folder:
+- `create-architectural-decision-record` skill
+- `create-implementation-plan` skill
+- `create-github-issue-feature-from-specification` skill
+- `create-github-issues-feature-from-implementation-plan` skill
+- `documentation-writer` skill (Diátaxis framework guidance)
+- `project-documentation` skill (project-aware documentation placement, terminology, and review guidance)
+- `tech-writer` agent (project-aware writing agent for docs, guides, tutorials, and blogs)
+- `new-project-setup-mh` prompt (from this repo, installed with the pack's `nameTransform` settings)
+- `pr-address-coding-review-mh` prompt (from this repo, installed with the pack's `nameTransform` settings)
 
-By default, `Install-CopilotAssets.ps1` clones source repositories into a per-user cache at `~/.copilot-assets-cache` so repeated runs reuse the same local clones. Use `-CloneRoot` to override this location when needed.
+The starter files in the repo root are there for the prompt to populate and for the user to edit later. They are the single source template set for future project bootstraps.
+
+This pack is intentionally technology-agnostic. After bootstrap, install any language or platform pack you need.
+
+By default, `Install-CopilotAssets.ps1` clones source repositories into a per-user cache at `~/.copilot-assets-cache` so repeated runs reuse the same local clones. Use `-CloneRoot` on `Install-ProjectBootstrap.ps1` to override this location when needed.
 
 Optional example for C#/.NET:
 
 ```powershell
-.\scripts\Install-CopilotAssets.ps1 `
+.\scripts\Install-ProjectBootstrap.ps1 `
   -TargetFolder C:\path\to\your-new-repo `
   -ConfigFile .\copilot-packs\csharp-dotnet-development.json
 ```
@@ -81,11 +99,10 @@ When prompted, paste in your completed `PROJECT-KICKOFF-SPEC.md`. The prompt wil
 |---|---|
 | `GOALS.md` | Sections 4, 11, 12 |
 | `SCOPE.md` | Sections 5, 6 |
-| `AGENTS.md` | Standard template |
+| `AGENTS.md` | Copied root template + prompt updates |
 | `CONVENTIONS.md` | .NET defaults (review after) |
 | `.github/copilot-instructions.md` | Sections 1, 8 + tech stack |
-| `adr/README.md` | Standard template |
-| `adr/0001-core-technology-stack.md` | Sections 8, 9 + tech stack |
+| First ADR for the core technology stack | Sections 8, 9 + tech stack |
 | GitHub Issues (MVP items) | Section 6 - labelled `story`, with MVP context captured in the issue body |
 | GitHub Issues (journeys) | Section 7 - labelled `story`, with spec follow-up captured in the issue body |
 
@@ -130,7 +147,7 @@ Use the `create-architectural-decision-record` skill at any time:
 ```
 In Copilot Chat: use the create-architectural-decision-record skill
 Give it: the decision title, context, what you decided, alternatives you considered
-Gets you: adr/XXXX-[title].md, and the ADR index updated automatically
+Gets you: an ADR drafted with the upstream skill
 ```
 
 ### Addressing PR code review comments
@@ -138,6 +155,23 @@ Gets you: adr/XXXX-[title].md, and the ADR index updated automatically
 See `prompts/pr-address-coding-review.prompt.md`.
 Short version: run `/pr-address-coding-review-mh` with the PR number - it reads all open threads,
 fixes the code, replies to each thread, and resolves them. Never silently skip a comment.
+
+### Writing and updating documentation
+
+After installation into a target repository, the `tech-writer` agent handles project documentation work there. Select it from the Agent mode picker in VS Code Copilot Chat in that target repository.
+
+It loads two skills on activation:
+- `documentation-writer` for Diátaxis guidance
+- `project-documentation` for project-aware placement, terminology, and review guidance
+
+It also reads that repository's project context files (`GOALS.md`, `SCOPE.md`, `CONVENTIONS.md`, `.github/copilot-instructions.md`) so it writes in terms of the project rather than generic boilerplate.
+
+Use it for:
+- Creating or updating user guides in `docs/` (Diátaxis-structured)
+- Technical blog posts and tutorials
+- Any documentation that needs to reflect the project's goals and scope accurately
+
+For ADRs, use the `create-architectural-decision-record` skill instead.
 
 ---
 
@@ -147,7 +181,7 @@ fixes the code, replies to each thread, and resolves them. Never silently skip a
 |---|---|
 | Capture a new idea | `templates/IDEA-CAPTURE.md` (in your notes) |
 | Plan a new project | `templates/PROJECT-KICKOFF-SPEC.md` (in your notes) |
-| Bootstrap a new repo | `Install-CopilotAssets.ps1` + `copilot-packs/solo-dev-project-setup.json` |
+| Bootstrap a new repo | `Install-ProjectBootstrap.ps1` + `copilot-packs/solo-dev-project-setup.json` |
 | Generate all standing docs | `/new-project-setup-mh` prompt (paste kickoff spec) |
 | Spec out a feature | `templates/FEATURE-MINI-SPEC.md` |
 | Turn a spec into an Issue | `create-github-issue-feature-from-specification` skill |
@@ -155,6 +189,8 @@ fixes the code, replies to each thread, and resolves them. Never silently skip a
 | Turn a plan into Issues | `create-github-issues-feature-from-implementation-plan` skill |
 | Record an architectural decision | `create-architectural-decision-record` skill |
 | Address PR review comments | `/pr-address-coding-review-mh` prompt |
+| Write or update project documentation | `tech-writer` agent (select from Agent mode picker) |
+| Write an ADR | `create-architectural-decision-record` skill |
 
 ---
 
@@ -163,12 +199,12 @@ fixes the code, replies to each thread, and resolves them. Never silently skip a
 If you have an existing project that predates this system, you can still install the skills:
 
 ```powershell
-.\scripts\Install-CopilotAssets.ps1 `
+.\scripts\Install-ProjectBootstrap.ps1 `
   -TargetFolder C:\path\to\existing-repo `
   -ConfigFile .\copilot-packs\solo-dev-project-setup.json
 ```
 
-Use `-Force` to overwrite any existing assets.
+Use `-Force` to overwrite any existing root templates and `.github` assets.
 
 ---
 
