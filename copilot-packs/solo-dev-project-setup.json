@@ -21,6 +21,9 @@
         "suffix": "mh",
         "updateFrontmatter": true
       },
+      "skills": [
+        "project-documentation"
+      ],
       "agents": [
         "tech-writer"
       ],

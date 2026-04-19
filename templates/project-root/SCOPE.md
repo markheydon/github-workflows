@@ -33,8 +33,3 @@ Do not implement these without a deliberate decision to change scope.
 
 - [Thing 1 - reason it's not v1]
 - [Thing 2 - reason it's not v1]
-
----
-
-## Decisions Log
-See `adr/` for the Architecture Decision Records that shaped scope choices.

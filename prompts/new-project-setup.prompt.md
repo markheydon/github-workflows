@@ -3,7 +3,7 @@ name: New Project Setup
 description: >
   Bootstrap a new project's standing documents from a completed Project Kickoff Spec.
   Generates GOALS.md, SCOPE.md, AGENTS.md, CONVENTIONS.md, .github/copilot-instructions.md,
-  the first ADR (technology choices), adr/README.md, and an initial wave of GitHub Issues
+  the first ADR (technology choices), and an initial wave of GitHub Issues
   for MVP scope items and user journeys.
 argument-hint: Paste your completed Project Kickoff Spec, or tell me the path to the file
 model: GPT-4.1
@@ -12,6 +12,7 @@ model: GPT-4.1
 ## When to use this prompt
 
 - **When you have a completed Project Kickoff Spec** and a fresh (or near-empty) repo.
+- **After running** `Install-ProjectBootstrap.ps1` so the standard root templates and `.github` assets are already present in the repo.
 - **Before writing any code** - this sets up the context that guides everything else.
 - **Time:** 10–20 minutes depending on spec detail and number of MVP items.
 
@@ -22,8 +23,7 @@ model: GPT-4.1
 - `AGENTS.md` - AI agent operating rules for this repo
 - `CONVENTIONS.md` - code style and naming decisions (with .NET defaults, flagged for review)
 - `.github/copilot-instructions.md` - Copilot context file for this repo
-- `adr/README.md` - ADR index, ready for first entry
-- `adr/0001-core-technology-stack.md` - first ADR covering the tech stack decision
+- the first ADR covering the tech stack decision
 - GitHub Issues for each MVP scope item (labelled `story`, with MVP context captured in the issue body)
 - GitHub Issues for each key user journey (labelled `story`, with spec follow-up captured in the issue body)
 
@@ -31,7 +31,7 @@ model: GPT-4.1
 
 After this prompt completes:
 1. **Review and customise** `CONVENTIONS.md` and `.github/copilot-instructions.md` - they contain .NET defaults that need project-specific detail.
-2. **Copy** `scripts/Install-CopilotAssets.ps1` from your `github-workflows` clone into this repo's `scripts/` folder, then run it with `copilot-packs/solo-dev-project-setup.json` to install setup skills and prompts.
+2. **Review ADR-0001** and fill in any alternatives or rationale the prompt could not infer.
 3. **Create a Feature Mini Spec** for each user journey issue before starting work on it.
 
 ---
@@ -39,6 +39,9 @@ After this prompt completes:
 ## Step 0 - Gather inputs
 
 Before starting, confirm you have everything needed. Ask for anything missing.
+
+This prompt assumes the repo has already been bootstrapped with `Install-ProjectBootstrap.ps1`.
+If the expected root template files are missing, stop and tell the user to run the bootstrap script first.
 
 **Required:**
 - A completed **Project Kickoff Spec** (sections 1–13). Paste it directly or provide a file path.
@@ -55,7 +58,7 @@ Summarise back what you've received before proceeding.
 
 ## Step 1 - GOALS.md
 
-Create `GOALS.md` in the repo root.
+Populate the existing `GOALS.md` in the repo root.
 
 Source material:
 - Section 2 (Problem Statement) → **Why This Exists** paragraph
@@ -72,7 +75,7 @@ Confirm the file has been created before moving to Step 2.
 
 ## Step 2 - SCOPE.md
 
-Create `SCOPE.md` in the repo root.
+Populate the existing `SCOPE.md` in the repo root.
 
 Source material:
 - Section 6 (MVP Scope) → **In Scope - v1.0**
@@ -87,9 +90,9 @@ Confirm the file has been created before moving to Step 3.
 
 ## Step 3 - AGENTS.md
 
-Create `AGENTS.md` in the repo root.
+Update the existing `AGENTS.md` in the repo root.
 
-Use the standard template. In the **Context Files** section, list:
+Use the copied standard template. In the **Context Files** section, list:
 - `GOALS.md`
 - `SCOPE.md`
 - `CONVENTIONS.md`
@@ -101,7 +104,7 @@ Confirm the file has been created before moving to Step 4.
 
 ## Step 4 - CONVENTIONS.md
 
-Create `CONVENTIONS.md` in the repo root.
+Populate the existing `CONVENTIONS.md` in the repo root.
 
 Use .NET Clean Architecture defaults for the Project Structure and Patterns sections.
 Note any constraints from Section 8 of the kickoff spec.
@@ -139,18 +142,16 @@ Confirm the file has been created before moving to Step 6.
 
 ---
 
-## Step 6 - ADR index and first ADR
+## Step 6 - First ADR
 
-**6a.** Create `adr/README.md` using the standard ADR index template. Add a single row to the index table for ADR-0001.
-
-**6b.** Create `adr/0001-core-technology-stack.md` using the `create-architectural-decision-record` skill with these inputs:
+Create the first ADR using the `create-architectural-decision-record` skill with these inputs:
 - Decision title: "Core Technology Stack Selection"
 - Context: from Section 8 (Constraints and Assumptions) and Section 9 (Dependencies) of the kickoff spec
 - Decision: the tech stack provided
 - Alternatives: if not provided in the spec, list common alternatives to each chosen technology and note they were not selected (ask the developer to fill in rejection reasons)
 - Stakeholders: the project owner from the spec header
 
-Confirm both files have been created before moving to Step 7.
+Confirm the ADR has been created before moving to Step 7.
 
 ---
 
@@ -223,8 +224,7 @@ Output a completion summary in this format:
 - AGENTS.md
 - CONVENTIONS.md
 - .github/copilot-instructions.md
-- adr/README.md
-- adr/0001-core-technology-stack.md
+- [ADR file created by `create-architectural-decision-record`]
 
 ### GitHub Issues Created
 - #[n] - [title] (story)
@@ -236,8 +236,7 @@ Output a completion summary in this format:
 - .github/copilot-instructions.md - review Coding Conventions and Naming sections
 
 ### Suggested Next Step
-Run Install-CopilotAssets.ps1 with copilot-packs/solo-dev-project-setup.json to install
-setup skills and prompts into this repo's .github/ folder:
+Review the generated standing documents, then start the first scoped feature with a Feature Mini Spec:
 
-  .\scripts\Install-CopilotAssets.ps1 -TargetFolder . -ConfigFile path/to/github-workflows/copilot-packs/solo-dev-project-setup.json
+  templates/FEATURE-MINI-SPEC.md
 ```
