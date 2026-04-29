@@ -111,9 +111,9 @@ When prompted, paste in your completed `PROJECT-KICKOFF-SPEC.md`. The prompt wil
 | GitHub Issues (journeys) | Section 7 - labelled `story`, with spec follow-up captured in the issue body |
 
 > **Note - Copilot may write issue files instead of creating real issues.**
-> The prompt instructs Copilot to create real GitHub Issues via the API. If Copilot does not have
-> issue-write access, it will fall back to writing draft issue files into `.github/issues/`
-> (named `1.md`, `2.md`, `journey-handle-api-errors.md`, etc.) instead.
+> The prompt asks Copilot to create real GitHub Issues. Depending on the environment and
+> available permissions, Copilot may instead write draft issue files into `.github/issues/`
+> (for example `1.md`, `2.md`, `journey-handle-api-errors.md`, etc.).
 >
 > If you end up with a `.github/issues/` folder, open Copilot Chat and say:
 > *"Read the files in `.github/issues/` and create each one as a real GitHub Issue labelled `story`."*
