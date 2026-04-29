@@ -17,7 +17,7 @@ Every project follows three phases, each with its own tools:
 ```
 Phase 1: Pre-repo planning    → templates/
 Phase 2: Repo setup           → copilot-packs/ + .github/prompts/new-project-setup-mh
-Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates/FEATURE-MINI-SPEC.md
+Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates/FEATURE-BRIEF.md
 ```
 
 ---
@@ -52,8 +52,8 @@ Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates
 ## Phase 3: Ongoing Development
 
 - **Spec out features:**
-  - For each new feature or journey, copy `FEATURE-MINI-SPEC.md` (from [templates/](../../templates/FEATURE-MINI-SPEC.md)) into `plan/specs/` and fill it in.
-- **Create issues from specs:**
+  - For each backlog item you are ready to work on, copy `FEATURE-BRIEF.md` (from [templates/](../../templates/FEATURE-BRIEF.md)) into `plan/specs/` and fill it in. This should take 5–10 minutes.
+- **Create issues from briefs:**
   - Use the `create-github-issue-feature-from-specification` skill for simple features.
   - For complex features, use `create-implementation-plan` and then `create-github-issues-feature-from-implementation-plan`.
 - **Record architectural decisions:**
@@ -71,8 +71,8 @@ Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates
 | Plan a new project | `PROJECT-KICKOFF-SPEC.md` |
 | Bootstrap a new repo | `Install-CopilotAssets.ps1` + `solo-dev-project-setup.json` |
 | Generate standing docs | `/new-project-setup-mh` prompt |
-| Spec out a feature | `FEATURE-MINI-SPEC.md` |
-| Turn a spec into an Issue | `create-github-issue-feature-from-specification` skill |
+| Spec out a feature | `FEATURE-BRIEF.md` |
+| Turn a brief into an Issue | `create-github-issue-feature-from-specification` skill |
 | Plan a complex feature | `create-implementation-plan` skill |
 | Turn a plan into Issues | `create-github-issues-feature-from-implementation-plan` skill |
 | Record an architectural decision | `create-architectural-decision-record` skill |
