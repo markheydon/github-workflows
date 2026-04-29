@@ -80,10 +80,14 @@ By default, `Install-CopilotAssets.ps1` clones source repositories into a per-us
 Optional example for C#/.NET:
 
 ```powershell
-.\scripts\Install-ProjectBootstrap.ps1 `
+.\scripts\Install-CopilotAssets.ps1 `
   -TargetFolder C:\path\to\your-new-repo `
   -ConfigFile .\copilot-packs\csharp-dotnet-development.json
 ```
+
+> **Note:** Add-on packs only install `.github` assets - they do not touch the root templates
+> (`GOALS.md`, `SCOPE.md`, etc.), so `Install-ProjectBootstrap.ps1` is not appropriate here.
+> Use `Install-CopilotAssets.ps1` directly for any pack layered on after the initial bootstrap.
 
 ### Command 2 - Run the setup prompt
 
@@ -105,6 +109,27 @@ When prompted, paste in your completed `PROJECT-KICKOFF-SPEC.md`. The prompt wil
 | First ADR for the core technology stack | Sections 8, 9 + tech stack |
 | GitHub Issues (MVP items) | Section 6 - labelled `story`, with MVP context captured in the issue body |
 | GitHub Issues (journeys) | Section 7 - labelled `story`, with spec follow-up captured in the issue body |
+
+> **Note - Copilot may write issue files instead of creating real issues.**
+> The prompt instructs Copilot to create real GitHub Issues via the API. If Copilot does not have
+> issue-write access, it will fall back to writing draft issue files into `.github/issues/`
+> (named `1.md`, `2.md`, `journey-handle-api-errors.md`, etc.) instead.
+>
+> If you end up with a `.github/issues/` folder, open Copilot Chat and say:
+> *"Read the files in `.github/issues/` and create each one as a real GitHub Issue labelled `story`."*
+> Once the real issues exist, delete the `.github/issues/` folder.
+>
+> The `> ⚠️ A Feature Mini Spec should be completed before work begins on this issue.` line at the
+> bottom of every issue body is intentional - it is a reminder note, not an error.
+
+**Understanding the two types of generated issue:**
+
+- **MVP scope items** (`1.md`, `2.md`, etc.) are concrete deliverable story issues for the first
+  release. Each one maps to a numbered item from Section 6 of your kickoff spec. Work on them
+  after writing a Feature Mini Spec (see Phase 3 below).
+- **Journey issues** (`journey-*.md`) are *placeholder* tracking issues drawn from Section 7. They
+  are not stories to implement directly. For each one: write a Feature Mini Spec first, break it
+  into individual story issues, then close or update the journey issue linking to the spec.
 
 **After the prompt completes:**
 - Review `CONVENTIONS.md` and `.github/copilot-instructions.md` - they use .NET defaults that need project-specific detail.
@@ -196,15 +221,21 @@ For ADRs, use the `create-architectural-decision-record` skill instead.
 
 ## Installing skills into an existing project
 
+> **Note:** `Install-ProjectBootstrap.ps1` is a **one-off bootstrap script** for new repos only.
+> It copies root template files (`GOALS.md`, `SCOPE.md`, `AGENTS.md`, `CONVENTIONS.md`) **and**
+> installs Copilot assets. If your project already has those root files, running it again would
+> overwrite them unnecessarily. For adding packs to an existing project - or layering on add-on
+> packs after the initial setup - always use `Install-CopilotAssets.ps1` directly.
+
 If you have an existing project that predates this system, you can still install the skills:
 
 ```powershell
-.\scripts\Install-ProjectBootstrap.ps1 `
+.\scripts\Install-CopilotAssets.ps1 `
   -TargetFolder C:\path\to\existing-repo `
   -ConfigFile .\copilot-packs\solo-dev-project-setup.json
 ```
 
-Use `-Force` to overwrite any existing root templates and `.github` assets.
+Use `-Force` to overwrite any existing `.github` assets.
 
 ---
 
