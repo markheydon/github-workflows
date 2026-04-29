@@ -122,7 +122,7 @@ When prompted, paste in your completed `PROJECT-KICKOFF-SPEC.md`. The prompt wil
 > The `> ⚠️ A Feature Mini Spec should be completed before work begins on this issue.` line at the
 > bottom of every issue body is intentional - it is a reminder note, not an error.
 
-**Understanding the two types of generated issue:**
+**Understanding the two types of generated issues:**
 
 - **MVP scope items** (`1.md`, `2.md`, etc.) are concrete deliverable story issues for the first
   release. Each one maps to a numbered item from Section 6 of your kickoff spec. Work on them
