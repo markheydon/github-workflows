@@ -12,7 +12,7 @@ There are three phases to every project. Different tools apply at each phase.
 ```
 Phase 1: Pre-repo planning    → templates/
 Phase 2: Repo setup           → copilot-packs/ + .github/prompts/new-project-setup-mh
-Phase 3: Ongoing development  → installed skills and agents + templates/FEATURE-MINI-SPEC.md
+Phase 3: Ongoing development  → installed skills and agents + templates/FEATURE-BRIEF.md
 ```
 
 ---
@@ -119,17 +119,17 @@ When prompted, paste in your completed `PROJECT-KICKOFF-SPEC.md`. The prompt wil
 > *"Read the files in `.github/issues/` and create each one as a real GitHub Issue labelled `story`."*
 > Once the real issues exist, delete the `.github/issues/` folder.
 >
-> The `> ⚠️ A Feature Mini Spec should be completed before work begins on this issue.` line at the
+> The `> ⚠️ Write a Feature Brief (templates/FEATURE-BRIEF.md) before starting work on this issue.` line at the
 > bottom of every issue body is intentional - it is a reminder note, not an error.
 
 **Understanding the two types of generated issues:**
 
 - **MVP scope items** (`1.md`, `2.md`, etc.) are concrete deliverable story issues for the first
   release. Each one maps to a numbered item from Section 6 of your kickoff spec. Work on them
-  after writing a Feature Mini Spec (see Phase 3 below).
+  after writing a Feature Brief (see Phase 3 below).
 - **Journey issues** (`journey-*.md`) are *placeholder* tracking issues drawn from Section 7. They
-  are not stories to implement directly. For each one: write a Feature Mini Spec first, break it
-  into individual story issues, then close or update the journey issue linking to the spec.
+  are not stories to implement directly. For each one: write a Feature Brief first, break it
+  into individual story issues, then close or update the journey issue linking to the brief.
 
 **After the prompt completes:**
 - Review `CONVENTIONS.md` and `.github/copilot-instructions.md` - they use .NET defaults that need project-specific detail.
@@ -141,24 +141,17 @@ When prompted, paste in your completed `PROJECT-KICKOFF-SPEC.md`. The prompt wil
 
 ### Per-feature workflow
 
-For each journey issue created from Section 7 (or any new feature):
+For each item in your backlog (from the `.github/issues/` draft files created during Phase 2 setup — see Phase 2 notes), when you are ready to start work on it:
 
-**Step 1 - Write the spec**
-Copy `templates/FEATURE-MINI-SPEC.md` into `plan/specs/` in your repo. Fill it in.
+1. **Write a Feature Brief** - copy `templates/FEATURE-BRIEF.md` into `plan/specs/` and fill it in. Should take 5-10 minutes. Copilot can help draft it if you describe what you want.
+2. **Create the GitHub Issue** — use the `create-github-issue-feature-from-specification` skill in Copilot Chat, give it the path to your brief. This creates a properly detailed issue.
+3. **Start coding** — the issue is your context. Reference it in your branch and PRs.
 
-**Step 2 - Choose your path**
+For complex features that need breaking into phases, optionally:
 
-*Simple feature (clear scope, single deliverable):*
-```
-In Copilot Chat: use the create-github-issue-feature-from-specification skill
-Give it: path to your FEATURE-MINI-SPEC.md
-Gets you: one GitHub Issue with the full spec as context
-```
-
-*Complex feature (multiple phases, non-trivial architecture):*
 ```
 Step A - In Copilot Chat: use the create-implementation-plan skill
-         Give it: a description of what you're building (or paste the mini spec)
+         Give it: the brief, or just describe the feature
          Gets you: plan/feature-[name]-1.md - a phased plan with atomic tasks
 
 Step B - In Copilot Chat: use the create-github-issues-feature-from-implementation-plan skill
@@ -208,7 +201,7 @@ For ADRs, use the `create-architectural-decision-record` skill instead.
 | Plan a new project | `templates/PROJECT-KICKOFF-SPEC.md` (in your notes) |
 | Bootstrap a new repo | `Install-ProjectBootstrap.ps1` + `copilot-packs/solo-dev-project-setup.json` |
 | Generate all standing docs | `/new-project-setup-mh` prompt (paste kickoff spec) |
-| Spec out a feature | `templates/FEATURE-MINI-SPEC.md` |
+| Spec out a feature | `templates/FEATURE-BRIEF.md` |
 | Turn a spec into an Issue | `create-github-issue-feature-from-specification` skill |
 | Plan a complex feature | `create-implementation-plan` skill |
 | Turn a plan into Issues | `create-github-issues-feature-from-implementation-plan` skill |

@@ -32,7 +32,7 @@ model: GPT-4.1
 After this prompt completes:
 1. **Review and customise** `CONVENTIONS.md` and `.github/copilot-instructions.md` - they contain .NET defaults that need project-specific detail.
 2. **Review ADR-0001** and fill in any alternatives or rationale the prompt could not infer.
-3. **Create a Feature Mini Spec** for each user journey issue before starting work on it.
+3. **Write a Feature Brief** (`templates/FEATURE-BRIEF.md`) for each backlog item when you are ready to start work on it. Keep them in `plan/specs/`. This is the gate before creating a working GitHub Issue.
 
 ---
 
@@ -177,7 +177,7 @@ For each item in **Section 6 (MVP Scope)** of the kickoff spec, create a GitHub 
   Delivery context: This is part of the MVP scope for the first release.
   Related goal: [reference the most relevant goal from GOALS.md]
 
-  > ⚠️ A Feature Mini Spec should be completed before work begins on this issue.
+  > ⚠️ Write a Feature Brief (`templates/FEATURE-BRIEF.md`) before starting work on this issue. Keep it in `plan/specs/`.
   ```
 
 Confirm each issue has been created (with issue number) before moving to Step 8.
@@ -198,9 +198,9 @@ For each item in **Section 7 (Key User Journeys)** of the kickoff spec, create a
 
   ## What needs to happen before work starts
 
-  - [ ] Complete a Feature Mini Spec for this journey (use `templates/FEATURE-MINI-SPEC.md`)
+  - [ ] Write a Feature Brief for this journey (copy `templates/FEATURE-BRIEF.md` into `plan/specs/` and fill it in)
   - [ ] Break the journey into individual story issues
-  - [ ] Update this issue once the spec is done and link to the spec file
+  - [ ] Update this issue once the brief is done and link to the brief file
 
   ## Notes
 
@@ -236,7 +236,7 @@ Output a completion summary in this format:
 - .github/copilot-instructions.md - review Coding Conventions and Naming sections
 
 ### Suggested Next Step
-Review the generated standing documents, then start the first scoped feature with a Feature Mini Spec:
+Review the generated standing documents, then write a Feature Brief for the first backlog item you want to work on:
 
-  templates/FEATURE-MINI-SPEC.md
+  templates/FEATURE-BRIEF.md
 ```

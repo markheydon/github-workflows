@@ -38,7 +38,7 @@ What will be in the first version? Keep this ruthlessly small.
 - Item 3
 
 ## 7. Key User Journeys
-The main flows a user must be able to complete. Each will likely become a Feature Mini Spec.
+The main flows a user must be able to complete. Each will likely become a Feature Brief.
 
 1.
 2.
