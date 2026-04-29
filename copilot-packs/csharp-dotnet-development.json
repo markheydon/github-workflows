@@ -1,6 +1,6 @@
 {
   "name": "csharp-dotnet-development",
-  "description": "For C# and .NET development including documentation, best practices, and ADR support.",
+  "description": "For C# and .NET development including documentation and best practices.",
   "version": "1.1",
   "sources": [
     {
@@ -12,8 +12,7 @@
       "skills": [
         "csharp-async",
         "csharp-docs",
-        "csharp-xunit",
-        "create-architectural-decision-record"
+        "csharp-xunit"
       ],
       "instructions": [
         "csharp"
