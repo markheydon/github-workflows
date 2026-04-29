@@ -141,11 +141,11 @@ When prompted, paste in your completed `PROJECT-KICKOFF-SPEC.md`. The prompt wil
 
 ### Per-feature workflow
 
-For each item in your backlog (from the `.github/issues/` draft files created during Phase 2 setup — see Phase 2 notes), when you are ready to start work on it:
+For each item in your backlog (from the `.github/issues/` draft files created during Phase 2 setup - see Phase 2 notes), when you are ready to start work on it:
 
 1. **Write a Feature Brief** - copy `templates/FEATURE-BRIEF.md` into `plan/specs/` and fill it in. Should take 5-10 minutes. Copilot can help draft it if you describe what you want.
-2. **Create the GitHub Issue** — use the `create-github-issue-feature-from-specification` skill in Copilot Chat, give it the path to your brief. This creates a properly detailed issue.
-3. **Start coding** — the issue is your context. Reference it in your branch and PRs.
+2. **Create or update the GitHub Issue** - use the `create-github-issue-feature-from-specification` skill in Copilot Chat, give it the path to your brief. If a placeholder issue already exists (created by the setup prompt), close it and use the new one, or update it with the brief's detail. Either way, one issue per feature.
+3. **Start coding** - the issue is your context. Reference it in your branch and PRs.
 
 For complex features that need breaking into phases, optionally:
 
@@ -202,7 +202,7 @@ For ADRs, use the `create-architectural-decision-record` skill instead.
 | Bootstrap a new repo | `Install-ProjectBootstrap.ps1` + `copilot-packs/solo-dev-project-setup.json` |
 | Generate all standing docs | `/new-project-setup-mh` prompt (paste kickoff spec) |
 | Spec out a feature | `templates/FEATURE-BRIEF.md` |
-| Turn a spec into an Issue | `create-github-issue-feature-from-specification` skill |
+| Turn a brief into an Issue | `create-github-issue-feature-from-specification` skill |
 | Plan a complex feature | `create-implementation-plan` skill |
 | Turn a plan into Issues | `create-github-issues-feature-from-implementation-plan` skill |
 | Record an architectural decision | `create-architectural-decision-record` skill |

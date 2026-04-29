@@ -32,7 +32,7 @@ model: GPT-4.1
 After this prompt completes:
 1. **Review and customise** `CONVENTIONS.md` and `.github/copilot-instructions.md` - they contain .NET defaults that need project-specific detail.
 2. **Review ADR-0001** and fill in any alternatives or rationale the prompt could not infer.
-3. **Write a Feature Brief** (`templates/FEATURE-BRIEF.md`) for each backlog item when you are ready to start work on it. Keep them in `plan/specs/`. This is the gate before creating a working GitHub Issue.
+3. **Write a Feature Brief** (`templates/FEATURE-BRIEF.md`) for each backlog item when you are ready to start work on it. Keep them in `plan/specs/`. This is the gate before starting work on an item.
 
 ---
 

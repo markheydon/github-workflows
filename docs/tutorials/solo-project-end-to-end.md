@@ -53,7 +53,7 @@ Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates
 
 - **Spec out features:**
   - For each backlog item you are ready to work on, copy `FEATURE-BRIEF.md` (from [templates/](../../templates/FEATURE-BRIEF.md)) into `plan/specs/` and fill it in. This should take 5–10 minutes.
-- **Create issues from specs:**
+- **Create issues from briefs:**
   - Use the `create-github-issue-feature-from-specification` skill for simple features.
   - For complex features, use `create-implementation-plan` and then `create-github-issues-feature-from-implementation-plan`.
 - **Record architectural decisions:**
@@ -72,7 +72,7 @@ Phase 3: Ongoing development  → skills (via Install-CopilotAssets) + templates
 | Bootstrap a new repo | `Install-CopilotAssets.ps1` + `solo-dev-project-setup.json` |
 | Generate standing docs | `/new-project-setup-mh` prompt |
 | Spec out a feature | `FEATURE-BRIEF.md` |
-| Turn a spec into an Issue | `create-github-issue-feature-from-specification` skill |
+| Turn a brief into an Issue | `create-github-issue-feature-from-specification` skill |
 | Plan a complex feature | `create-implementation-plan` skill |
 | Turn a plan into Issues | `create-github-issues-feature-from-implementation-plan` skill |
 | Record an architectural decision | `create-architectural-decision-record` skill |
