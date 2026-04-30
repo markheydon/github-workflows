@@ -75,18 +75,20 @@ Present results as a table before applying anything. Include a **Type** column t
 Before confirming, check each title for format compliance:
 
 - **No `[Type]` prefixes** - Titles must not start with any bracketed type prefix. Known patterns seen in the wild: `[Feature]`, `[Bug]`, `[Improvement]`, `[Structure]`, `[Technical]`, `[Azure]`, `[Epic]`, `[Removal]`, `[Docs]`, `[Use Case]`. These are redundant with labels - remove them.
-- **Title describes what, not type** - Titles should state what specifically needs doing ("Add dark mode toggle" not "[Feature] Add dark mode").
+- **No conventional commit prefixes** - Titles must not start with a conventional commit type prefix such as `feat:`, `fix:`, `chore:`, `docs:`, `style:`, `refactor:`, `perf:`, `test:`, `build:`, `ci:`, or `revert:` (with or without a scope in parentheses, e.g. `feat(auth):`, and with or without a `!` for breaking changes). These prefixes belong in commit messages, not issue or PR titles.
+- **Title describes what, not type** - Titles should state what specifically needs doing ("Add dark mode toggle" not "[Feature] Add dark mode" or "feat: add dark mode").
 
-If any title has a prefix:
+If any title has a prefix (bracketed or conventional commit):
 1. Note it in the Reasoning column as "Title needs cleanup"
-2. Suggest a cleaned-up version (e.g., "[Feature] Add dark mode" → "Add dark mode toggle to settings")
+2. Suggest a cleaned-up version that preserves the meaningful part of the title (e.g., `feat: support sandbox environment` → "Support sandbox environment")
 3. Include the suggested title in the table for your review
 
-Example:
+Examples:
 
 | # | Title | Suggested Title | Proposed Core | Reasoning |
 |---|-------|-----------------|---------------|----------|
-| 5 | [Feature] Add export to PDF | Add PDF export functionality | `story` | **Title needs cleanup** - remove `[Feature]` prefix. Suggested: "Add PDF export functionality" |
+| 5 | [Feature] Add export to PDF | Add PDF export functionality | `story` | **Title needs cleanup** - remove `[Feature]` prefix |
+| 20 | feat: support configurable API environment | Support configurable API environment | `story` | **Title needs cleanup** - remove `feat:` conventional commit prefix |
 
 ---
 ## Step 3 - Confirm and apply
