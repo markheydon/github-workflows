@@ -1,7 +1,7 @@
 ---
 name: 'tech-writer'
 description: 'Project-aware technical writing specialist for developer documentation, user guides, tutorials, and technical blog posts.'
-model: GPT-4.1
+model: GPT-5.3-Codex
 tools: ['read', 'edit', 'search', 'execute']
 ---
 

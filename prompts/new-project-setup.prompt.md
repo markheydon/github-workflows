@@ -6,7 +6,7 @@ description: >
   the first ADR (technology choices), and an initial wave of GitHub Issues
   for MVP scope items and user journeys.
 argument-hint: Paste your completed Project Kickoff Spec, or tell me the path to the file
-model: GPT-4.1
+model: GPT-5.4
 ---
 
 ## When to use this prompt

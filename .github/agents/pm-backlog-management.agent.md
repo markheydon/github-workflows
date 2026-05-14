@@ -2,7 +2,7 @@
 name: PM Backlog Manager
 description: Manages day-to-day backlog activities across markheydon's personal GitHub repos - daily prioritisation, backlog review, issue triage, story creation, and iteration planning. Invoke via the PM prompts (/pm-daily, /pm-backlog-review, /pm-issue-triage, /pm-create-story, /pm-iteration-plan).
 tools: [read, search, execute]
-model: Claude Sonnet 4.6
+model: GPT-5.4
 ---
 
 # Backlog Manager
