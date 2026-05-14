@@ -2,7 +2,7 @@
 name: Repo Label Strategy Keeper
 description: Validates that all workflows, scripts, prompts, and agent instructions in this repo are consistent with the label strategy defined in plan/LABEL_STRATEGY.md. Run this agent after changing the strategy document, or periodically to catch drift.
 tools: [read, edit, search, execute]
-model: GPT-4.1
+model: GPT-5.3-Codex
 ---
 
 # Repo Label Strategy Keeper

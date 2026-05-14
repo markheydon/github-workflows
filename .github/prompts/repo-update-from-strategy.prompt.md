@@ -2,7 +2,7 @@
 name: Update From Strategy
 description: Reads plan/LABEL_STRATEGY.md and propagates any changes to all files that reference labels, issue types, or board rules - including the labels script. Run this after updating the strategy document.
 agent: Repo Label Strategy Keeper
-model: GPT-4.1
+model: GPT-5.3-Codex
 ---
 
 You are helping keep this repository consistent after a label strategy change.
