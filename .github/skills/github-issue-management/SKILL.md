@@ -65,7 +65,7 @@ Common combinations:
 
 ### 4. Project board membership
 
-Issues and PRs labelled `story` or `bug` belong on the project board. `epic` issues do **not** go on the board. See [`references/project-setup.md`](references/project-setup.md) for board configuration details and the Work Item Type field mapping.
+Issues and PRs labelled `story` or `bug` belong on the project board. `epic` issues do **not** go on the board. See [`references/project-setup.md`](references/project-setup.md) for board configuration details and Status field rules.
 
 ### 5. Milestone and epic linkage
 

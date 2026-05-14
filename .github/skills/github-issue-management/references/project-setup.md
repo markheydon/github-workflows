@@ -31,15 +31,15 @@ The prompts that add items to the board are:
 
 ---
 
-## Work Item Type Field Mapping
+## Board Item Classification
 
-When an item is added to the board, the **Work Item Type** custom field is set:
+When items are added to the board, classification is derived from labels and item type rather than a separate custom field:
 
-| Trigger | Work Item Type |
-|---------|---------------|
-| Label: `story` | Story |
-| Label: `bug` | Bug |
-| Dependabot PR | Story |
+| Trigger | Classification Behaviour |
+|---------|--------------------------|
+| Label: `story` | Treated as Story work |
+| Label: `bug` | Treated as Bug work |
+| Dependabot PR | Treated as Story work |
 
 ---
 

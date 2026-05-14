@@ -15,9 +15,8 @@ This guide explains how to configure your GitHub Project board to work with the 
    - Choose "Table" or "Board" view.
 2. **Configure Status Columns**
    - Add columns for: Backlog, Up Next, In Progress, In Review, Blocked, Ice Box, Done.
-3. **Add Custom Fields**
-   - Add a field for "Work Item Type" (values: Epic, Story, Bug).
-   - Add a field for "Status" (if not already present).
+3. **Confirm Status Field**
+   - Ensure a "Status" field exists with the board states used by this workflow.
 4. **Set Up Board Automation**
    - Use the Copilot PM prompts to automate board membership and status transitions.
    - See [BOARD_AUTOMATION.md](https://github.com/markheydon/github-workflows/blob/main/plan/BOARD_AUTOMATION.md) for rules.

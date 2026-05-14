@@ -40,7 +40,7 @@ Update the project board URL and field mappings.
 
 **What to update:**
 - Project board URL
-- Work Item Type field values (or remove if your board has different fields)
+- Any board-specific classification fields you rely on (or remove this concern if your board is Status-only)
 - Board management approach (Copilot PM prompts vs automated workflow)
 - Automation workflow reference (if you are using the workflow rather than Copilot PM prompts)
 
