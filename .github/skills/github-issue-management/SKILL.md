@@ -26,7 +26,7 @@ This skill helps you manage GitHub Issues consistently using a **three-tier labe
 |------|---------|
 | This file | Core workflow instructions |
 | [`references/github-labels.md`](references/github-labels.md) | Full label taxonomy (names, colours, purposes, decision rules) |
-| [`references/project-setup.md`](references/project-setup.md) | Project board configuration and field mappings |
+| [`references/project-setup.md`](references/project-setup.md) | Project board configuration, status rules, and board behaviour |
 | [`references/CUSTOMISATION_GUIDE.md`](references/CUSTOMISATION_GUIDE.md) | How to adapt this skill for a different repo |
 | [`assets/triage-workflow.md`](assets/triage-workflow.md) | Visual triage decision flow |
 | [`scripts/triage-example.sh`](scripts/triage-example.sh) | Example script for automating label application via GitHub CLI |
@@ -65,7 +65,7 @@ Common combinations:
 
 ### 4. Project board membership
 
-Issues and PRs labelled `story` or `bug` belong on the project board. `epic` issues do **not** go on the board. See [`references/project-setup.md`](references/project-setup.md) for board configuration details and the Work Item Type field mapping.
+Issues and PRs labelled `story` or `bug` belong on the project board. `epic` issues do **not** go on the board. See [`references/project-setup.md`](references/project-setup.md) for board configuration details and Status field rules.
 
 ### 5. Milestone and epic linkage
 

@@ -2,7 +2,7 @@
 
 > This file describes the project board configuration for `markheydon`'s personal GitHub Project.
 >
-> If you are using a copy of this skill in another repo, update the project URL and field mappings here. See [`CUSTOMISATION_GUIDE.md`](CUSTOMISATION_GUIDE.md).
+> If you are using a copy of this skill in another repo, update the project URL and board setup guidance here. See [`CUSTOMISATION_GUIDE.md`](CUSTOMISATION_GUIDE.md).
 
 ---
 
@@ -31,15 +31,15 @@ The prompts that add items to the board are:
 
 ---
 
-## Work Item Type Field Mapping
+## Board Item Classification
 
-When an item is added to the board, the **Work Item Type** custom field is set:
+When items are added to the board, classification is derived from labels and item type rather than a separate custom field:
 
-| Trigger | Work Item Type |
-|---------|---------------|
-| Label: `story` | Story |
-| Label: `bug` | Bug |
-| Dependabot PR | Story |
+| Trigger | Classification Behaviour |
+|---------|--------------------------|
+| Label: `story` | Treated as Story work |
+| Label: `bug` | Treated as Bug work |
+| Dependabot PR | Treated as Story work |
 
 ---
 

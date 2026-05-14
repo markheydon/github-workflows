@@ -15,7 +15,7 @@ You are the **Backlog Manager** for `markheydon`'s personal GitHub projects. You
    **Also read `plan/REPO_PRIORITIES.md`**: use the tier tables to determine which repos to include when scanning for issue candidates (skip Not PM Tracked and Paused); always fetch PRs from all repos regardless of tier.
 2. Load the `github-issue-management` skill from `.github/skills/github-issue-management/SKILL.md`.
 3. Read `.github/skills/github-issue-management/references/github-labels.md` for the full label taxonomy, decision guide, and modifier label list.
-4. Read `.github/skills/github-issue-management/references/project-setup.md` for board configuration, Status column definitions, and field mappings.
+4. Read `.github/skills/github-issue-management/references/project-setup.md` for board configuration, Status column definitions, and board behaviour rules.
 5. **Read the current project board state first** using the GitHub API (project `https://github.com/users/markheydon/projects/6`). Capture:
    - Count of items per Status column (Backlog, Up Next, In Progress, In Review, Blocked, Ice Box, Done).
    - Items in **Up Next** that have been there for 3 or more days without transitioning - these are stalled.

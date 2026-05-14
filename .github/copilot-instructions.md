@@ -80,7 +80,7 @@ Each prompt has:
 - Maintain consistent label names: `epic`, `story`, `bug` (lowercase).
 - There are no longer any trigger files in other repos - the workflow automation approach has been replaced by Copilot-driven board management.
 - When suggesting new workflows or scripts, follow the existing pattern (reusable workflow + thin trigger).
-- Board mutations (adding items, updating Status/Work Item Type fields) are performed via the GitHub Projects v2 GraphQL API using `gh` CLI, not via the retired workflow actions.
+- Board mutations (adding items, updating the Status field) are performed via the GitHub Projects v2 GraphQL API using `gh` CLI, not via the retired workflow actions.
 
 ## Tone & style
 - Documentation should be concise, friendly, and welcoming to others who may want to adapt things.

@@ -25,7 +25,7 @@ Epics are **excluded** - they exist only to group stories in the repository view
 
 ### Dependabot Rule
 
-Dependabot PRs are treated as `story` type on the project board (Work Item Type = "Story"). They are surfaced during `/pm-backlog-review` and added to the board by `/pm-iteration-plan` when relevant. No manual labelling is needed.
+Dependabot PRs are treated as `story`-equivalent work on the project board. They are surfaced during `/pm-backlog-review` and added to the board by `/pm-iteration-plan` when relevant. No manual labelling is needed.
 
 ---
 
@@ -72,17 +72,18 @@ Every new GitHub repository includes a set of default labels. Rather than deleti
 
 ---
 
-## Project Board Field Mapping
+## Project Board Behaviour
 
-When an issue or PR is added to the project board, the Work Item Type field is set based on the label:
+When an issue or PR is added to the project board, board inclusion is driven by the core label strategy, with a Dependabot PR exception handled during PM Mode:
 
-| Label | Work Item Type |
-|-------|---------------|
-| `story` | Story |
-| `bug` | Bug |
-| Dependabot PR (any) | Story |
+| Item | Board Behaviour |
+|------|-----------------|
+| `story` issue/PR | Added to board during PM Mode |
+| `bug` issue/PR | Added to board during PM Mode |
+| `epic` issue | Never added to board |
+| Dependabot PR | Treated as `story`-equivalent and added during PM Mode when relevant |
 
-> The `blocked` and `out-of-scope` modifier labels drive **Status** field transitions on the board. These transitions are applied by Copilot PM prompts during PM Mode sessions. See [`BOARD_AUTOMATION.md`](BOARD_AUTOMATION.md) for the full rules and Status column definitions.
+The `blocked` and `out-of-scope` modifier labels drive **Status** field transitions on the board. These transitions are applied by Copilot PM prompts during PM Mode sessions. See [`BOARD_AUTOMATION.md`](BOARD_AUTOMATION.md) for the full rules and Status column definitions.
 
 ---
 
