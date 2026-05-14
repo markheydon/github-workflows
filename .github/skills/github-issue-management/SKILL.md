@@ -26,7 +26,7 @@ This skill helps you manage GitHub Issues consistently using a **three-tier labe
 |------|---------|
 | This file | Core workflow instructions |
 | [`references/github-labels.md`](references/github-labels.md) | Full label taxonomy (names, colours, purposes, decision rules) |
-| [`references/project-setup.md`](references/project-setup.md) | Project board configuration and field mappings |
+| [`references/project-setup.md`](references/project-setup.md) | Project board configuration, status rules, and board behaviour |
 | [`references/CUSTOMISATION_GUIDE.md`](references/CUSTOMISATION_GUIDE.md) | How to adapt this skill for a different repo |
 | [`assets/triage-workflow.md`](assets/triage-workflow.md) | Visual triage decision flow |
 | [`scripts/triage-example.sh`](scripts/triage-example.sh) | Example script for automating label application via GitHub CLI |

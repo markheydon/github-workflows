@@ -74,7 +74,7 @@ Every new GitHub repository includes a set of default labels. Rather than deleti
 
 ## Project Board Behaviour
 
-When an issue or PR is added to the project board, board inclusion is driven by the core label strategy:
+When an issue or PR is added to the project board, board inclusion is driven by the core label strategy, with a Dependabot PR exception handled during PM Mode:
 
 | Item | Board Behaviour |
 |------|-----------------|

@@ -2,7 +2,7 @@
 
 > This file describes the project board configuration for `markheydon`'s personal GitHub Project.
 >
-> If you are using a copy of this skill in another repo, update the project URL and field mappings here. See [`CUSTOMISATION_GUIDE.md`](CUSTOMISATION_GUIDE.md).
+> If you are using a copy of this skill in another repo, update the project URL and board setup guidance here. See [`CUSTOMISATION_GUIDE.md`](CUSTOMISATION_GUIDE.md).
 
 ---
 

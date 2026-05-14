@@ -36,11 +36,12 @@ Change the label names, colours, and descriptions to match your repo's labels. K
 
 #### 2. `references/project-setup.md`
 
-Update the project board URL and field mappings.
+Update the project board URL and board setup guidance.
 
 **What to update:**
 - Project board URL
-- Any board-specific classification fields you rely on (or remove this concern if your board is Status-only)
+- Status field values/rules used by your board workflow
+- Any additional custom fields you rely on (optional)
 - Board management approach (Copilot PM prompts vs automated workflow)
 - Automation workflow reference (if you are using the workflow rather than Copilot PM prompts)
 
