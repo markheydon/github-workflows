@@ -56,6 +56,7 @@ Scripts in `scripts/`:
 	- `pm-iteration-plan.prompt.md`
 	- `repo-update-docs.prompt.md`
 	- `repo-update-from-strategy.prompt.md`
+	- `repo-update-github-assets.prompt.md`
 	- `new-project-setup.prompt.md`
 	- `pr-address-coding-review.prompt.md`
 

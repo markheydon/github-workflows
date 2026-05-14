@@ -1,5 +1,6 @@
 ---
-description: This prompt is used to update model pinning across the repository according to specific strategy. It searches for all files that reference models, checks if they align with the new model strategy, and updates them accordingly while preserving the original intent and structure of each file. This came about after analysis of the upcoming pricing changes for GitHub Copilot in June 2026. My analysis found that using 'Auto' for model selection in serious coding and agentic workflows is risky due to potential cost spikes, and that pinning to more 'just good enough' models like GPT-5.3-Codex for implementation and GPT-5.4 for planning can provide better cost predictability while still delivering consistent results.
+name: Update Pinned Models
+description: This prompt is used to update model pinning across the repository according to a specific strategy. It searches for all files that reference models, checks if they align with the new model strategy, and updates them accordingly while preserving the original intent and structure of each file. This came about after analysis of the upcoming pricing changes for GitHub Copilot in June 2026. My analysis found that using 'Auto' for model selection in serious coding and agentic workflows is risky due to potential cost spikes, and that pinning to more 'just good enough' models like GPT-5.3-Codex for implementation and GPT-5.4 for planning can provide better cost predictability while still delivering consistent results.
 model: GPT-5.4
 tools: [read, edit, search, execute]
 ---

@@ -26,6 +26,7 @@ This file defines the priority tiers for all active `markheydon` repositories. I
 | `markheydon/avd-occasional` | Azure Virtual Desktop Bicep setup | Side project. Script and schedule improvements in progress. |
 | `markheydon/better-freeagent-projects` | Blazor add-on improving FreeAgent Projects | FreeAgent-related; pick up when FreeAgent work is unblocked. |
 | `markheydon/freeagent-dotnet` | Open source .NET FreeAgent API client | Foundational library. Work here can unblock other FreeAgent repos. |
+| `markheydon/monolog-wp-cli` | WordPress CLI logging bridge for Monolog | Recently transferred from `mhcg`; backlog cleanup, dependency refresh, and AI/spec retrofit now needed. |
 
 ---
 
