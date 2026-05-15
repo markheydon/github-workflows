@@ -27,6 +27,6 @@ This guide explains how to update your repository priorities so the Copilot PM w
 ## Tips
 
 - Keep Tier 1 (Active Focus) small for best results.
-- Paused repos are skipped for issue scanning but PRs are always surfaced.
+- Paused repos are skipped for issue scanning, but PRs are still surfaced unless the repo's participation mode is `exclude`.
 - Participation mode is separate from priority. Use `plan/REPO_PM_PARTICIPATION.md` for `full` / `observe` / `exclude`.
 - See [Repository Priorities Reference](../reference/repo-priorities.md) for full details.
