@@ -23,7 +23,7 @@ It now works alongside `plan/REPO_PM_PARTICIPATION.md`, which decides whether a 
 
 ## Rules
 
-- **PRs from any repo** (including Not PM Tracked and Paused) are always surfaced and must be resolved.
+- **PRs from any non-`exclude` repo** (including Not PM Tracked and Paused) are always surfaced and must be resolved.
 - To promote/demote a repo, move its row to the appropriate tier table.
 - To pause a repo, move it to the Paused table with a reason and resume condition.
 - To change how a repo participates in PM, update `plan/REPO_PM_PARTICIPATION.md`.
