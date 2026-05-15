@@ -10,7 +10,7 @@ agent: PM Backlog Manager
 - **Once a week or fortnightly** to commit work to the board for the next few days.
 - **After `/pm-backlog-review`** to have full cross-repo context on what's ready.
 - **When starting a new cycle** - clear any stalled board items, then populate Up Next with fresh work.
-- **Time:** 5–10 minutes to run.
+- **Time:** 5-10 minutes to run.
 
 ## What you'll get
 
@@ -66,15 +66,21 @@ After resolving stalled items, calculate remaining capacity:
 
 If available slots = 0, tell the user and do not suggest adding more. Let them decide.
 
-**First, read `plan/EXCLUDED_REPOS.md`** and parse the "Active Exclusions" table. Skip any repos listed there when fetching candidate issues or PRs.
+**First, read `plan/REPO_PM_PARTICIPATION.md`** and determine participation mode for each repo:
+- `full` repos participate normally
+- `observe` repos are included in planning, but not central triage or shared label enforcement
+- `exclude` repos are skipped entirely
 
 **Then, read `plan/REPO_PRIORITIES.md`**. Apply these rules when fetching and proposing candidates:
 - Fetch issues from Tier 1, Tier 2, and Tier 3 repos only. Skip **Not PM Tracked** and **Paused** repos for issue scanning.
-- Always fetch PRs from **all** repos regardless of tier - PRs surface on the board regardless of repo priority.
+- Always fetch PRs from **all non-`exclude` repos** regardless of tier - PRs surface on the board regardless of repo priority.
 - When proposing candidates for Up Next, prioritise Tier 1 before Tier 2, and Tier 2 before Tier 3.
 - Only surface Tier 3 issue candidates if capacity remains after all Tier 1 and Tier 2 candidates have been handled or deliberately skipped.
 
 Fetch candidate issues **and PRs** from **all applicable `markheydon` repos** (applying the tier rules above):
+
+- For `full` repos, use the shared `story` / `bug` labels as before.
+- For `observe` repos, fetch open issues and non-draft PRs without requiring shared labels. Use the repo's `Selection Notes` from `plan/REPO_PM_PARTICIPATION.md` to decide what to surface.
 
 **Cross-reference against the board:** After fetching candidates, exclude any item that is already on the project board in **any** status (Backlog, Blocked, Ice Box, Up Next, In Progress, In Review, Done). Only items not yet on the board at all are eligible to be added. Items already in Backlog or Ice Box are surfaced via the board itself - do not add duplicates.
 
@@ -87,17 +93,24 @@ gh pr list --repo <owner/repo> --state open --label "bug" --json number,title,la
 
 Exclude items labelled `out-of-scope` or `blocked`. Exclude draft PRs. Skip Dependabot PRs - they are already on the board.
 
+For `observe` repos, do not require `story` / `bug` labels before proposing candidates. Instead, keep proposals conservative and prefer:
+
+1. Non-draft PRs that appear ready for review or merge
+2. Open issues that clearly describe a concrete next step
+3. At most one or two candidates per observe repo unless the user explicitly wants more
+
 Prioritise in this order:
 1. Non-Dependabot PRs labelled `story` or `bug` that are ready for review/merge (clear these first - unblocking merged work is more valuable than starting new items)
 2. `priority-high` issues or PRs
 3. `bug` issues
 4. `story` issues
+5. `[observe]` candidates from observe repos, ordered by repo tier and apparent readiness
 
 ---
 
 ## Step 3 - Propose iteration scope
 
-Based on available capacity, propose items to add to **Up Next**. Present as a simple list, noting whether each item is an issue or PR:
+Based on available capacity, propose items to add to **Up Next**. Present as a simple list, noting whether each item is an issue or PR. Mark items from observe repos with `[observe]` so it is clear they were surfaced without central triage:
 
 ```
 Proposed for Up Next (N slots available):

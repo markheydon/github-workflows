@@ -31,6 +31,12 @@ After triaging:
 
 ## Step 1 - Find issues and PRs to triage
 
+Before fetching anything, read `plan/REPO_PM_PARTICIPATION.md` and determine the target repo's participation mode.
+
+- If the repo is `exclude`, stop and explain that it is out of scope for PM operations.
+- If the repo is `observe`, stop and explain that observe repos are planning-visible but triage-exempt. Do not apply labels from this central workflow.
+- Continue only for `full` repos.
+
 Fetch unlabelled or recently created issues and PRs:
 
 ```sh

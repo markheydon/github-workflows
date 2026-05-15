@@ -22,8 +22,9 @@ This page documents the main Copilot PM workflow prompts provided in this reposi
 ## How Repo Priorities Affect Prompts
 
 - Both `/pm-backlog-review` and `/pm-iteration-plan` read [plan/REPO_PRIORITIES.md](../../plan/REPO_PRIORITIES.md) to determine which repos to scan for issues and how to order candidates.
-- Only Tier 1, 2, and 3 repos are scanned for issues. Not PM Tracked and Paused are skipped for issue scanning, but PRs from all repos are always included.
-- When proposing work, prompts order candidates by tier: Tier 1 first, then Tier 2, then Tier 3.
+- Both prompts also read `plan/REPO_PM_PARTICIPATION.md` to determine whether each repo is `full`, `observe`, or `exclude`.
+- Only Tier 1, 2, and 3 repos are scanned for issues. Not PM Tracked and Paused are skipped for issue scanning, but PRs from all non-`exclude` repos are always included.
+- `observe` repos are included in review and planning, but skipped by `/pm-issue-triage` and shared label enforcement.
 
 See [Repository Priorities Reference](repo-priorities.md) for details on the file structure and rules.
 

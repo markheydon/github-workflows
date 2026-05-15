@@ -1,14 +1,20 @@
 # Excluded Repositories
 
-This file lists repositories that should be **excluded from all PM prompt and agent operations** (daily focus, backlog review, issue triage, iteration planning, etc.).
+This file is retained as a legacy reference for the older binary exclusion model.
+
+The source of truth is now [plan/REPO_PM_PARTICIPATION.md](REPO_PM_PARTICIPATION.md), which supports three modes:
+
+- `full` - fully managed by the PM workflow
+- `observe` - visible to planning, but exempt from triage and shared label enforcement
+- `exclude` - fully out of scope
 
 ---
 
-## Active Exclusions
+## Current Status
 
-| Repository | Reason | Excluded Since |
-|------------|--------|----------------|
-| `markheydon/solo-dev-board` | 100% AI-managed repository with its own workflow. Outside scope of personal project management. | 2026-03-05 |
+There are currently **no repos managed exclusively through this legacy file**.
+
+Any repo that needs special treatment should be added to [plan/REPO_PM_PARTICIPATION.md](REPO_PM_PARTICIPATION.md) instead.
 
 ---
 
@@ -16,27 +22,21 @@ This file lists repositories that should be **excluded from all PM prompt and ag
 
 ### For Humans
 
-Simply add a row to the table above when you need to exclude a repo. Include:
-- **Repository**: Full name in `owner/repo` format
-- **Reason**: Why it's excluded (brief, specific)
-- **Excluded Since**: Date in YYYY-MM-DD format
+- Do not add new entries here.
+- Use [plan/REPO_PM_PARTICIPATION.md](REPO_PM_PARTICIPATION.md) instead.
+- If you need a hard exclusion, add the repo there with mode `exclude`.
 
 ### For Agents
 
-When scanning repositories:
-1. Read this file during initialization
-2. Parse the "Active Exclusions" table
-3. Skip any repo listed in the first column when:
-   - Fetching open issues or PRs
-   - Calculating board state
-   - Running triage operations
-   - Suggesting work priorities
-4. Do not count excluded repos when reporting total repo counts or flagging stale repos
+Treat this file as informational only.
+
+1. Read [plan/REPO_PM_PARTICIPATION.md](REPO_PM_PARTICIPATION.md) instead.
+2. Use participation mode `exclude` for hard exclusions.
+3. Use participation mode `observe` when a repo should stay visible in planning but must not be triaged centrally.
 
 ---
 
 ## Notes
 
-- Exclusions apply to **all PM operations** unless explicitly overridden
-- If a repo is temporarily inactive but may need PM attention later, use the project board **Ice Box** status instead of excluding it
-- Archived repos are automatically excluded by GitHub and do not need to be listed here
+- Archived repos are automatically excluded by GitHub and do not need to be listed here.
+- If a repo is temporarily inactive but may need PM attention later, prefer the project board **Ice Box** status or a lower priority tier before using `exclude`.

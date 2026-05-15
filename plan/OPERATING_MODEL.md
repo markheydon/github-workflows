@@ -10,9 +10,15 @@ This document describes how the PM tooling in this repository is intended to be 
 
 Run a small set of PM prompts to review all repos, triage issues and PRs, curate the next few days of work, and populate the project board. This is intentional, active curation - not passive auto-add.
 
+Repository participation is controlled centrally in [plan/REPO_PM_PARTICIPATION.md](REPO_PM_PARTICIPATION.md):
+
+- `full` repos participate in the complete workflow, including triage.
+- `observe` repos are still surfaced during review and planning, but are exempt from centralised triage and shared label enforcement.
+- `exclude` repos are skipped entirely.
+
 **Typical PM Mode sequence:**
 
-1. **`/pm-backlog-review`** - Scans all repos for open issues **and open PRs**, flags stale ones, surfaces ready work across the ecosystem. Identifies repos that haven't had attention recently so nothing gets forgotten. Non-Dependabot PRs without labels are flagged for triage.
+1. **`/pm-backlog-review`** - Scans all repos for open issues **and open PRs**, flags stale ones, surfaces ready work across the ecosystem. Identifies repos that haven't had attention recently so nothing gets forgotten. Non-Dependabot PRs without labels are flagged for triage in `full` repos only.
 2. **`/pm-iteration-plan`** - Reads the current board state first. Surfaces stalled items in Up Next and asks what to do with them before adding anything new. Proposes a curated cross-repo work list (issues and PRs) based on available capacity; ready-to-review PRs are prioritised above new stories. Moves confirmed items to **Up Next** on the project board.
 
 The result: the project board is populated with a realistic, intentional view of what to work on for the next few days - covering both issues and open PRs.

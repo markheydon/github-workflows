@@ -7,6 +7,8 @@ description: Technical reference for plan/REPO_PRIORITIES.md and how it controls
 
 The `plan/REPO_PRIORITIES.md` file defines which repositories are considered high, medium, or low priority for issue scanning, and which are paused or not PM tracked for issue scanning. It is the single source of truth for all Copilot PM prompts and agents when deciding which repos to scan for issues and how to order proposals.
 
+It now works alongside `plan/REPO_PM_PARTICIPATION.md`, which decides whether a repo is fully managed, observed only, or completely excluded.
+
 ## Structure
 
 - **Tier 1 - Active Focus:** Highest priority. Issues from these repos are always considered first for Up Next. Keep this tier small.
@@ -15,18 +17,22 @@ The `plan/REPO_PRIORITIES.md` file defines which repositories are considered hig
 - **Paused:** Temporarily suspends issue scanning for a repo without changing its tier. PRs are still always surfaced.
 - **Not PM Tracked:** Repos skipped for issue scanning. PRs are still always surfaced.
 
+## Related File
+
+- **Repository PM Participation:** `plan/REPO_PM_PARTICIPATION.md` controls whether a repo is `full`, `observe`, or `exclude`.
+
 ## Rules
 
-- **PRs from any repo** (including Not PM Tracked and Paused) are always surfaced and must be resolved.
+- **PRs from any non-`exclude` repo** (including Not PM Tracked and Paused) are always surfaced and must be resolved.
 - To promote/demote a repo, move its row to the appropriate tier table.
 - To pause a repo, move it to the Paused table with a reason and resume condition.
-- To permanently exclude a repo, add it to `plan/EXCLUDED_REPOS.md`.
+- To change how a repo participates in PM, update `plan/REPO_PM_PARTICIPATION.md`.
 
 ## Usage in Prompts
 
 - `/pm-backlog-review` and `/pm-iteration-plan` both read this file to determine which repos to scan for issues and how to order candidates.
 - Only Tier 1, 2, and 3 repos are scanned for issues. Not PM Tracked and Paused are skipped.
-- PRs are always included, regardless of tier.
+- PRs are always included, regardless of tier, unless the repo's participation mode is `exclude`.
 - When proposing work, prompts order candidates by tier: Tier 1 first, then Tier 2, then Tier 3.
 
 See the file itself for the latest tier assignments: [plan/REPO_PRIORITIES.md](../../plan/REPO_PRIORITIES.md)
