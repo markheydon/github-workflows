@@ -9,7 +9,7 @@ This documentation site and workflow exist to solve a real problem: as a solo de
 
 - Surface neglected work across all repos, but **focus attention on the most important ones** using a tiered priorities file ([plan/REPO_PRIORITIES.md](../../plan/REPO_PRIORITIES.md)).
 - Separate repo visibility from repo governance using [plan/REPO_PM_PARTICIPATION.md](../../plan/REPO_PM_PARTICIPATION.md), so some repos can stay visible without being centrally triaged.
-- Keep the project board lean and intentional by only surfacing work from Tier 1, 2, and 3 repos (and always surfacing PRs from any repo).
+- Keep the project board lean and intentional by only surfacing work from Tier 1, 2, and 3 repos (and always surfacing PRs from any non-`exclude` repo).
 - Minimise manual admin by automating triage, board updates, and label consistency.
 - Make it easy for others to adopt or adapt the approach.
 
