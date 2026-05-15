@@ -27,7 +27,7 @@ Participation mode is controlled separately by [plan/REPO_PM_PARTICIPATION.md](R
 | `markheydon/better-freeagent-projects` | Blazor add-on improving FreeAgent Projects | FreeAgent-related; pick up when FreeAgent work is unblocked. |
 | `markheydon/freeagent-dotnet` | Open source .NET FreeAgent API client | Foundational library. Work here can unblock other FreeAgent repos. |
 | `markheydon/monolog-wp-cli` | WordPress CLI logging bridge for Monolog | Recently transferred from `mhcg`; backlog cleanup, dependency refresh, and AI/spec retrofit now needed. |
-| `markheydon/solo-dev-board` | AI-managed app repo - visible for planning via `observe` mode in `plan/REPO_PM_PARTICIPATION.md` |
+| `markheydon/solo-dev-board` | Open source .NET Blazor app for a solo developer to manage multiple repos in a centralised manner. | 
 
 ---
 
