@@ -95,7 +95,7 @@ These repos are skipped when scanning for issue candidates. PRs from these repos
 
 1. Read this file together with `plan/REPO_PM_PARTICIPATION.md` during Step 2 of `/pm-iteration-plan` and Step 1 of `/pm-backlog-review`.
 2. Fetch issues from Tier 1, 2, and 3 repos only. Skip repos in **Not PM Tracked** and **Paused** when querying issues.
-3. Always fetch PRs from **all** repos regardless of tier, including Not PM Tracked and Paused.
+3. Always fetch PRs from all non-`exclude` repos regardless of tier, including Not PM Tracked and Paused.
 4. Skip repos whose participation mode is `exclude`.
 5. When proposing candidates for Up Next, order by tier: Tier 1 first, then Tier 2, then Tier 3.
 6. Only surface Tier 3 issue candidates if capacity remains after all Tier 1 and Tier 2 candidates have been handled or deliberately skipped by the user.
