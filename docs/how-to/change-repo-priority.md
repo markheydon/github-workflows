@@ -14,11 +14,13 @@ This guide explains how to update your repository priorities so the Copilot PM w
    - Move its row to the appropriate tier table (Active Focus, Medium, Low).
    - Update the Notes column if needed.
 3. **To pause a repo:**
-   - Move its row to the Paused table.
+   - Move it to the Paused table.
    - Add a reason and a resume condition.
    - When ready to resume, move it back to its previous tier.
-4. **To permanently exclude a repo:**
-   - Add it to `plan/EXCLUDED_REPOS.md` instead.
+4. **To change how a repo participates in PM:**
+   - Update `plan/REPO_PM_PARTICIPATION.md`.
+   - Use `observe` if the repo should stay visible in planning but keep its own triage process.
+   - Use `exclude` if it should be ignored completely.
 5. **Save and commit your changes.**
 6. **Next time you run `/pm-backlog-review` or `/pm-iteration-plan`,** the prompts will use your updated priorities.
 
@@ -26,4 +28,5 @@ This guide explains how to update your repository priorities so the Copilot PM w
 
 - Keep Tier 1 (Active Focus) small for best results.
 - Paused repos are skipped for issue scanning but PRs are always surfaced.
+- Participation mode is separate from priority. Use `plan/REPO_PM_PARTICIPATION.md` for `full` / `observe` / `exclude`.
 - See [Repository Priorities Reference](../reference/repo-priorities.md) for full details.

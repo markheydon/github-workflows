@@ -35,7 +35,7 @@ To validate consistency across this repo, use the `repo-label-strategy-keeper` a
 
 This repo provides a complete set of AI tools for project management. The **entry point is the PM Assistant**, which acts as a conversational guide.
 
-**Repository exclusions:** Some repos may be excluded from PM operations (listed in `plan/EXCLUDED_REPOS.md`). These repos are skipped when scanning for issues, PRs, and board state calculations.
+**Repository participation:** PM workflow behaviour is controlled centrally in `plan/REPO_PM_PARTICIPATION.md`. Repos may be fully managed (`full`), planning-visible but triage-exempt (`observe`), or fully skipped (`exclude`). Target repos do **not** need PM-specific `.github/copilot-instructions.md` files just to participate in this model.
 
 ### Quick Start
 
