@@ -14,7 +14,7 @@
     ./scripts/Remove-DeprecatedLabels.ps1 markheydon/my-repo
 #>
 
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess)]
 param (
     [Parameter(Mandatory, Position = 0)]
     [string]$Repo

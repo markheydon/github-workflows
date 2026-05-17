@@ -20,7 +20,7 @@
     ./scripts/Remove-ProjectWorkflow.ps1
 #>
 
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
 param(
     [string]$Owner = 'markheydon',
     [string]$WorkflowPath = '.github/workflows/add-to-personal-project.yml',
@@ -57,20 +57,30 @@ foreach ($repo in $repoList) {
     Write-Output ''
     Write-Output "--- $repo ---"
 
-    & gh api --method DELETE "repos/$full/contents/$WorkflowPath" -f message='chore: remove add-to-personal-project workflow' -f sha=$sha 1>$null 2>$null
-    if ($LASTEXITCODE -eq 0) {
-        Write-Output "  [OK] Deleted $WorkflowPath"
+    if ($PSCmdlet.ShouldProcess($full, "Delete workflow file '$WorkflowPath'")) {
+        & gh api --method DELETE "repos/$full/contents/$WorkflowPath" -f message='chore: remove add-to-personal-project workflow' -f sha=$sha 1>$null 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            Write-Output "  [OK] Deleted $WorkflowPath"
+        }
+        else {
+            Write-Output "  [FAIL] Failed to delete $WorkflowPath"
+        }
     }
     else {
-        Write-Output "  [FAIL] Failed to delete $WorkflowPath"
+        Write-Output "  [SKIP] Skipped (WhatIf): $WorkflowPath"
     }
 
-    & gh secret delete PERSONAL_ACCESS_TOKEN --repo $full --app actions 1>$null 2>$null
-    if ($LASTEXITCODE -eq 0) {
-        Write-Output '  [OK] Deleted PERSONAL_ACCESS_TOKEN secret'
+    if ($PSCmdlet.ShouldProcess($full, 'Delete Actions secret PERSONAL_ACCESS_TOKEN')) {
+        & gh secret delete PERSONAL_ACCESS_TOKEN --repo $full --app actions 1>$null 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            Write-Output '  [OK] Deleted PERSONAL_ACCESS_TOKEN secret'
+        }
+        else {
+            Write-Output '  [SKIP] Secret not present'
+        }
     }
     else {
-        Write-Output '  [SKIP] Secret not present'
+        Write-Output '  [SKIP] Skipped (WhatIf): PERSONAL_ACCESS_TOKEN secret'
     }
 }
 
