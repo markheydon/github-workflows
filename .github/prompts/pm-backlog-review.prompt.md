@@ -79,7 +79,7 @@ For each Tier 1 and Tier 2 repo, note the date of the most recently updated issu
 You can run the audit script directly before summarising findings:
 
 ```sh
-pwsh ./scripts/Export-OssSuitabilityAudit.ps1 -Owner markheydon -OutputFormat Markdown -MarkdownPath ./oss-suitability-audit.md
+pwsh ./scripts/Export-OssSuitabilityAudit.ps1 -Owner markheydon -Limit 100 -OutputFormat Markdown -MarkdownPath ./oss-suitability-audit.md
 ```
 
 Use the script output as the primary source for this section.
@@ -99,7 +99,7 @@ Use GitHub-recognised local locations:
 - For `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `SUPPORT.md`: check `.github/`, repository root, then `docs/`.
 - For issue templates: check `.github/ISSUE_TEMPLATE/`.
 - For pull request template: check `.github/pull_request_template.md`, `pull_request_template.md`, or `docs/pull_request_template.md`.
-- For funding: check `.github/FUNDING.yml` only.
+- For funding: check `.github/FUNDING.yml` only, and treat it as compliant only when it matches the baseline file in this repo (`github-workflows/.github/FUNDING.yml`).
 
 The script uses `gh api repos/<owner>/<repo>/contents/<path>` checks for these paths.
 
