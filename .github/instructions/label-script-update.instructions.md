@@ -1,11 +1,11 @@
 ---
 description: Instructions for updating the GitHub labels script to stay in sync with the label strategy defined in `plan/LABEL_STRATEGY.md`. Follow these steps whenever the strategy document changes to ensure consistency across the repository.
-applyTo: "scripts/update_github_labels.bat"
+applyTo: "scripts/Update-GitHubLabels.ps1"
 ---
 
 # Instructions: Keeping the Labels Script in Sync with Label Strategy
 
-These instructions apply when editing `scripts/update_github_labels.bat`.
+These instructions apply when editing `scripts/Update-GitHubLabels.ps1`.
 
 ## Source of truth
 
@@ -37,15 +37,15 @@ The `Description (used in script)` column is intentionally concise as it is what
 ## Script structure
 
 The script must:
-- Start with the `@echo off` and usage/dependency checks - do not remove these.
+- Start with a PowerShell parameter block and dependency checks - do not remove these.
 - Include the header comment block referencing `plan/LABEL_STRATEGY.md`.
-- Use `set REPO=%~1` and reference `%REPO%` in every `gh label create` call.
-- Group labels with comment headers: `:: --- Core labels ---`, `:: --- Modifier labels ---`, `:: --- GitHub default labels ---`.
+- Use a mandatory `Repo` parameter and reference `$Repo` in every `gh label create` call.
+- Group labels with comment headers: `# --- Core labels ---`, `# --- Modifier labels ---`, `# --- GitHub default labels ---`.
 
 ## Example format
 
-```bat
-gh label create "story" --color "0E8A16" --description "A user-facing feature, improvement, or technical task." --repo "%REPO%" --force
+```powershell
+gh label create "story" --color "0E8A16" --description "A user-facing feature, improvement, or technical task." --repo $Repo --force
 ```
 
 Note: the `--color` value does **not** include the `#` prefix.

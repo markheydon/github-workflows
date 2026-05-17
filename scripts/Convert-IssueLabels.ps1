@@ -5,18 +5,18 @@
 .DESCRIPTION
     For each deprecated label, finds all issues carrying it, adds the replacement label,
     and removes the old one. Does NOT delete the old labels themselves - run
-    delete_old_labels.bat separately once you are satisfied the conversion is clean.
+    Remove-DeprecatedLabels.ps1 separately once you are satisfied the conversion is clean.
 
     Note: the 'dependency' label is only converted on OPEN issues. Closed issues with
     'dependency' are left as-is - the label had a subtly different meaning and 'blocked'
     does not apply retroactively to completed work.
 
     Recommended order:
-        1. scripts/update_github_labels.bat <repo>          - ensure new labels exist
+        1. scripts/Update-GitHubLabels.ps1 <repo>          - ensure new labels exist
         2. scripts/Convert-IssueLabels.ps1 <repo> -WhatIf  - preview changes
         3. scripts/Convert-IssueLabels.ps1 <repo>          - apply changes
         4. Review results, fix any errors
-        5. scripts/delete_old_labels.bat <repo>             - delete old labels
+        5. scripts/Remove-DeprecatedLabels.ps1 <repo>       - delete old labels
 
 .PARAMETER Repo
     The target repository in owner/repo format (e.g. markheydon/my-repo).
@@ -140,5 +140,5 @@ else {
 }
 Write-Output ""
 if ($totalErrors -eq 0 -and -not $WhatIfPreference) {
-    Write-Output "All done. When satisfied, run delete_old_labels.bat to remove the old labels."
+    Write-Output "All done. When satisfied, run Remove-DeprecatedLabels.ps1 to remove the old labels."
 }
