@@ -19,6 +19,7 @@ Repository participation is controlled centrally in [plan/REPO_PM_PARTICIPATION.
 **Typical PM Mode sequence:**
 
 1. **`/pm-backlog-review`** - Scans all repos for open issues **and open PRs**, flags stale ones, surfaces ready work across the ecosystem. Identifies repos that haven't had attention recently so nothing gets forgotten. Non-Dependabot PRs without labels are flagged for triage in `full` repos only.
+   For OSS repos, it also runs an OSS suitability audit for repo-local community assets (for example `CONTRIBUTING`, `CODE_OF_CONDUCT`, `SECURITY`, templates, and `FUNDING`). Public repos are treated as OSS by default, private repos are never OSS, and exceptional public opt-outs are controlled via `plan/REPO_PM_PARTICIPATION.md`.
 2. **`/pm-iteration-plan`** - Reads the current board state first. Surfaces stalled items in Up Next and asks what to do with them before adding anything new. Proposes a curated cross-repo work list (issues and PRs) based on available capacity; ready-to-review PRs are prioritised above new stories. Moves confirmed items to **Up Next** on the project board.
 
 The result: the project board is populated with a realistic, intentional view of what to work on for the next few days - covering both issues and open PRs.
@@ -35,7 +36,7 @@ The optional **`/pm-daily`** prompt provides a quick board state snapshot and nu
 
 | Prompt | Mode | Purpose |
 |--------|------|---------|
-| `/pm-backlog-review` | PM Mode | Scan all repos for issues and PRs, surface ready work, flag stale repos, flag unlabelled PRs |
+| `/pm-backlog-review` | PM Mode | Scan all repos for issues and PRs, surface ready work, flag stale repos, flag unlabelled PRs, and report OSS suitability gaps for OSS repos |
 | `/pm-iteration-plan` | PM Mode | Read board state, resolve stalled items, curate Up Next (issues and PRs), mutate board |
 | `/pm-daily` | Work Mode (optional) | Board snapshot: stalled items, stalled PR reviews, top 3 to focus on today |
 | `/pm-issue-triage` | As needed | Classify and label unlabelled issues and PRs |

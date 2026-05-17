@@ -12,7 +12,7 @@ This page documents the main Copilot PM workflow prompts provided in this reposi
 | Prompt                | Purpose                                                      |
 |-----------------------|--------------------------------------------------------------|
 | `/pm-assistant`       | Conversational guide to the PM workflow                      |
-| `/pm-backlog-review`  | Review all issues/PRs, flag stale work, surface priorities. Uses [repo priorities](repo-priorities.md) to decide which repos to scan and how to order candidates.   |
+| `/pm-backlog-review`  | Review all issues/PRs, flag stale work, surface priorities, and report OSS suitability gaps for OSS repos. Uses [repo priorities](repo-priorities.md) to decide which repos to scan and how to order candidates.   |
 | `/pm-iteration-plan`  | Curate board for the next few days, resolve stalled items. Uses [repo priorities](repo-priorities.md) to decide which repos to scan and how to order candidates.    |
 | `/pm-daily`           | Daily nudge: what to focus on today                         |
 | `/pm-issue-triage`    | Triage and label unlabelled issues/PRs                      |
@@ -23,6 +23,7 @@ This page documents the main Copilot PM workflow prompts provided in this reposi
 
 - Both `/pm-backlog-review` and `/pm-iteration-plan` read [plan/REPO_PRIORITIES.md](../../plan/REPO_PRIORITIES.md) to determine which repos to scan for issues and how to order candidates.
 - Both prompts also read `plan/REPO_PM_PARTICIPATION.md` to determine whether each repo is `full`, `observe`, or `exclude`.
+- `/pm-backlog-review` also uses `plan/REPO_PM_PARTICIPATION.md` to apply OSS overrides for suitability checks. Public repos are treated as OSS by default, private repos are never OSS, and public repos can be explicitly opted out.
 - Only Tier 1, 2, and 3 repos are scanned for issues. Not PM Tracked and Paused are skipped for issue scanning, but PRs from all non-`exclude` repos are always included.
 - `observe` repos are included in review and planning, but skipped by `/pm-issue-triage` and shared label enforcement.
 
@@ -39,7 +40,7 @@ See [Repository Priorities Reference](repo-priorities.md) for details on the fil
 ## Prompt Details
 
 - **pm-assistant:** Entry point; interviews you about your goal and routes you to the right prompt.
-- **pm-backlog-review:** Scans all repos, flags unlabelled or stale items, suggests priorities.
+- **pm-backlog-review:** Scans all repos, flags unlabelled or stale items, suggests priorities, and reports missing OSS suitability assets for OSS repos.
 - **pm-iteration-plan:** Reads board state, resolves stalled items, curates Up Next.
 - **pm-daily:** Summarises board, flags top 3 items to focus on.
 - **pm-issue-triage:** Applies labels and ensures board membership.

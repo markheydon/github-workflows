@@ -19,7 +19,7 @@ It now works alongside `plan/REPO_PM_PARTICIPATION.md`, which decides whether a 
 
 ## Related File
 
-- **Repository PM Participation:** `plan/REPO_PM_PARTICIPATION.md` controls whether a repo is `full`, `observe`, or `exclude`.
+- **Repository PM Participation:** `plan/REPO_PM_PARTICIPATION.md` controls whether a repo is `full`, `observe`, or `exclude`. It also carries OSS override metadata used by `/pm-backlog-review` for OSS suitability checks.
 
 ## Rules
 
