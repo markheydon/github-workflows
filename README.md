@@ -31,19 +31,20 @@ Scripts in `scripts/`:
 - `Convert-IssueLabels.ps1`: Migrates deprecated labels on issues to the current strategy labels.
 - `Export-PatExists.ps1`: Audits repos for `PERSONAL_ACCESS_TOKEN` usage.
 - `Export-WorkflowAudit.ps1`: Audits workflow presence/content across repos.
+- `Export-OssSuitabilityAudit.ps1`: Audits OSS suitability assets for public OSS repos, including `FUNDING.yml`, using repo-local checks. Supports markdown reporting via `-OutputFormat Markdown -MarkdownPath ./oss-suitability-audit.md`.
 - `Import-Workflow.ps1`: Imports workflow files into repos.
 - `Migrate-Workflows.ps1`: Migrates legacy workflow usage across repos.
-- `delete_old_labels.bat`: Removes deprecated labels after migration.
-- `remove-project-workflow.sh`: Removes legacy project workflow and token secret from repos.
-- `update_github_labels.bat`: Upserts labels from strategy definitions.
+- `Remove-DeprecatedLabels.ps1`: Removes deprecated labels after migration.
+- `Remove-ProjectWorkflow.ps1`: Removes legacy project workflow and token secret from repos.
+- `Update-GitHubLabels.ps1`: Upserts labels from strategy definitions.
 - `copilot-assets.example.json`: Sample configuration for `Install-CopilotAssets.ps1`.
 
 **Recommended label migration order:**
-1. `scripts/update_github_labels.bat <owner/repo>`
+1. `scripts/Update-GitHubLabels.ps1 <owner/repo>`
 2. `scripts/Convert-IssueLabels.ps1 <owner/repo> -WhatIf`
 3. `scripts/Convert-IssueLabels.ps1 <owner/repo>`
 4. Review results
-5. `scripts/delete_old_labels.bat <owner/repo>`
+5. `scripts/Remove-DeprecatedLabels.ps1 <owner/repo>`
 
 ## Copilot Tooling Overview
 
@@ -73,7 +74,7 @@ Scripts in `scripts/`:
 	- `github-issue-management/references/project-setup.md`
 	- `github-issue-management/references/CUSTOMISATION_GUIDE.md`
 	- `github-issue-management/assets/triage-workflow.md`
-	- `github-issue-management/scripts/triage-example.sh`
+	- `github-issue-management/scripts/Set-IssueLabelExample.ps1`
 
 **Instructions in `.github/instructions/`:**
 	- `label-script-update.instructions.md`
@@ -102,6 +103,15 @@ Install-time naming transforms are configured in `copilot-packs/*.json` via an o
 - GitHub CLI (`gh`) authenticated for repository and project operations.
 - Access to the [GitHub Projects v2 board](https://github.com/users/markheydon/projects/6).
 - Repo access for cross-repo issue/PR scanning when using PM prompts.
+
+### Codespaces / Dev Container
+
+This repo now includes a dev container config at `.devcontainer/devcontainer.json` to support low-spec devices and browser-based development.
+
+Included tools/features:
+- GitHub CLI feature (`ghcr.io/devcontainers/features/github-cli:1`, version `2`)
+- PowerShell feature (`ghcr.io/devcontainers/features/powershell:1`)
+- Copilot Likes feature (`ghcr.io/markheydon/devcontainer-features/copilot-likes:1`)
 
 ## Label Strategy
 

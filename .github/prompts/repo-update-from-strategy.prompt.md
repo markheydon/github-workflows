@@ -33,7 +33,7 @@ Search the repository for all files referencing labels. Check these locations:
 .github/prompts/*.prompt.md
 .github/skills/github-issue-management/references/github-labels.md
 .github/skills/github-issue-management/references/project-setup.md
-scripts/update_github_labels.bat
+scripts/Update-GitHubLabels.ps1
 README.md
 plan/ARCHITECTURE.md
 ```
@@ -44,13 +44,13 @@ For each file, identify:
 - Any board inclusion logic that doesn't match (`story` + `bug` in, `epic` out)
 - Any label colour/hex mismatch
 
-For `scripts/update_github_labels.bat` specifically, check:
+For `scripts/Update-GitHubLabels.ps1` specifically, check:
 - Every `gh label create` line corresponds to a label in the strategy (Core, Modifier, or GitHub Default tables) - no more, no fewer
 - The `--color` value matches the strategy hex (without the `#` prefix)
 - The `--description` value matches the **Description (used in script)** column exactly (not the Purpose column)
 - Labels removed from the strategy have had their `gh label create` lines removed
 - Labels added to the strategy have new `gh label create` lines added
-- Labels are grouped with comment headers: `:: --- Core labels ---`, `:: --- Modifier labels ---`, `:: --- GitHub default labels ---`
+- Labels are grouped with comment headers: `# --- Core labels ---`, `# --- Modifier labels ---`, `# --- GitHub default labels ---`
 
 ---
 
@@ -73,13 +73,13 @@ Do NOT make any edits yet. Wait for my confirmation.
 
 Once I confirm, apply all changes. Edit files one at a time and confirm each.
 
-When updating `scripts/update_github_labels.bat`:
+When updating `scripts/Update-GitHubLabels.ps1`:
 - Derive every value from `plan/LABEL_STRATEGY.md` - do not invent or adjust label names, hex codes, or descriptions
 - Use the **Description (used in script)** column for `--description`, not the Purpose column
 - Strip the leading `#` from hex values for `--color`
 - Always include `--force` on every `gh label create` call so it acts as an upsert
-- Preserve the script structure: `@echo off`, usage/dependency checks, header comment, `set REPO=%~1`, grouped labels
-- Example format: `gh label create "story" --color "0E8A16" --description "A user-facing feature, improvement, or technical task." --repo "%REPO%" --force`
+- Preserve the script structure: parameter block with mandatory `Repo`, dependency checks, header comment, grouped labels
+- Example format: `gh label create "story" --color "0E8A16" --description "A user-facing feature, improvement, or technical task." --repo $Repo --force`
 
 ---
 

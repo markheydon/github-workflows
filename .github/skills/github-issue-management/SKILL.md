@@ -29,7 +29,7 @@ This skill helps you manage GitHub Issues consistently using a **three-tier labe
 | [`references/project-setup.md`](references/project-setup.md) | Project board configuration, status rules, and board behaviour |
 | [`references/CUSTOMISATION_GUIDE.md`](references/CUSTOMISATION_GUIDE.md) | How to adapt this skill for a different repo |
 | [`assets/triage-workflow.md`](assets/triage-workflow.md) | Visual triage decision flow |
-| [`scripts/triage-example.sh`](scripts/triage-example.sh) | Example script for automating label application via GitHub CLI |
+| [`scripts/Set-IssueLabelExample.ps1`](scripts/Set-IssueLabelExample.ps1) | Example PowerShell script for automating label application via GitHub CLI |
 
 ---
 

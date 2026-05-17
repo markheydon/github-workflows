@@ -1,0 +1,21 @@
+{
+  "name": "github-workflows",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "2"
+    },
+    "ghcr.io/devcontainers/features/powershell:1": {},
+    "ghcr.io/markheydon/devcontainer-features/copilot-likes:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "github.vscode-pull-request-github",
+        "ms-vscode.powershell"
+      ]
+    }
+  }
+}

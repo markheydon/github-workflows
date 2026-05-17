@@ -25,7 +25,7 @@ You are the **Repo Label Strategy Keeper** for `markheydon/github-workflows`. Yo
    - `.github/prompts/*.prompt.md` - label names referenced must match strategy
    - `.github/agents/*.agent.md` - same
    - `.github/copilot-instructions.md` - label summary must match
-   - `scripts/update_github_labels.bat` - must create exactly the labels in strategy (no more, no fewer)
+   - `scripts/Update-GitHubLabels.ps1` - must create exactly the labels in strategy (no more, no fewer)
    - `README.md` - label mentions must match
 
 3. **For each file**, check:
