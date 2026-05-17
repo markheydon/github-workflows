@@ -21,12 +21,17 @@ This guide explains how to update your repository priorities so the Copilot PM w
    - Update `plan/REPO_PM_PARTICIPATION.md`.
    - Use `observe` if the repo should stay visible in planning but keep its own triage process.
    - Use `exclude` if it should be ignored completely.
-5. **Save and commit your changes.**
-6. **Next time you run `/pm-backlog-review` or `/pm-iteration-plan`,** the prompts will use your updated priorities.
+5. **To change OSS suitability behaviour for a public repo:**
+   - In `plan/REPO_PM_PARTICIPATION.md`, set `OSS Override` to `non-oss` for that repo.
+   - Leave `OSS Override` as `default` for normal behaviour.
+   - OSS suitability checks run in `/pm-backlog-review` only.
+6. **Save and commit your changes.**
+7. **Next time you run `/pm-backlog-review` or `/pm-iteration-plan`,** the prompts will use your updated priorities.
 
 ## Tips
 
 - Keep Tier 1 (Active Focus) small for best results.
 - Paused repos are skipped for issue scanning, but PRs are still surfaced unless the repo's participation mode is `exclude`.
 - Participation mode is separate from priority. Use `plan/REPO_PM_PARTICIPATION.md` for `full` / `observe` / `exclude`.
+- Public repos are treated as OSS by default for backlog-review suitability checks. Private repos are never OSS.
 - See [Repository Priorities Reference](../reference/repo-priorities.md) for full details.

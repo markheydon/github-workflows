@@ -49,6 +49,11 @@ Present a brief board snapshot before proceeding.
 - `observe` repos are included in review and planning, but not triage or shared label enforcement
 - `exclude` repos are skipped entirely
 
+Use `OSS Override` from `plan/REPO_PM_PARTICIPATION.md` to classify OSS repos for suitability checks:
+- Private repos are never OSS.
+- Public repos are OSS by default.
+- Public repos with `OSS Override = non-oss` are excluded from OSS suitability checks.
+
 **Then, read `plan/REPO_PRIORITIES.md`**. Apply these rules when scanning:
 - Fetch issues from Tier 1, Tier 2, and Tier 3 repos only. Skip **Not PM Tracked** and **Paused** repos for issue scanning.
 - Always fetch PRs from **all non-`exclude` repos** regardless of tier - PRs surface on the board regardless of repo priority.
@@ -60,7 +65,7 @@ For `observe` repos, fetch open issues and PRs for visibility, but do **not** as
 Run the following for **all applicable `markheydon` repos** (applying the tier rules above):
 
 ```sh
-gh repo list markheydon --json name,isArchived --limit 100
+gh repo list markheydon --json name,isArchived,visibility --limit 100
 gh issue list --repo <owner/repo> --state open --json number,title,labels,milestone,assignees,updatedAt --limit 100
 gh pr list --repo <owner/repo> --state open --json number,title,labels,milestone,assignees,updatedAt,author,isDraft --limit 100
 ```
@@ -68,6 +73,37 @@ gh pr list --repo <owner/repo> --state open --json number,title,labels,milestone
 For PRs, note the author. Dependabot PRs (`author.login` = `dependabot[bot]` or `dependabot-preview[bot]`) are treated as Stories on the board when added - they are handled separately and do not need core labels. Non-Dependabot PRs are subject to the same labelling and board rules as issues in `full` repos.
 
 For each Tier 1 and Tier 2 repo, note the date of the most recently updated issue or PR. Flag any Tier 1 or Tier 2 repos where nothing has been updated in the last 14 days as **potentially stale** - surface their ready work explicitly so it does not stay forgotten.
+
+## Step 1.5 - OSS suitability audit (backlog review only)
+
+You can run the audit script directly before summarising findings:
+
+```sh
+pwsh ./scripts/Export-OssSuitabilityAudit.ps1 -Owner markheydon -Limit 100 -OutputFormat Markdown -MarkdownPath ./oss-suitability-audit.md
+```
+
+Use the script output as the primary source for this section.
+
+For each repo classified as OSS in Step 1, check for these **repo-local** assets only:
+
+- `CONTRIBUTING.md`
+- `CODE_OF_CONDUCT.md`
+- `SECURITY.md`
+- `SUPPORT.md`
+- Issue templates (`.github/ISSUE_TEMPLATE/`)
+- Pull request template
+- `.github/FUNDING.yml`
+
+Use GitHub-recognised local locations:
+
+- For `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `SUPPORT.md`: check `.github/`, repository root, then `docs/`.
+- For issue templates: check `.github/ISSUE_TEMPLATE/`.
+- For pull request template: check `.github/pull_request_template.md`, `pull_request_template.md`, or `docs/pull_request_template.md`.
+- For funding: check `.github/FUNDING.yml` only, and treat it as compliant only when it matches the baseline file in this repo (`github-workflows/.github/FUNDING.yml`).
+
+The script uses `gh api repos/<owner>/<repo>/contents/<path>` checks for these paths.
+
+Do not treat defaults inherited from an account-level `.github` repository as present for this workflow.
 
 ---
 
@@ -113,6 +149,16 @@ Present a prioritised view of actionable items across all repos. Include both is
 7. **Deferred / Ice Box** - items with `out-of-scope`
 
 For stale repos (no activity in 14 days), call them out separately with their ready items listed (issues and PRs).
+
+## Step 3.5 - OSS suitability findings
+
+After the backlog summary, include an **OSS suitability** section:
+
+- List OSS repos with missing assets and exactly which assets are missing.
+- List public repos explicitly marked `OSS Override = non-oss` under an **OSS opt-outs** subheading.
+- Confirm that private repos were excluded from OSS checks.
+
+These findings are informational and should not block the normal backlog review output.
 
 ---
 
