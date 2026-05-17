@@ -104,7 +104,7 @@ function ConvertFrom-Base64Content {
   }
 }
 
-function Normalise-TextForComparison {
+function ConvertTo-ComparisonText {
   param(
     [Parameter(Mandatory)][string]$Value
   )
@@ -300,7 +300,7 @@ if (-not (Test-Path $BaselineFundingPath)) {
   throw "Baseline FUNDING file not found: $BaselineFundingPath"
 }
 
-$baselineFunding = Normalise-TextForComparison -Value (Get-Content -Raw -Path $BaselineFundingPath)
+$baselineFunding = ConvertTo-ComparisonText -Value (Get-Content -Raw -Path $BaselineFundingPath)
 
 $repoRaw = & gh repo list $Owner --limit $Limit --json name,visibility,isArchived,url 2>$null
 if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($repoRaw)) {
@@ -377,7 +377,7 @@ foreach ($repo in $repos) {
   $fundingStatus = 'Missing'
 
   if ($fundingFile.Found -and $null -ne $fundingFile.Content) {
-    $repoFunding = Normalise-TextForComparison -Value $fundingFile.Content
+    $repoFunding = ConvertTo-ComparisonText -Value $fundingFile.Content
     if ($repoFunding -eq $baselineFunding) {
       $fundingStatus = 'MatchesBaseline'
     }
