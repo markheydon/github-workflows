@@ -51,6 +51,7 @@ When a repo is in `observe` mode, prompts must still surface likely next work, b
 
 | Repository | Mode | OSS Override | Selection Notes | Reason | Since |
 |------------|------|--------------|-----------------|--------|-------|
+| `markheydon/me-testing-prv` | `exclude` | `default` | Temporary test repo for validating `solo-dev-board` work. Ignore for PM prompts and board review. | Test-only repo - keep fully out of PM workflow. | 2026-05-27 |
 | `markheydon/solo-dev-board` | `observe` | `default` | Surface open non-draft PRs first, then open issues that look like active next-step work. Do not rely on shared labels. | AI-managed experimental repo with its own workflow. Keep it visible in planning without taking over its triage. | 2026-03-05 |
 
 ---
