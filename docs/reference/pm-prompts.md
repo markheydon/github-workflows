@@ -40,7 +40,7 @@ See [Repository Priorities Reference](repo-priorities.md) for details on the fil
 ## Prompt Details
 
 - **pm-assistant:** Entry point; interviews you about your goal and routes you to the right prompt.
-- **pm-backlog-review:** Scans all repos, flags unlabelled or stale items, suggests priorities, and reports missing OSS suitability assets for OSS repos.
+- **pm-backlog-review:** Scans all repos, flags unlabelled or stale items, suggests priorities, and reports missing OSS suitability assets for OSS repos. The underlying OSS audit script also supports targeted follow-up runs for a single `owner/repo` when you need to inspect one repository in isolation.
 - **pm-iteration-plan:** Reads board state, resolves stalled items, curates Up Next.
 - **pm-daily:** Summarises board, flags top 3 items to focus on.
 - **pm-issue-triage:** Applies labels and ensures board membership.
