@@ -33,7 +33,7 @@ Files in `scripts/`:
 | File | Purpose |
 |---|---|
 | `Convert-IssueLabels.ps1` | Converts deprecated labels on issues to the active label taxonomy from `plan/LABEL_STRATEGY.md` (`-WhatIf` supported). |
-| `Export-OssSuitabilityAudit.ps1` | Audits OSS-readiness assets across repos, including repo-local `.github/FUNDING.yml` baseline matching; exports CSV and optional Markdown. |
+| `Export-OssSuitabilityAudit.ps1` | Audits OSS-readiness assets for one repo or across eligible repos, including repo-local `.github/FUNDING.yml` baseline matching; exports CSV and optional Markdown. |
 | `Export-PatExists.ps1` | Audits repos for workflow references to `PERSONAL_ACCESS_TOKEN` and reports whether that secret exists. |
 | `Export-WorkflowAudit.ps1` | Audits repositories for expected vs legacy project-workflow files and exports results to CSV. |
 | `Import-Workflow.ps1` | Bulk-import helper that opens PRs to add the legacy project workflow trigger file where missing. |

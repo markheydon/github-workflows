@@ -82,6 +82,18 @@ You can run the audit script directly before summarising findings:
 pwsh ./scripts/Export-OssSuitabilityAudit.ps1 -Owner markheydon -Limit 100 -OutputFormat Markdown -MarkdownPath ./oss-suitability-audit.md
 ```
 
+For a targeted follow-up on one repo, use the repo-scoped mode instead:
+
+```sh
+pwsh ./scripts/Export-OssSuitabilityAudit.ps1 -Repo markheydon/import-to-planner
+```
+
+If you want a written single-repo report, add explicit output paths:
+
+```sh
+pwsh ./scripts/Export-OssSuitabilityAudit.ps1 -Repo markheydon/import-to-planner -CsvPath ./oss-suitability-import-to-planner.csv -OutputFormat Markdown -MarkdownPath ./oss-suitability-import-to-planner.md
+```
+
 Use the script output as the primary source for this section.
 
 For each repo classified as OSS in Step 1, check for these **repo-local** assets only:

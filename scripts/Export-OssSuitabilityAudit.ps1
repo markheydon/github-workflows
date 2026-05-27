@@ -1,8 +1,10 @@
 # Export-OssSuitabilityAudit.ps1
 # Read-only audit for OSS suitability across repositories.
 
+[CmdletBinding()]
 param(
   [string]$Owner = "markheydon",
+  [string]$Repo,
   [int]$Limit = 100,
   [string]$ParticipationFile = "plan/REPO_PM_PARTICIPATION.md",
   [string]$BaselineFundingPath = ".github/FUNDING.yml",
@@ -81,12 +83,34 @@ function Invoke-GhApi {
     [Parameter(Mandatory)][string]$Path
   )
 
-  $output = & gh api $Path 2>$null
-  $code = $LASTEXITCODE
+  $errorPath = [System.IO.Path]::GetTempFileName()
 
-  [pscustomobject]@{
-    Ok = ($code -eq 0)
-    Output = $output
+  try {
+    $output = & gh api $Path 2>$errorPath
+    $code = $LASTEXITCODE
+    $errorText = ''
+
+    if (Test-Path $errorPath) {
+      $errorContent = Get-Content -Raw -Path $errorPath
+      if ($null -ne $errorContent) {
+        $errorText = $errorContent.Trim()
+      }
+    }
+
+    if ($code -ne 0 -and -not [string]::IsNullOrWhiteSpace($errorText)) {
+      Write-Verbose "gh api failed for '$Path': $errorText"
+    }
+
+    [pscustomobject]@{
+      Ok = ($code -eq 0)
+      Output = $output
+      Error = $errorText
+    }
+  }
+  finally {
+    if (Test-Path $errorPath) {
+      Remove-Item -Path $errorPath -ErrorAction SilentlyContinue
+    }
   }
 }
 
@@ -121,6 +145,7 @@ function Get-RepoFileContent {
 
   $check = Invoke-GhApi -Path "repos/$RepoFull/contents/$Path"
   if (-not $check.Ok) {
+    Write-Verbose "File '$Path' not found in '$RepoFull'."
     return [pscustomobject]@{
       Found = $false
       Content = $null
@@ -130,6 +155,7 @@ function Get-RepoFileContent {
   try {
     $file = $check.Output | ConvertFrom-Json
     if ($file.type -ne 'file' -or -not $file.content) {
+      Write-Verbose "Path '$Path' in '$RepoFull' did not return file content."
       return [pscustomobject]@{
         Found = $false
         Content = $null
@@ -142,6 +168,7 @@ function Get-RepoFileContent {
     }
   }
   catch {
+    Write-Verbose "Failed to parse file content for '$Path' in '$RepoFull': $($_.Exception.Message)"
     return [pscustomobject]@{
       Found = $false
       Content = $null
@@ -158,10 +185,12 @@ function Test-AnyPath {
   foreach ($path in $Paths) {
     $check = Invoke-GhApi -Path "repos/$RepoFull/contents/$path"
     if ($check.Ok) {
+      Write-Verbose "Found '$path' in '$RepoFull'."
       return $true
     }
   }
 
+  Write-Verbose "Did not find any of [$($Paths -join ', ')] in '$RepoFull'."
   return $false
 }
 
@@ -172,6 +201,7 @@ function Test-IssueTemplate {
 
   $check = Invoke-GhApi -Path "repos/$RepoFull/contents/.github/ISSUE_TEMPLATE"
   if (-not $check.Ok) {
+    Write-Verbose "Issue template directory not found in '$RepoFull'."
     return $false
   }
 
@@ -188,9 +218,17 @@ function Test-IssueTemplate {
       $_.name -ne '_config.yml'
     })
 
+    if ($templates.Count -gt 0) {
+      Write-Verbose "Found $($templates.Count) issue template file(s) in '$RepoFull'."
+    }
+    else {
+      Write-Verbose "Only config files were found in '$RepoFull/.github/ISSUE_TEMPLATE'."
+    }
+
     return ($templates.Count -gt 0)
   }
   catch {
+    Write-Verbose "Failed to parse issue template directory listing for '$RepoFull': $($_.Exception.Message)"
     return $false
   }
 }
@@ -198,13 +236,13 @@ function Test-IssueTemplate {
 function Write-MarkdownReport {
   param(
     [Parameter(Mandatory)][string]$Path,
-    [Parameter(Mandatory)][string]$Owner,
+    [Parameter(Mandatory)][string]$ScopeLabel,
     [Parameter(Mandatory)][object[]]$Results,
     [string[]]$OptOutRepos = @(),
     [string[]]$PrivateRepos = @(),
     [string[]]$ArchivedRepos = @(),
     [string[]]$ExcludedRepos = @(),
-    [Parameter(Mandatory)][string]$CsvPath
+    [string]$CsvPath
   )
 
   $lines = New-Object System.Collections.Generic.List[string]
@@ -216,14 +254,19 @@ function Write-MarkdownReport {
   $lines.Add('')
   $lines.Add("Generated: $timestamp")
   $lines.Add("")
-  $lines.Add("Owner: $Owner")
+  $lines.Add($ScopeLabel)
   $lines.Add("OSS repos audited: $($Results.Count)")
   $lines.Add("Repos missing one or more assets: $($missingRepos.Count)")
   $lines.Add("Public non-OSS opt-outs: $($OptOutRepos.Count)")
   $lines.Add("Archived repos skipped: $($ArchivedRepos.Count)")
   $lines.Add("Private repos excluded: $($PrivateRepos.Count)")
   $lines.Add("Participation excludes skipped: $($ExcludedRepos.Count)")
-  $lines.Add("CSV output: $CsvPath")
+  if ([string]::IsNullOrWhiteSpace($CsvPath)) {
+    $lines.Add('CSV output: not written')
+  }
+  else {
+    $lines.Add("CSV output: $CsvPath")
+  }
   $lines.Add('')
 
   if ($missingRepos.Count -gt 0) {
@@ -296,18 +339,61 @@ function Write-MarkdownReport {
 
 $overrides = Get-ParticipationOverride -FilePath $ParticipationFile
 
+$isRepoScoped = -not [string]::IsNullOrWhiteSpace($Repo)
+$repoTarget = $Repo
+$csvRequested = $PSBoundParameters.ContainsKey('CsvPath')
+
 if (-not (Test-Path $BaselineFundingPath)) {
   throw "Baseline FUNDING file not found: $BaselineFundingPath"
 }
 
 $baselineFunding = ConvertTo-ComparisonText -Value (Get-Content -Raw -Path $BaselineFundingPath)
 
-$repoRaw = & gh repo list $Owner --limit $Limit --json name,visibility,isArchived,url 2>$null
-if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($repoRaw)) {
-  throw "Failed to list repos for '$Owner'. Check gh auth status."
-}
+if ($isRepoScoped) {
+  if ($repoTarget -notmatch '^[^/]+/[^/]+$') {
+    throw "Repo must be provided as 'owner/repo'."
+  }
 
-$repos = $repoRaw | ConvertFrom-Json
+  $repoCheck = Invoke-GhApi -Path "repos/$repoTarget"
+  if (-not $repoCheck.Ok -or [string]::IsNullOrWhiteSpace($repoCheck.Output)) {
+    throw "Failed to read repo metadata for '$repoTarget'. Check gh auth status and repo access."
+  }
+
+  try {
+    $repoMeta = $repoCheck.Output | ConvertFrom-Json
+  }
+  catch {
+    throw "Failed to parse repo metadata for '$repoTarget': $($_.Exception.Message)"
+  }
+
+  $scopeLabel = "Repository: $repoTarget"
+  $repos = @(
+    [pscustomobject]@{
+      name = $repoMeta.name
+      visibility = $repoMeta.visibility.ToUpperInvariant()
+      isArchived = [bool]$repoMeta.archived
+      url = $repoMeta.html_url
+      fullName = $repoMeta.full_name
+    }
+  )
+}
+else {
+  $repoRaw = & gh repo list $Owner --limit $Limit --json name,visibility,isArchived,url 2>$null
+  if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($repoRaw)) {
+    throw "Failed to list repos for '$Owner'. Check gh auth status."
+  }
+
+  $scopeLabel = "Owner: $Owner"
+  $repos = @(($repoRaw | ConvertFrom-Json) | ForEach-Object {
+    [pscustomobject]@{
+      name = $_.name
+      visibility = $_.visibility
+      isArchived = $_.isArchived
+      url = $_.url
+      fullName = "$Owner/$($_.name)"
+    }
+  })
+}
 
 $results = @()
 $optOutRepos = @()
@@ -315,9 +401,32 @@ $privateRepos = @()
 $archivedRepos = @()
 $excludedRepos = @()
 
-foreach ($repo in $repos) {
-  $repoFull = "$Owner/$($repo.name)"
-  $override = $overrides[$repoFull]
+foreach ($repoItem in $repos) {
+  $repoFull = [string]$repoItem.fullName
+  if ([string]::IsNullOrWhiteSpace($repoFull)) {
+    if ($isRepoScoped) {
+      $repoFull = $repoTarget
+    }
+    elseif (-not [string]::IsNullOrWhiteSpace([string]$repoItem.name)) {
+      $repoFull = "$Owner/$($repoItem.name)"
+    }
+  }
+
+  if ([string]::IsNullOrWhiteSpace($repoFull)) {
+    Write-Verbose 'Skipping repo entry with no resolvable owner/repo value.'
+    continue
+  }
+
+  $repoVisibility = [string]$repoItem.visibility
+  if ([string]::IsNullOrWhiteSpace($repoVisibility)) {
+    $repoVisibility = 'PRIVATE'
+  }
+  $repoVisibility = $repoVisibility.ToUpperInvariant()
+
+  $override = $null
+  if ($overrides.ContainsKey($repoFull)) {
+    $override = $overrides[$repoFull]
+  }
 
   $mode = 'full'
   $ossOverride = 'default'
@@ -332,12 +441,12 @@ foreach ($repo in $repos) {
     continue
   }
 
-  if ($repo.isArchived) {
+  if ($repoItem.isArchived) {
     $archivedRepos += $repoFull
     continue
   }
 
-  if ($repo.visibility -ne 'PUBLIC') {
+  if ($repoVisibility -ne 'PUBLIC') {
     $privateRepos += $repoFull
     continue
   }
@@ -383,6 +492,7 @@ foreach ($repo in $repos) {
     }
     else {
       $fundingStatus = 'Mismatch'
+      Write-Verbose "Funding file in '$repoFull' differs from the local baseline."
     }
   }
 
@@ -395,9 +505,9 @@ foreach ($repo in $repos) {
 
   $results += [pscustomobject]@{
     Repository = $repoFull
-    Url = $repo.url
+    Url = $repoItem.url
     Mode = $mode
-    Visibility = $repo.visibility
+    Visibility = $repoVisibility
     OssOverride = $ossOverride
     FundingStatus = $fundingStatus
     MissingCount = $missing.Count
@@ -408,28 +518,48 @@ foreach ($repo in $repos) {
 
 $results = $results | Sort-Object -Property @{ Expression = 'MissingCount'; Descending = $true }, Repository
 
-$results | Export-Csv -NoTypeInformation -Path $CsvPath
+$writeCsv = (-not $isRepoScoped) -or $csvRequested
+if ($writeCsv) {
+  $results | Export-Csv -NoTypeInformation -Path $CsvPath
+}
 
 if ($OutputFormat -eq 'Markdown') {
-  Write-MarkdownReport -Path $MarkdownPath -Owner $Owner -Results $results -OptOutRepos $optOutRepos -PrivateRepos $privateRepos -ArchivedRepos $archivedRepos -ExcludedRepos $excludedRepos -CsvPath $CsvPath
+  $reportCsvPath = if ($writeCsv) { $CsvPath } else { $null }
+  Write-MarkdownReport -Path $MarkdownPath -ScopeLabel $scopeLabel -Results $results -OptOutRepos $optOutRepos -PrivateRepos $privateRepos -ArchivedRepos $archivedRepos -ExcludedRepos $excludedRepos -CsvPath $reportCsvPath
 }
 
 Write-Output "=== OSS Suitability Audit ==="
-Write-Output "Owner: $Owner"
+Write-Output $scopeLabel
 Write-Output "OSS repos audited: $($results.Count)"
 Write-Output "Public non-OSS opt-outs: $($optOutRepos.Count)"
 Write-Output "Archived repos skipped: $($archivedRepos.Count)"
 Write-Output "Private repos excluded: $($privateRepos.Count)"
 Write-Output "Participation excludes skipped: $($excludedRepos.Count)"
-Write-Output "CSV written to: $CsvPath"
+
+if ($writeCsv) {
+  Write-Output "CSV written to: $CsvPath"
+}
+
 if ($OutputFormat -eq 'Markdown') {
   Write-Output "Markdown written to: $MarkdownPath"
 }
+
 Write-Output ""
 
 $results |
   Select-Object Repository, MissingCount, FundingStatus, OssSuitable, MissingAssets |
   Format-Table -AutoSize
+
+if ($isRepoScoped -and $results.Count -eq 1) {
+  $result = $results[0]
+  Write-Output "Funding status: $($result.FundingStatus)"
+  if ($result.MissingCount -eq 0) {
+    Write-Output 'Missing assets: none'
+  }
+  else {
+    Write-Output "Missing assets: $($result.MissingAssets)"
+  }
+}
 
 if ($optOutRepos.Count -gt 0) {
   Write-Output ""
