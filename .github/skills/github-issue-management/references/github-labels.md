@@ -56,6 +56,16 @@ Apply alongside a core label as needed. Multiple modifiers are allowed.
 
 ---
 
+## Special Labels
+
+Automatically assigned by tooling; not manually applied. Used for metadata and filtering.
+
+| Label | Colour | Hex | Description |
+|-------|--------|-----|-------------|
+| `dependencies` | Grey | `#cccccc` | Dependency or version bump (auto-assigned by Dependabot via `.github/dependabot.yml`). Used for filtering in backlog reviews. Do not apply manually. |
+
+---
+
 ## Excluded Labels
 
 ---

@@ -46,7 +46,7 @@ gh pr list --repo <owner/repo> --state open --json number,title,body,labels,auth
 
 Filter to items with no core label (`epic`, `story`, or `bug`), or if specific numbers were provided as an argument, fetch only those.
 
-**Skip Dependabot PRs** (`author.login` = `dependabot[bot]` or `dependabot-preview[bot]`) - they do not need core labels. Include them only in the count of skipped items; they are handled during `/pm-backlog-review`.
+**Skip Dependabot PRs** (`author.login` = `dependabot[bot]` or `dependabot-preview[bot]`) - they do not need core labels (they are auto-handled). They automatically receive the `dependencies` label via `.github/dependabot.yml`. Include them only in the count of skipped items; they are handled during `/pm-backlog-review`.
 
 **Skip draft PRs** - note their existence but do not triage them until they are marked ready for review.
 

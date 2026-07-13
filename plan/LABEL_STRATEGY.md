@@ -25,7 +25,7 @@ Epics are **excluded** - they exist only to group stories in the repository view
 
 ### Dependabot Rule
 
-Dependabot PRs are treated as `story`-equivalent work on the project board. They are surfaced during `/pm-backlog-review` and added to the board by `/pm-iteration-plan` when relevant. No manual labelling is needed.
+Dependabot PRs are treated as `story`-equivalent work on the project board. They are surfaced during `/pm-backlog-review` and added to the board by `/pm-iteration-plan` when relevant. Dependabot PRs automatically receive the `dependencies` label via `.github/dependabot.yml` - no manual labelling is needed.
 
 ---
 
@@ -41,6 +41,16 @@ These labels provide additional context and can be applied **alongside** a core 
 | `out-of-scope` | Grey | `#ededed` | Intentionally deferred - may be revisited in future. | Parked work, not rejected. See also `wontfix` for permanent rejection. |
 | `feedback-required` | Lavender | `#d9d4f5` | Waiting for feedback before work can proceed. | Use when the ball is in someone else's court. |
 | `waiting-for-details` | Lavender | `#d9d4f5` | Further details required before work can start. | Use when an issue needs more information before it can be acted on. |
+
+---
+
+## Special Labels
+
+These labels are automatically assigned by tooling and are not manually applied. They act as metadata for filtering and categorisation.
+
+| Label | Colour | Hex | Description (used in script) | Purpose |
+|-------|--------|-----|------------------------------|--------|
+| `dependencies` | Grey | `#cccccc` | Dependency or version bump (auto-assigned by Dependabot). | Automatically applied to all Dependabot PRs via `.github/dependabot.yml`. Used for filtering and visibility in backlog reviews. Do not apply manually. |
 
 ---
 
