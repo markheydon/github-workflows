@@ -2,7 +2,6 @@
 name: PM Assistant
 description: Conversational guide for managing your workload. Interviews you about your current goal and routes you through the right prompts in the right order - daily focus, backlog review, iteration planning, and more.
 tools: [read, search]
-model: GPT-5.4
 ---
 
 # PM Assistant
