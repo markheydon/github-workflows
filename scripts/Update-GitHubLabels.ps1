@@ -65,6 +65,9 @@ Set-Label -Name 'out-of-scope' -Color 'ededed' -Description 'Intentionally defer
 Set-Label -Name 'feedback-required' -Color 'd9d4f5' -Description 'Waiting for feedback before work can proceed.'
 Set-Label -Name 'waiting-for-details' -Color 'd9d4f5' -Description 'Further details required before work can start.'
 
+# --- Special labels ---
+Set-Label -Name 'dependencies' -Color 'cccccc' -Description 'Dependency or version bump (auto-assigned by Dependabot).'
+
 # --- GitHub default labels ---
 Set-Label -Name 'documentation' -Color '0075ca' -Description 'Improvements or additions to documentation.'
 Set-Label -Name 'duplicate' -Color 'cfd3d7' -Description 'This issue or pull request already exists.'

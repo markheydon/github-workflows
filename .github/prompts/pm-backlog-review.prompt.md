@@ -70,7 +70,7 @@ gh issue list --repo <owner/repo> --state open --json number,title,labels,milest
 gh pr list --repo <owner/repo> --state open --json number,title,labels,milestone,assignees,updatedAt,author,isDraft --limit 100
 ```
 
-For PRs, note the author. Dependabot PRs (`author.login` = `dependabot[bot]` or `dependabot-preview[bot]`) are treated as Stories on the board when added - they are handled separately and do not need core labels. Non-Dependabot PRs are subject to the same labelling and board rules as issues in `full` repos.
+For PRs, note the author. Dependabot PRs (`author.login` = `dependabot[bot]` or `dependabot-preview[bot]`) are treated as Stories on the board when added - they are handled separately and do not need core labels. Dependabot PRs automatically receive the `dependencies` label via `.github/dependabot.yml`. Non-Dependabot PRs are subject to the same labelling and board rules as issues in `full` repos.
 
 For each Tier 1 and Tier 2 repo, note the date of the most recently updated issue or PR. Flag any Tier 1 or Tier 2 repos where nothing has been updated in the last 14 days as **potentially stale** - surface their ready work explicitly so it does not stay forgotten.
 

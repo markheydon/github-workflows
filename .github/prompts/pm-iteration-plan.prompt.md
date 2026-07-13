@@ -91,7 +91,7 @@ gh pr list --repo <owner/repo> --state open --label "story" --json number,title,
 gh pr list --repo <owner/repo> --state open --label "bug" --json number,title,labels,milestone,updatedAt,author,isDraft --limit 100
 ```
 
-Exclude items labelled `out-of-scope` or `blocked`. Exclude draft PRs. Skip Dependabot PRs - they are already on the board.
+Exclude items labelled `out-of-scope` or `blocked`. Exclude draft PRs. Skip Dependabot PRs (identified by author `dependabot[bot]` or `dependabot-preview[bot]`, auto-labelled with `dependencies`) - they are already on the board.
 
 For `observe` repos, do not require `story` / `bug` labels before proposing candidates. Instead, keep proposals conservative and prefer:
 

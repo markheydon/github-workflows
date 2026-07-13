@@ -26,6 +26,14 @@ This page documents the label strategy used across all repos managed by this wor
 | `feedback-required`| Lavender | Waiting for feedback |
 | `waiting-for-details` | Lavender | Needs more info |
 
+## Special Labels
+
+Automatically assigned by tooling (not manually applied).
+
+| Label              | Colour   | Purpose |
+|--------------------|----------|--------|
+| `dependencies`     | Grey     | Auto-assigned to Dependabot PRs for filtering and visibility |
+
 ## GitHub Default Labels
 
 These are optional modifiers and retain their default colours.

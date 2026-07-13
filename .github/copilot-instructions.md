@@ -18,7 +18,7 @@ The strategy and tooling in this repo were specifically designed for my own pers
 - Project board: https://github.com/users/markheydon/projects/6.
 - Label strategy: `epic` (never on board), `story` (on board), `bug` (on board). Epics group stories; stories and bugs are the unit of work.
 - Both issues **and PRs** use the same label taxonomy. PRs labelled `story` or `bug` appear on the board identically to issues. All PM prompts scan for both.
-- Dependabot PRs are treated as `story` type on the board when added; they are surfaced during `/pm-backlog-review` and added during `/pm-iteration-plan`.
+- Dependabot PRs are treated as `story` type on the board when added; they are surfaced during `/pm-backlog-review` and added during `/pm-iteration-plan`. They automatically receive the `dependencies` label via `.github/dependabot.yml` - this label is metadata for filtering and visibility, not a core classification.
 
 ## Label strategy - single source of truth
 
